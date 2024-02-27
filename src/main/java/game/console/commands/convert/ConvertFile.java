@@ -1,0 +1,6 @@
+package game.console.commands.convert;
+
+public interface ConvertFile {
+    void handle(int userId);
+}
+
