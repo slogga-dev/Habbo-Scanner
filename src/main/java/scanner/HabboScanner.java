@@ -90,10 +90,8 @@ public class HabboScanner extends Extension {
             throw new RuntimeException(exception);
         }
 
-        boolean isDiscordBotEnabled = Boolean.parseBoolean(
-                discordProperties.getProperty("discord.bot.enabled"));
-        boolean isBotEnabled = Boolean.parseBoolean(
-                botProperties.getProperty("bot.enabled"));
+        boolean isDiscordBotEnabled = Boolean.parseBoolean(discordProperties.getProperty("discord.bot.enabled"));
+        boolean isBotEnabled = Boolean.parseBoolean(botProperties.getProperty("bot.enabled"));
 
         if (isDiscordBotEnabled && isBotEnabled) {
             try {
@@ -110,8 +108,12 @@ public class HabboScanner extends Extension {
 
     @Override
     protected void onEndConnection() {
-        if (discordBot != null)
-            discordBot.sendMessageToFeedChannel("Oh no sono crashata su Habbo! @everyone riavviatemi dai cane d");
+        if (discordBot != null) {
+            String botCrashMessage = HabboScanner.getInstance().getMessageProperties()
+                    .getProperty("bot.crash.message");
+
+            discordBot.sendMessageToFeedChannel(botCrashMessage);
+        }
 
         ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 
@@ -126,7 +128,7 @@ public class HabboScanner extends Extension {
                 botProperties.load(streamReader);
             }
         } catch (IOException exception) {
-            throw new RuntimeException("Error reading bot properties.", exception);
+            throw new RuntimeException("Error reading BOT properties.", exception);
         }
     }
 

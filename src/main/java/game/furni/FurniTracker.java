@@ -59,7 +59,7 @@ public class FurniTracker {
         scheduledExecutorService.schedule(() -> HabboScanner.getInstance()
                 .whisperMessage(finalMessage), 1, TimeUnit.SECONDS);
 
-        scheduleTransactionProcessing();
+        processTransactionsAndTerminate();
 
         followConsoleCommand.setIsFollowingFriend(false);
     }
@@ -74,7 +74,7 @@ public class FurniTracker {
         HabboScanner.getInstance().whisperMessage(botEmptyRoomMessage);
     }
 
-    private void scheduleTransactionProcessing() {
+    private void processTransactionsAndTerminate() {
         try {
             processTransactions();
         } catch (SQLException exception) {
