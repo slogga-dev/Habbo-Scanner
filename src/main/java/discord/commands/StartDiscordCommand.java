@@ -23,9 +23,9 @@ public class StartDiscordCommand implements DiscordCommand {
         Properties messageProperties = HabboScanner.getInstance().getMessageProperties();
 
         if (startConsoleCommand.getIsBotRunning()) {
-            String botAlreadySearchingReply = messageProperties.getProperty("bot.already.searching.message");
+            String botAlreadySearchingMessage = messageProperties.getProperty("bot.already.searching.message");
 
-            event.reply(botAlreadySearchingReply).queue();
+            event.reply(botAlreadySearchingMessage).queue();
 
             return;
         }
@@ -57,8 +57,8 @@ public class StartDiscordCommand implements DiscordCommand {
 
         enabledMode.handle(habboUserId);
 
-        String botStartSearchingReply = messageProperties.getProperty("bot.start.searching.message");
+        String botStartSearchingMessage = messageProperties.getProperty("bot.start.searching.message");
 
-        event.reply(botStartSearchingReply).queue();
+        event.reply(botStartSearchingMessage).queue();
     }
 }

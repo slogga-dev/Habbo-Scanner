@@ -14,9 +14,9 @@ public class ResumeDiscordCommand implements DiscordCommand {
                 .getInstance().getConsoleHandlers().getCommands().get(":start");
         startConsoleCommand.setIsBotRunning(true);
 
-        String botResumeOperationReply = HabboScanner.getInstance()
+        String botResumeOperationMessage = HabboScanner.getInstance()
                 .getMessageProperties().getProperty("bot.resume.operation.reply");
 
-        event.reply(botResumeOperationReply).queue();
+        event.reply(botResumeOperationMessage).queue();
     }
 }

@@ -27,9 +27,9 @@ public class FollowDiscordCommand implements DiscordCommand {
         Properties messageProperties = HabboScanner.getInstance().getMessageProperties();
 
         if (!mode.equals("furni_info") && !mode.equals("auction")) {
-            String invalidModeReply = messageProperties.getProperty("invalid.mode.message");
+            String invalidModeMessage = messageProperties.getProperty("invalid.mode.message");
 
-            event.reply(invalidModeReply).setEphemeral(true).queue();
+            event.reply(invalidModeMessage).setEphemeral(true).queue();
 
             return;
         }
@@ -38,9 +38,9 @@ public class FollowDiscordCommand implements DiscordCommand {
                 .getConsoleHandlers().getCommands().get(":start");
 
         if (!startConsoleCommand.getIsBotRunning()) {
-            String botNotActiveReply = messageProperties.getProperty("bot.not.active.message");
+            String botNotActiveMessage = messageProperties.getProperty("bot.not.active.message");
 
-            event.reply(botNotActiveReply).queue();
+            event.reply(botNotActiveMessage).queue();
 
             return;
         }

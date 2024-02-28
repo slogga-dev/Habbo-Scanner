@@ -21,9 +21,9 @@ public class ConvertDiscordCommand implements DiscordCommand {
         Properties messageProperties = HabboScanner.getInstance().getMessageProperties();
 
         if (!file.equals("items") && !file.equals("timeline")) {
-            String invalidFileReply = messageProperties.getProperty("invalid.file.message");
+            String invalidFileMessage = messageProperties.getProperty("invalid.file.message");
 
-            event.reply(invalidFileReply).setEphemeral(true).queue();
+            event.reply(invalidFileMessage).setEphemeral(true).queue();
 
             return;
         }
@@ -43,8 +43,8 @@ public class ConvertDiscordCommand implements DiscordCommand {
 
         convertFile.handle(habboUserId);
 
-        String startConversionReply = messageProperties.getProperty("bot.start.conversion.message");
+        String startConversionMessage = messageProperties.getProperty("bot.start.conversion.message");
 
-        event.reply(startConversionReply).queue();
+        event.reply(startConversionMessage).queue();
     }
 }

@@ -37,17 +37,17 @@ public class DiscordBot extends ListenerAdapter {
         Properties messageProperties = HabboScanner.getInstance().getMessageProperties();
 
         if (command == null) {
-            String unknownCommandReply = messageProperties.getProperty("unknown.command.message");
+            String unknownCommandMessage = messageProperties.getProperty("unknown.command.message");
 
-            event.reply(unknownCommandReply).setEphemeral(true).queue();
+            event.reply(unknownCommandMessage).setEphemeral(true).queue();
 
             return;
         }
 
         if (!authorizedUserIds.contains(event.getUser().getId())) {
-            String noPermissionReply = messageProperties.getProperty("no.permission.message");
+            String noPermissionMessage = messageProperties.getProperty("no.permission.message");
 
-            event.reply(noPermissionReply).setEphemeral(true).queue();
+            event.reply(noPermissionMessage).setEphemeral(true).queue();
 
             return;
         }
