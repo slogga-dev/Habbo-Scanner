@@ -262,7 +262,7 @@ public class HabboScanner extends Extension {
         ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 
         final long accessTimeout = 400000; // Time in milliseconds. 400000 ms is approximately 6.67 minutes (400000 ms / 60000 ms/minute)
-        final String crashMessage = "che palle, il Room Manager di AIR è crashato -.- @everyone dai riavviatemi dio";
+        final String crashMessage = HabboScanner.getInstance().getMessageProperties().getProperty("bot.room.manager.crash.message");
 
         long lastRoomAccess = roomInfoHandlers.getLastRoomAccess();
         StartConsoleCommand startConsoleCommand = (StartConsoleCommand) consoleHandlers.getCommands().get(":start");
