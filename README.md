@@ -28,7 +28,7 @@ For detailed configuration instructions, please refer to the [Configuration Guid
 
 ## Contributing to the Project 🤝
 
-Habbo Scanner is an open project and we welcome contributions! If you have ideas for improvements or new features, you can contribute by sending pull requests. If you're not sure where to start, you can join our Discord server through the following [link](https://discord.gg/dpEPGKvD6f). Our community is always ready to help you get started on your contribution journey. Our community is always ready to help you get started on your contribution journey.
+Habbo Scanner is an open project and we welcome contributions! If you have ideas for improvements or new features, you can contribute by sending pull requests. If you're not sure where to start, you can join our Discord server through the following [link](https://discord.gg/dpEPGKvD6f). Our community is always ready to help you get started on your contribution journey.
 
 ## Credits 🏆
 
