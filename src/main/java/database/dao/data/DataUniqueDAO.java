@@ -6,7 +6,7 @@ import java.util.*;
 
 import database.Database;
 
-public class RoomFurniUniqueDAO {
+public class DataUniqueDAO {
     public static ArrayList<HashMap<String, Object>> getTopOwnersByFurniType(String classname) throws SQLException, IOException {
         String query = "SELECT owner, COUNT(*) as furniCount FROM data_unique " +
                 "WHERE classname = ? GROUP BY owner ORDER BY furniCount  DESC LIMIT 3";

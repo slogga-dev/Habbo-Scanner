@@ -6,7 +6,7 @@ import java.sql.*;
 import java.util.*;
 import java.util.concurrent.*;
 
-import database.dao.data.RoomFurniUniqueDAO;
+import database.dao.data.DataUniqueDAO;
 
 import scanner.HabboScanner;
 
@@ -101,7 +101,7 @@ public class FurniInfoProvider {
         ArrayList<HashMap<String, Object>> topOwnersByFurniType;
 
         try {
-            topOwnersByFurniType = RoomFurniUniqueDAO.getTopOwnersByFurniType(classname);
+            topOwnersByFurniType = DataUniqueDAO.getTopOwnersByFurniType(classname);
         } catch (SQLException | IOException exception) {
             throw new RuntimeException(exception);
         }
