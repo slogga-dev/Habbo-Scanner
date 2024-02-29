@@ -27,7 +27,7 @@ CREATE TABLE `data_unique` (
   `classname` text COLLATE utf8mb4_general_ci,
   `name` text COLLATE utf8mb4_general_ci,
   `owner` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
-  `type` enum('Pavimento','Parete') COLLATE utf8mb4_general_ci NOT NULL,
+  `type` enum('Floor','Wall') COLLATE utf8mb4_general_ci NOT NULL,
   `room_id` int NOT NULL,
   `timestamp` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`,`owner`,`type`) USING BTREE,
@@ -50,4 +50,4 @@ CREATE TABLE `data_unique` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-02-29 22:17:43
+-- Dump completed on 2024-02-29 22:28:50
