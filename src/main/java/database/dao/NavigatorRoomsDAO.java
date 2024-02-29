@@ -23,7 +23,7 @@ public class NavigatorRoomsDAO {
         }
     }
 
-    public static void insertNavigatorData(ArrayList<String> rooms) throws SQLException {
+    public static void insertNavigatorRooms(ArrayList<String> rooms) throws SQLException {
         String query = "INSERT INTO `navigator_rooms` (`id`, `name`, `description`, " +
                 "`owner_name`, `users`, `max_users`, `access_type`) VALUES (?, ?, ?, ?, ?, ?, ?)";
 

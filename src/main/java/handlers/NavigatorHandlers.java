@@ -147,7 +147,7 @@ public class NavigatorHandlers {
                 StatsDAO.insertStats(totalRoomUserAmount, roomsFoundAmount, currentDateTime);
 
                 NavigatorRoomsDAO.deleteNavigatorRooms();
-                NavigatorRoomsDAO.insertNavigatorData(rooms);
+                NavigatorRoomsDAO.insertNavigatorRooms(rooms);
             } catch (SQLException exception) {
                 throw new RuntimeException(exception);
             }
