@@ -1,27 +1,35 @@
-# Habbo scanner: your ultimate Habbo guide
+# Habbo Scanner: A Brief Overview 🎮
 
-Welcome to the world of Habbo, made even more exciting with the Habbo scanner extension. This isn't just any extension; it's your all-in-one companion, designed to make your Habbo experience richer and more immersive.
+Welcome to Habbo Scanner, a powerful data archiving tool for Habbo. This G-Earth extension is designed to extract and store a wealth of information from Habbo, providing a comprehensive database for users. 
 
-## What does it do?
+Please note that Habbo Scanner is intended for educational purposes only. Any misuse of this tool for illegal activities is strictly prohibited. By using this tool, you agree to abide by all applicable laws and regulations.
 
-Think of this extension as your personal Habbo detective. It's on a mission, exploring every room, cataloging every piece of furni, keeping tabs on bots, and even making friends with pets. It's got the whole of Habbo covered!
+## What is Habbo Scanner? 🕵️‍♂️
 
-But that's not all. This extension is smart. It doesn't just scan; it remembers. Every furni it encounters, every bot it meets, and every pet it befriends - it stores all this information in a MySQL database. So, you can revisit this data anytime you want, analyze it, and uncover interesting Habbo insights.
+Habbo Scanner is a tool that extracts data from Habbo and saves it to a MySQL database. It archives details about furniture (furni), users, pets, and bots seen in Habbo rooms, creating a rich dataset for analysis and insight.
 
-## How does it work?
+## Key Features 🚀
 
-The extension uses G-Earth's API to interact with Habbo's client. When you activate the extension, it starts scanning the current room, identifying all the furni by their unique IDs and types. It also keeps an eye out for bots and pets, making sure no detail is missed.
+- **Data Extraction and Storage**: Catalogs every piece of furni, bots, and pets in rooms and stores the information in a MySQL database.
+- **Bot Mode**: The bot mode allows the character to automatically rotate rooms in various modes, collecting data as it goes.
+- **Command System**: Users can control the extension's behavior directly from the game.
+- **Discord Integration**: Habbo Scanner allows remote command execution via Discord.
 
-As it explores, it also interacts with the navigator, ensuring it covers all rooms. If a room has doors or portals, the extension automatically moves through them, continuing its scanning process in the new room.
+## Prerequisites for Configuration ⚙️
 
-## Setting up
+Before you start, make sure you have the following:
 
-Setting up the extension is simple. You need to have G-Earth and MySQL installed on your machine. Once you've got these, load the extension into G-Earth, enter your MySQL database details, and you're all set!
+- G-Earth installed on your machine.
+- G-Earth.jar file placed in the `src/main/resources` directory.
+- MySQL installed and properly configured.
+- Java Development Kit (JDK) installed on your machine.
 
-## Advanced features
+For detailed configuration instructions, please refer to the [Configuration Guide](CONFIGURATION_GUIDE.md).
 
-The extension comes with a command system, allowing you to control its behavior directly from the game. It also tracks the movement of furni, recording the date and time of the movement. This way, you can keep track of changes in the rooms over time.
+## Contributing to the Project 🤝
 
-You can customize the extension using the `messages.properties`, `mysql.properties`, and `bot.properties` files. And if you want to share your Habbo adventures with your friends, there's a Discord bot that sends notifications to a Discord server whenever something significant happens in the game.
+Habbo Scanner is an open project and we welcome contributions! If you have ideas for improvements or new features, you can contribute by sending pull requests. If you're not sure where to start, you can join our Discord server through the following [link](https://discord.gg/vWqHkhMAQ2). Our community is always ready to help you get started on your contribution journey. Our community is always ready to help you get started on your contribution journey.
 
-So, whether you're a serious Habbo user or just starting out, this extension is your perfect Habbo companion. Enjoy your Habbo journey!
+## Credits 🏆
+
+Habbo Scanner was born from the idea of dha, who wanted to keep track of his furni in Habbo. The project then took on a life of its own and was developed by Jason and shokato, with valuable feedback from ,Homy and Dolce95. We thank them for their contributions to this project.
