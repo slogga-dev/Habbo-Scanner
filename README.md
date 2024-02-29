@@ -2,7 +2,7 @@
 
 Welcome to the world of Habbo, made even more exciting with the Habbo scanner extension. This isn't just any extension; it's your all-in-one companion, designed to make your Habbo experience richer and more immersive.
 
-## What Does It Do?
+## What does it do?
 
 Think of this extension as your personal Habbo detective. It's on a mission, exploring every room, cataloging every piece of furni, keeping tabs on bots, and even making friends with pets. It's got the whole of Habbo covered!
 
@@ -14,7 +14,7 @@ The extension uses G-Earth's API to interact with Habbo's client. When you activ
 
 As it explores, it also interacts with the navigator, ensuring it covers all rooms. If a room has doors or portals, the extension automatically moves through them, continuing its scanning process in the new room.
 
-## Setting Up
+## Setting up
 
 Setting up the extension is simple. You need to have G-Earth and MySQL installed on your machine. Once you've got these, load the extension into G-Earth, enter your MySQL database details, and you're all set!
 
@@ -24,4 +24,4 @@ The extension comes with a command system, allowing you to control its behavior 
 
 You can customize the extension using the `messages.properties`, `mysql.properties`, and `bot.properties` files. And if you want to share your Habbo adventures with your friends, there's a Discord bot that sends notifications to a Discord server whenever something significant happens in the game.
 
-So, whether you're a serious Habbo user or just starting out, the Habbo scanner extension is your perfect Habbo companion. Enjoy your Habbo journey!
+So, whether you're a serious Habbo user or just starting out, this extension is your perfect Habbo companion. Enjoy your Habbo journey!
