@@ -7,7 +7,7 @@ This guide provides a detailed walkthrough on how to configure the Habbo Scanner
 Before you start, make sure you have the following:
 
 - G-Earth installed on your machine.
-- G-Earth.jar file placed in the `src/main/resources` directory.
+- G-Earth.jar file placed in the `src/lib` directory.
 - MySQL installed and properly configured.
 - Java Development Kit (JDK) installed on your machine.
 
