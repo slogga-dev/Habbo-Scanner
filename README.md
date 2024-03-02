@@ -20,7 +20,7 @@ Habbo Scanner is a tool that extracts data from Habbo and saves it to a MySQL da
 Before you start, make sure you have the following:
 
 - G-Earth installed on your machine.
-- G-Earth.jar file placed in the `src/main/resources` directory.
+- G-Earth.jar file placed in the `src/lib` directory.
 - MySQL installed and properly configured.
 - Java Development Kit (JDK) installed on your machine.
 
@@ -28,7 +28,7 @@ For detailed configuration instructions, please refer to the [Configuration Guid
 
 ## Contributing to the Project 🤝
 
-Habbo Scanner is an open project and we welcome contributions! If you have ideas for improvements or new features, you can contribute by sending pull requests. If you're not sure where to start, you can join our Discord server through the following [link](https://discord.gg/vWqHkhMAQ2). Our community is always ready to help you get started on your contribution journey. Our community is always ready to help you get started on your contribution journey.
+Habbo Scanner is an open project and we welcome contributions! If you have ideas for improvements or new features, you can contribute by sending pull requests. If you're not sure where to start, you can join our Discord server through the following [link](https://discord.gg/dpEPGKvD6f). Our community is always ready to help you get started on your contribution journey.
 
 ## Credits 🏆
 

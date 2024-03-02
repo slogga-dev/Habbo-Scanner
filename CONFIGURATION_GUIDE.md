@@ -7,6 +7,7 @@ This guide provides a detailed walkthrough on how to configure the Habbo Scanner
 Before you start, make sure you have the following:
 
 - G-Earth installed on your machine.
+- G-Earth.jar file placed in the `src/lib` directory.
 - MySQL installed and properly configured.
 - Java Development Kit (JDK) installed on your machine.
 
@@ -20,13 +21,29 @@ All configuration files are located in the `src/main/resources` directory. Here 
 - `log4j.properties`: Configures the logging behavior.
 - `message.properties`: Defines the messages that the bot can send.
 - `mysql.properties`: Configures the MySQL database connection.
-- `mysql_structure.sql`: Defines the structure of the MySQL database.
 
 ## Setting Up ⚙️
 
-1. Import the SQL structure using the `mysql_structure.sql` file into your MySQL database.
-2. Ensure that the MySQL settings in the `mysql.properties` file are correctly set to connect to your database.
-3. Compile the Habbo Scanner extension as a .jar file and install it within your G-Earth.
-4. Configure the `bot.properties` file according to your needs. Follow the comments in the file for guidance.
+1. Navigate in the `database_structure` folder and import every sql file to your database.
+2. Populate the `items_timeline` and `items.sql` tables in your MySQL database. 
 
-Now, you're all set! You have successfully configured the Habbo Scanner bot. Enjoy your enhanced Habbo experience! 🎉
+   - The `items_timeline` table is mandatory for dating furni with the timeline. It has the following structure:
+     - `date`: The date associated with the furni.
+     - `id`: The ID of the furni.
+     - `type`: The type of the furni, either 'Floor' or 'Wall'.
+     
+     You need to assign an ID and date to each furni and specify whether it's a 'Floor' or 'Wall' type.
+
+   - The `items.sql` table is optional but useful for the "follow, furni_info" function where the bot comes to provide information about a furni. It has the following structure:
+     - `classname`: The classname of the furni.
+     - `category`: The category of the furni.
+     - `type`: The type of the furni, either 'Floor' or 'Wall'.
+     - `seen_pieces`: The number of pieces of this furni seen.
+     
+     Ideally, you should periodically update the data in this table.
+
+3. Ensure that the MySQL settings in the `mysql.properties` file are correctly set to connect to your database.
+4. Compile the Habbo Scanner extension as a .jar file and install it within your G-Earth.
+5. Configure the `bot.properties` file according to your needs. Follow the comments in the file for guidance.
+
+Now, you’re all set! You have successfully configured the Habbo Scanner bot. Enjoy exploring the comprehensive database of Habbo data! 🎉
