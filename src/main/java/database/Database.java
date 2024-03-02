@@ -8,6 +8,13 @@ import java.util.Properties;
 
 public class Database {
     private static Database instance;
+
+    public static synchronized Database getInstance() throws SQLException, IOException {
+        if (instance == null) instance = new Database();
+
+        return instance;
+    }
+
     private final HikariDataSource dataSource;
 
     private Database() throws IOException {
@@ -32,12 +39,6 @@ public class Database {
         config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
 
         dataSource = new HikariDataSource(config);
-    }
-
-    public static synchronized Database getInstance() throws SQLException, IOException {
-        if (instance == null) instance = new Database();
-
-        return instance;
     }
 
     public Connection getConnection() throws SQLException {
