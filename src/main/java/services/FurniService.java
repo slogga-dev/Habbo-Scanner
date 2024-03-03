@@ -22,7 +22,6 @@ public class FurniService {
         int id = furniMetadata.getId();
         int typeID = furniMetadata.getTypeId();
         String owner = furniMetadata.getOwnerName();
-        int ownerID = furniMetadata.getOwnerId();
 
         Furnitype furnitype = Furnidata.getInstance().getFurnitype(typeID, type);
 
