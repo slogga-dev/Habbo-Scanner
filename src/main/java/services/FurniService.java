@@ -32,7 +32,7 @@ public class FurniService {
 
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
-        Furni furni = new Furni(id, classname, name, ownerID,
+        Furni furni = new Furni(id, classname, name,
                 owner, type, roomID, extradata, timestamp);
 
         boolean isRoomFurniActiveEnabled = Boolean.parseBoolean(HabboScanner.getInstance()
