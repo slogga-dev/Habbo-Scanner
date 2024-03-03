@@ -54,10 +54,11 @@ public class FurniTracker {
                 .replace("%rarestFurniName%", rarestFurniName)
                 .replace("%highestSeenPieces%", Integer.toString(highestSeenPieces));
 
+        int consoleUserId = HabboScanner.getInstance().getConsoleHandlers().getUserId();
         String finalMessage = oldestFurniInRoomMessage;
 
         scheduledExecutorService.schedule(() -> HabboScanner.getInstance()
-                .whisperMessage(finalMessage), 1, TimeUnit.SECONDS);
+                .sendPrivateMessage(consoleUserId, finalMessage), 1, TimeUnit.SECONDS);
 
         processTransactionsAndTerminate();
 
@@ -69,9 +70,11 @@ public class FurniTracker {
         String[] botMessageEmptyRoomArray = botEmptyRoomMessage.split("---");
 
         int randomIndex = (int) (Math.random() * botMessageEmptyRoomArray.length);
+
+        int consoleUserId = HabboScanner.getInstance().getConsoleHandlers().getUserId();
         botEmptyRoomMessage = botMessageEmptyRoomArray[randomIndex];
 
-        HabboScanner.getInstance().whisperMessage(botEmptyRoomMessage);
+        HabboScanner.getInstance().sendPrivateMessage(consoleUserId, botEmptyRoomMessage);
     }
 
     private void processTransactionsAndTerminate() {

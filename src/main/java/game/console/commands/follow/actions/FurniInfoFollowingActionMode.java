@@ -26,6 +26,7 @@ public class FurniInfoFollowingActionMode implements FollowingActionMode {
 
             StartConsoleCommand startConsoleCommand = (StartConsoleCommand) HabboScanner.getInstance()
                     .getConsoleHandlers().getCommands().get(":start");
+
             startConsoleCommand.setIsBotRunning(true);
 
             HabboScanner.getInstance().getRoomInfoHandlers().refreshLastRoomAccess();

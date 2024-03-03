@@ -11,8 +11,6 @@ public class Furni {
 
     private String name;
 
-    private final int ownerId;
-
     private final String owner;
 
     private final FurnitypeEnum type;
@@ -23,16 +21,15 @@ public class Furni {
 
     private final Timestamp timestamp;
 
-    public Furni(int id, String classname, String name, int ownerId, String owner,
-                 FurnitypeEnum type, int roomID, String extraData, Timestamp timestamp) {
+    public Furni(int id, String classname, String name, String owner,
+                 FurnitypeEnum type, int roomID, String extradata, Timestamp timestamp) {
         this.id = id;
         this.classname = classname;
         this.name = name;
-        this.ownerId = ownerId;
         this.owner = owner;
         this.type = type;
         this.roomID = roomID;
-        this.extraData = extraData;
+        this.extraData = extradata;
         this.timestamp = timestamp;
     }
 
@@ -47,10 +44,6 @@ public class Furni {
 
     public String getName() {
         return name;
-    }
-
-    public int getOwnerId() {
-        return ownerId;
     }
 
     public String getOwner() {
@@ -74,14 +67,14 @@ public class Furni {
     }
 
     public void setId(int id) {
-        id = id;
+        this.id = id;
     }
 
     public void setClassname(String classname) {
-        classname = classname;
+        this.classname = classname;
     }
 
     public void setName(String name) {
-        name = name;
+        this.name = name;
     }
 }

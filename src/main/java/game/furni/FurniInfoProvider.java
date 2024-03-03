@@ -132,10 +132,11 @@ public class FurniInfoProvider {
         topFurniOwnersMessage = topFurniOwnersMessage
                 .replace("%topFurniOwners%", topFurniOwnersReport.toString());
 
+        int consoleUserId = HabboScanner.getInstance().getConsoleHandlers().getUserId();
         String message = piecesObservedMessage + (topFurniOwnersReport.length() == 0 ?
                 noFurniOwnersMessage : topFurniOwnersMessage);
 
-        HabboScanner.getInstance().whisperMessage(message);
+        HabboScanner.getInstance().sendPrivateMessage(consoleUserId, message);
     }
 
     private void handleFurniHistory(int id, int userId) {

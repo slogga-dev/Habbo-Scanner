@@ -61,10 +61,11 @@ public class FurniMovementHandlers {
         Date estimatedDate = DateUtils.getLinearInterpolatedDate(closestEntries);
 
         if (String.valueOf(estimatedDate).equals("1970-01-01")) {
+            int consoleUserId = HabboScanner.getInstance().getConsoleHandlers().getUserId();
             String furniDateCalculationErrorMessage = HabboScanner.getInstance()
                     .getMessageProperties().getProperty("furni.date.calculation.error.message");
 
-            HabboScanner.getInstance().whisperMessage(furniDateCalculationErrorMessage);
+            HabboScanner.getInstance().sendPrivateMessage(consoleUserId, furniDateCalculationErrorMessage);
 
             return;
         }

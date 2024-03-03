@@ -23,10 +23,9 @@ public class ItemProcessor {
 
     private String rarestFurniName;
 
-
     public ItemProcessor() {
         highestSeenPieces = Integer.MAX_VALUE;
-        oldestFurni = new Furni(Integer.MAX_VALUE, null, null, -1,
+        oldestFurni = new Furni(Integer.MAX_VALUE, null, null,
                 null, null, -1, null, null);
     }
 

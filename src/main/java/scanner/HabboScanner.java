@@ -132,13 +132,6 @@ public class HabboScanner extends Extension {
         }
     }
 
-    public void whisperMessage(String message) {
-        HPacket packet = new HPacket("Whisper", HMessage.Direction.TOCLIENT,
-                -1, message, 0, 30, 0, -1);
-
-        sendToClient(packet);
-    }
-
     public void moveToRoom(int roomId) {
         HPacket packet = new HPacket("GetGuestRoom", HMessage.Direction.TOSERVER,
                 roomId, 0, 1);

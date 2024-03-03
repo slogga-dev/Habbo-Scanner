@@ -7,7 +7,6 @@ import java.text.SimpleDateFormat;
 import java.time.*;
 
 import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 
 import org.apache.commons.lang3.tuple.Triple;
 
@@ -15,27 +14,23 @@ import models.ItemTimeline;
 
 public class DateUtils {
     public static Date getLinearInterpolatedDate(Triple<Integer, ItemTimeline, ItemTimeline> closestEntries) {
-        try {
-            int id = closestEntries.getLeft();
+        int id = closestEntries.getLeft();
 
-            int lowestID = closestEntries.getMiddle().getId();
-            Date lowestDate = closestEntries.getMiddle().getDate();
+        int lowestID = closestEntries.getMiddle().getId();
+        Date lowestDate = closestEntries.getMiddle().getDate();
 
-            int highestID = closestEntries.getRight().getId();
-            Date highestDate = closestEntries.getRight().getDate();
+        int highestID = closestEntries.getRight().getId();
+        Date highestDate = closestEntries.getRight().getDate();
 
-            long rise = highestDate.getTime() - lowestDate.getTime();
-            int run = highestID - lowestID;
+        long rise = highestDate.getTime() - lowestDate.getTime();
+        int run = highestID - lowestID;
 
-            if (run == 0)
-                return null;
-
-            long milliseconds = lowestDate.getTime() + (rise / run) * (id - lowestID);
-
-            return new Date(milliseconds);
-        } catch (RuntimeException exception) {
+        if (run == 0)
             return null;
-        }
+
+        long milliseconds = lowestDate.getTime() + (rise / run) * (id - lowestID);
+
+        return new Date(milliseconds);
     }
 
     public static String formatToStandardDate(Date date) {
