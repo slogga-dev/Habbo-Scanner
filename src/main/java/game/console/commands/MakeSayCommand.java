@@ -21,11 +21,17 @@ public class MakeSayCommand implements ConsoleCommand {
             return;
         }
 
-        String discordMessageText = arguments[1].trim();
+        String consoleMessageText = arguments[1].trim();
 
         DiscordBot discordBot = HabboScanner.getInstance().getDiscordBot();
 
-        discordBot.sendMessageToFeedChannel(discordMessageText);
+        if (discordBot == null) {
+            HabboScanner.getInstance().sendPrivateMessage(userId, consoleMessageText);
+
+            return;
+        }
+
+        discordBot.sendMessageToFeedChannel(consoleMessageText);
 
         String messageSentConfirmation = HabboScanner.getInstance()
                 .getMessageProperties().getProperty("message.sent.confirmation");

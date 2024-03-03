@@ -196,23 +196,29 @@ public class HabboScanner extends Extension {
     public Properties getBotProperties() {
         return botProperties;
     }
+
     public Properties getMessageProperties() {
         return messageProperties;
     }
+
     public Properties getDiscordProperties() {
         return discordProperties;
     }
+
     public Properties getCommandDescriptionProperties() { return commandDescriptionProperties; }
 
     public RoomInfoHandlers getRoomInfoHandlers() {
         return roomInfoHandlers;
     }
+
     public ItemProcessingHandlers getItemProcessingHandlers() {
         return itemProcessingHandlers;
     }
+
     public ConsoleHandlers getConsoleHandlers() {
         return consoleHandlers;
     }
+
     public FurniMovementHandlers getFurniMovementHandlers() {
         return furniMovementHandlers;
     }
@@ -276,7 +282,8 @@ public class HabboScanner extends Extension {
             if (criticalAirCrashWarning || !isAccessRecent || !isBotRunning || !isTimeExceeded)
                 return;
 
-            discordBot.sendMessageToFeedChannel(crashMessage);
+            if (discordBot != null)
+                discordBot.sendMessageToFeedChannel(crashMessage);
 
             criticalAirCrashWarning = true;
         }, 0, 2, TimeUnit.MINUTES);

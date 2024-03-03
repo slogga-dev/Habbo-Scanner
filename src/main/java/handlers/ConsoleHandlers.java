@@ -14,8 +14,6 @@ import scanner.HabboScanner;
 
 public class ConsoleHandlers {
     private final Map<String, ConsoleCommand> commands = new HashMap<>();
-    private final Set<String> adminOnlyCommands = new HashSet<>(Arrays.asList(":start", ":pause",
-            ":resume", ":convert", ":logout", ":info", ":update", ":energy_saving"));
 
     private int userId;
 
@@ -41,24 +39,8 @@ public class ConsoleHandlers {
         userId = message.getPacket().readInteger();
         String messageText = message.getPacket().readString();
 
-        String allowedUserIds = HabboScanner.getInstance().getBotProperties().getProperty("chat.commands.allowed.user.ids");
-        List<String> allowedUserIdsList = Arrays.asList(allowedUserIds.split(" "));
-        boolean allowedUser = allowedUserIdsList.contains(String.valueOf(userId));
-
-        String allowedAdminUserIds = HabboScanner.getInstance().getBotProperties().getProperty("admin.chat.commands.allowed.user.ids");
-        List<String> allowedAdminUserIdsList = Arrays.asList(allowedAdminUserIds.split(" "));
-        boolean allowedAdminUser = allowedAdminUserIdsList.contains(String.valueOf(userId));
-
         for (Map.Entry<String, ConsoleCommand> entry : commands.entrySet()) {
             if (!messageText.startsWith(entry.getKey())) continue;
-
-            if (allowedAdminUser) {
-                entry.getValue().execute(message, messageText, userId);
-
-                continue;
-            }
-
-            if (!allowedUser || adminOnlyCommands.contains(entry.getKey())) continue;
 
             entry.getValue().execute(message, messageText, userId);
         }
@@ -66,10 +48,6 @@ public class ConsoleHandlers {
 
     public Map<String, ConsoleCommand> getCommands() {
         return commands;
-    }
-
-    public Set<String> getAdminOnlyCommands() {
-        return adminOnlyCommands;
     }
 
     public int getUserId() {
