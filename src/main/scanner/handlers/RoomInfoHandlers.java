@@ -7,6 +7,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import gearth.extensions.parsers.HFloorItem;
 import lombok.Data;
 import org.slf4j.*;
 
@@ -16,9 +17,11 @@ import scanner.discord.DiscordBot;
 
 import scanner.database.dao.RoomsDAO;
 
+import scanner.game.console.commands.follow.FollowConsoleCommand;
 import scanner.game.console.commands.start.StartConsoleCommand;
 
 import scanner.game.furni.FurniTracker;
+import scanner.models.Furni;
 import scanner.models.RoomAccessMode;
 
 import scanner.database.dao.data.*;
@@ -48,7 +51,7 @@ public class RoomInfoHandlers {
         roomId = packet.readInteger();
 
         this.itemProcessor = new ItemProcessor();
-        manageFurniTracking();
+
         lastRoomAccess = System.currentTimeMillis();
 
         DiscordBot discordBot = HabboScanner.getInstance().getDiscordBot();
@@ -133,8 +136,5 @@ public class RoomInfoHandlers {
     public void refreshLastRoomAccess() {
         this.lastRoomAccess = System.currentTimeMillis();
     }
-    private void manageFurniTracking(){
-        FurniTracker furniTracker = HabboScanner.getInstance().getConfigurator().getItemProcessingHandlers().getFurniTracker();
-        furniTracker.manageFurniTracking(null);
-    }
+
 }

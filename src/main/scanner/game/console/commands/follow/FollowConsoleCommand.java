@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.concurrent.*;
 
 import lombok.Data;
+import scanner.game.ItemProcessor;
 import scanner.game.console.commands.start.StartConsoleCommand;
 import gearth.protocol.*;
 
@@ -28,6 +29,7 @@ public class FollowConsoleCommand implements IConsoleCommand {
     public FollowConsoleCommand() {
         actionModes.put(FollowingAction.FURNI_INFO, new FurniInfoFollowingActionMode());
         actionModes.put(FollowingAction.AUCTION, new AuctionFollowingActionMode());
+
         // Is set as false until it reaches the room; if for some reason it doesn't this doesn't work
         this.isFollowing = false;
     }
@@ -65,13 +67,32 @@ public class FollowConsoleCommand implements IConsoleCommand {
                     .getConfigurator()
                     .getRoomInfoHandlers();
             RoomAccessMode roomAccessMode = roomInfoHandlers.getRoomAccessMode();
-
             switch (roomAccessMode) {
                 case OPEN: {
                     // Since the bot reaches the room it is following the habbo that called him with :follow command
+
+                    ItemProcessor itemProcessor = HabboScanner.getInstance().getConfigurator().getRoomInfoHandlers().getItemProcessor();
+                    Furni oldestFurni = itemProcessor.getOldestFurni();
+
+                    if (oldestFurni.getId() == null) {
+                        sendEmptyRoomMessage();
+                        scheduledExecutorService.schedule(() -> {
+                            String endOfFurniInfoModeMessage = HabboScanner.getInstance().getConfigurator()
+                                    .getProperties().get("message").getProperty("end.of.furni_info.mode.message");
+
+                            int consoleUserId = HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getUserId();
+                            HabboScanner.getInstance().sendPrivateMessage(consoleUserId, endOfFurniInfoModeMessage);
+
+                            startConsoleCommand.setIsBotRunning(true);
+
+                            HabboScanner.getInstance()
+                                    .getConfigurator()
+                                    .getRoomInfoHandlers().refreshLastRoomAccess();
+                        }, 1, TimeUnit.SECONDS);
+                        break;
+                    };
                     this.isFollowing = true;
                     FollowingActionMode actionMode = actionModes.get(followingAction);
-
                     actionMode.handle();
 
                     break;
@@ -96,6 +117,7 @@ public class FollowConsoleCommand implements IConsoleCommand {
                 }
             }
         }, 1, TimeUnit.SECONDS);
+        this.isFollowing = false;
     }
 
     @Override
@@ -107,5 +129,18 @@ public class FollowConsoleCommand implements IConsoleCommand {
     public String getDescription() {
         return HabboScanner.getInstance().getConfigurator().getProperties().get("command_description")
                 .getProperty("console.follow.command.description");
+    }
+
+    private void sendEmptyRoomMessage() {
+        String botEmptyRoomMessage = HabboScanner.getInstance().getConfigurator()
+                .getProperties().get("message").getProperty("bot.empty.room.message");
+        String[] botMessageEmptyRoomArray = botEmptyRoomMessage.split("---");
+
+        int randomIndex = (int) (Math.random() * botMessageEmptyRoomArray.length);
+
+        int consoleUserId = HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getUserId();
+        botEmptyRoomMessage = botMessageEmptyRoomArray[randomIndex];
+
+        HabboScanner.getInstance().sendPrivateMessage(consoleUserId, botEmptyRoomMessage);
     }
 }

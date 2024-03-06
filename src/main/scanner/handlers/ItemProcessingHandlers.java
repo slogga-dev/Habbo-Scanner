@@ -38,6 +38,7 @@ public class ItemProcessingHandlers {
 
     public void onFloorItems(HMessage message) {
         HFloorItem[] items = HFloorItem.parse(message.getPacket());
+
         FurnitypeEnum type = FurnitypeEnum.FLOOR;
         RoomInfoHandlers roomInfoHandlers = HabboScanner.getInstance().getConfigurator().getRoomInfoHandlers();
 
@@ -59,7 +60,8 @@ public class ItemProcessingHandlers {
         }
 
         Date estimatedDate = DateUtils.getLinearInterpolatedDate(closestEntries);
-        if (estimatedDate == null) return;
+
+        furniTracker.manageFurniTracking(estimatedDate);
     }
 
     public void onWallItems(HMessage message) {

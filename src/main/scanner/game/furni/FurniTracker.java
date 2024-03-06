@@ -23,21 +23,13 @@ public class FurniTracker {
     private final ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 
     public void manageFurniTracking(Date estimatedDate) {
-        FollowConsoleCommand followConsoleCommand = (FollowConsoleCommand) HabboScanner.getInstance()
+        FollowConsoleCommand followCommand = (FollowConsoleCommand)HabboScanner.getInstance()
                 .getConfigurator().getConsoleHandlers().getCommands().get(":follow");
-
-        boolean isFollowing = followConsoleCommand.isFollowing();
+        if (estimatedDate == null || !followCommand.isFollowing())
+            return;
 
         ItemProcessor itemProcessor = HabboScanner.getInstance().getConfigurator().getRoomInfoHandlers().getItemProcessor();
         Furni oldestFurni = itemProcessor.getOldestFurni();
-
-        // is following the friend that called him via :follow command
-        // also the ItemProcessor never cycled the onFloorItems method so the oldestFurni attribute is just instanced with the id null
-        if (isFollowing && oldestFurni.getId() == null) {
-            sendEmptyRoomMessage();
-
-            return;
-        }
 
         String name = oldestFurni.getName();
         String classname = oldestFurni.getClassname();
@@ -45,7 +37,9 @@ public class FurniTracker {
         String rarestFurniName = itemProcessor.getRarestFurniName();
         int highestSeenPieces = itemProcessor.getHighestSeenPieces();
 
-        String oldestFurniInRoomMessage = HabboScanner.getInstance().getConfigurator().getProperties().get("message").getProperty("oldest.furni.in.room.message");
+        String oldestFurniInRoomMessage = HabboScanner.getInstance()
+                .getConfigurator().getProperties()
+                .get("message").getProperty("oldest.furni.in.room.message");
 
         if (oldestFurniInRoomMessage == null) return;
 
@@ -62,23 +56,10 @@ public class FurniTracker {
         scheduledExecutorService.schedule(() -> HabboScanner.getInstance()
                 .sendPrivateMessage(consoleUserId, finalMessage), 1, TimeUnit.SECONDS);
 
-        if (!isFollowing) return;
-
         processTransactionsAndTerminate();
     }
 
-    private void sendEmptyRoomMessage() {
-        String botEmptyRoomMessage = HabboScanner.getInstance().getConfigurator()
-                .getProperties().get("message").getProperty("bot.empty.room.message");
-        String[] botMessageEmptyRoomArray = botEmptyRoomMessage.split("---");
 
-        int randomIndex = (int) (Math.random() * botMessageEmptyRoomArray.length);
-
-        int consoleUserId = HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getUserId();
-        botEmptyRoomMessage = botMessageEmptyRoomArray[randomIndex];
-
-        HabboScanner.getInstance().sendPrivateMessage(consoleUserId, botEmptyRoomMessage);
-    }
 
     private void processTransactionsAndTerminate() {
         try {

@@ -20,7 +20,8 @@ public class FurniInfoFollowingActionMode implements FollowingActionMode {
         ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 
         scheduledExecutorService.schedule(() -> {
-            String endOfFurniInfoModeMessage = HabboScanner.getInstance().getConfigurator().getProperties().get("message").getProperty("end.of.furni_info.mode.message");
+            String endOfFurniInfoModeMessage = HabboScanner.getInstance().getConfigurator()
+                    .getProperties().get("message").getProperty("end.of.furni_info.mode.message");
 
             HabboScanner.getInstance().sendPrivateMessage(consoleUserId, endOfFurniInfoModeMessage);
 
