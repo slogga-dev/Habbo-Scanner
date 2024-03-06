@@ -1,13 +1,14 @@
 package scanner.game.console.commands;
 
+import org.apache.commons.lang3.NotImplementedException;
 import scanner.discord.DiscordBot;
 import gearth.protocol.HMessage;
 
-import scanner.game.console.ConsoleCommand;
+import scanner.game.console.IConsoleCommand;
 
 import scanner.HabboScanner;
 
-public class MakeSayCommand implements ConsoleCommand {
+public class MakeSayCommand implements IConsoleCommand {
     @Override
     public void execute(HMessage message, String messageText, int userId) {
         String[] arguments = messageText.split(" ", 2);
@@ -43,5 +44,9 @@ public class MakeSayCommand implements ConsoleCommand {
     public String getDescription() {
         return HabboScanner.getInstance().getConfigurator().getProperties().get("command_description")
                 .getProperty("console.makesay.command.description");
+    }
+    @Override
+    public void resetForStart() {
+        throw new NotImplementedException();
     }
 }

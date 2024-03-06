@@ -3,11 +3,12 @@ package scanner.game.console.commands.follow;
 import java.util.*;
 import java.util.concurrent.*;
 
+import lombok.Data;
 import scanner.game.console.commands.start.StartConsoleCommand;
 import gearth.protocol.*;
 
 import scanner.game.console.commands.follow.actions.*;
-import scanner.game.console.ConsoleCommand;
+import scanner.game.console.IConsoleCommand;
 
 import scanner.handlers.RoomInfoHandlers;
 
@@ -15,17 +16,20 @@ import scanner.models.*;
 
 import scanner.HabboScanner;
 
-public class FollowConsoleCommand implements ConsoleCommand {
+@Data
+public class FollowConsoleCommand implements IConsoleCommand {
     private final Map<FollowingAction, FollowingActionMode> actionModes = new HashMap<>();
 
     private FollowingAction followingAction;
 
-    private boolean isFollowingFriend = false;
+    private boolean isFollowing;
     private SourceType sourceType;
 
     public FollowConsoleCommand() {
         actionModes.put(FollowingAction.FURNI_INFO, new FurniInfoFollowingActionMode());
         actionModes.put(FollowingAction.AUCTION, new AuctionFollowingActionMode());
+        // Is set as false until it reaches the room; if for some reason it doesn't this doesn't work
+        this.isFollowing = false;
     }
 
     @Override
@@ -37,7 +41,8 @@ public class FollowConsoleCommand implements ConsoleCommand {
                 .getConsoleHandlers().getCommands().get(":start");
 
         if (!startConsoleCommand.getIsBotRunning()) return;
-
+        // set :start command to false, so it cannot be called by another user
+        // we must implement a force follow for admin
         startConsoleCommand.setIsBotRunning(false);
 
         this.sourceType = SourceType.HABBO;
@@ -63,8 +68,8 @@ public class FollowConsoleCommand implements ConsoleCommand {
 
             switch (roomAccessMode) {
                 case OPEN: {
-                    isFollowingFriend = true;
-
+                    // Since the bot reaches the room it is following the habbo that called him with :follow command
+                    this.isFollowing = true;
                     FollowingActionMode actionMode = actionModes.get(followingAction);
 
                     actionMode.handle();
@@ -73,6 +78,7 @@ public class FollowConsoleCommand implements ConsoleCommand {
                 }
 
                 case LOCKED: {
+
                     String closedRoomAccessMessage = HabboScanner.getInstance().getConfigurator().getProperties().get("message").getProperty("closed.room.access.message");
 
                     HabboScanner.getInstance().sendPrivateMessage(userId, closedRoomAccessMessage);
@@ -81,6 +87,7 @@ public class FollowConsoleCommand implements ConsoleCommand {
                 }
 
                 case UNKNOWN: {
+
                     String noRoomAccessMessage = HabboScanner.getInstance().getConfigurator().getProperties().get("message").getProperty("no.room.access.message");
 
                     HabboScanner.getInstance().sendPrivateMessage(userId, noRoomAccessMessage);
@@ -92,36 +99,13 @@ public class FollowConsoleCommand implements ConsoleCommand {
     }
 
     @Override
+    public void resetForStart() {
+        this.isFollowing = false;
+    }
+
+    @Override
     public String getDescription() {
         return HabboScanner.getInstance().getConfigurator().getProperties().get("command_description")
                 .getProperty("console.follow.command.description");
-    }
-
-    public Map<FollowingAction, FollowingActionMode> getActionModes() {
-        return actionModes;
-    }
-
-    public FollowingAction getFollowingAction() {
-        return followingAction;
-    }
-
-    public boolean getIsFollowingFriend() {
-        return isFollowingFriend;
-    }
-
-    public SourceType getSourceType() {
-        return sourceType;
-    }
-
-    public void setIsFollowingFriend(boolean isFollowingFriend) {
-        this.isFollowingFriend = isFollowingFriend;
-    }
-
-    public void setFollowingAction(FollowingAction followingAction) {
-        this.followingAction = followingAction;
-    }
-
-    public void setSourceType(SourceType sourceType) {
-        this.sourceType = sourceType;
     }
 }

@@ -8,7 +8,7 @@ import scanner.discord.DiscordCommand;
 
 import scanner.HabboScanner;
 
-import scanner.game.console.ConsoleCommand;
+import scanner.game.console.IConsoleCommand;
 import scanner.game.console.commands.EnergySavingConsoleCommand;
 import scanner.game.console.commands.start.StartConsoleCommand;
 import scanner.game.console.commands.start.modes.StartBotInActiveRoomsMode;
@@ -21,7 +21,7 @@ public class InfoDiscordCommand implements DiscordCommand {
                 .getProperties()
                 .get("bot").getProperty("room_furni_active.enabled"));
 
-        Map<String, ConsoleCommand> commands = HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getCommands();
+        Map<String, IConsoleCommand> commands = HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getCommands();
 
         EnergySavingConsoleCommand energySavingConsoleCommand = (EnergySavingConsoleCommand) commands.get(":energy_saving");
         boolean energySavingMode = energySavingConsoleCommand.getEnergySavingMode();

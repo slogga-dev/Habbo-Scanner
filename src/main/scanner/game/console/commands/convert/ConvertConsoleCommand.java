@@ -4,13 +4,14 @@ import java.util.*;
 
 import gearth.protocol.HMessage;
 
-import scanner.game.console.ConsoleCommand;
+import org.apache.commons.lang3.NotImplementedException;
+import scanner.game.console.IConsoleCommand;
 
 import scanner.game.console.commands.convert.files.*;
 
 import scanner.HabboScanner;
 
-public class ConvertConsoleCommand implements ConsoleCommand {
+public class ConvertConsoleCommand implements IConsoleCommand {
     private final Map<String, ConvertFile> convertFiles = new HashMap<>();
 
     public ConvertConsoleCommand() {
@@ -46,6 +47,11 @@ public class ConvertConsoleCommand implements ConsoleCommand {
         }
 
         convertFile.handle(userId);
+    }
+
+    @Override
+    public void resetForStart() {
+        throw new NotImplementedException();
     }
 
     @Override

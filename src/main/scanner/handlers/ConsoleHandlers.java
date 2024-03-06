@@ -1,19 +1,21 @@
 package scanner.handlers;
 
 import java.util.*;
+import java.util.concurrent.ScheduledFuture;
+
+import gearth.protocol.HMessage;
 
 import scanner.game.console.commands.convert.ConvertConsoleCommand;
 import scanner.game.console.commands.follow.FollowConsoleCommand;
-import gearth.protocol.HMessage;
 
-import scanner.game.console.ConsoleCommand;
+import scanner.game.console.IConsoleCommand;
 import scanner.game.console.commands.*;
 import scanner.game.console.commands.start.StartConsoleCommand;
 
 import scanner.HabboScanner;
 
 public class ConsoleHandlers {
-    private final Map<String, ConsoleCommand> commands = new HashMap<>();
+    private final Map<String, IConsoleCommand> commands = new HashMap<>();
 
     private int userId;
 
@@ -39,14 +41,14 @@ public class ConsoleHandlers {
         userId = message.getPacket().readInteger();
         String messageText = message.getPacket().readString();
 
-        for (Map.Entry<String, ConsoleCommand> entry : commands.entrySet()) {
+        for (Map.Entry<String, IConsoleCommand> entry : commands.entrySet()) {
             if (!messageText.startsWith(entry.getKey())) continue;
 
             entry.getValue().execute(message, messageText, userId);
         }
     }
 
-    public Map<String, ConsoleCommand> getCommands() {
+    public Map<String, IConsoleCommand> getCommands() {
         return commands;
     }
 

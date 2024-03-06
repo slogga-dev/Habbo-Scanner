@@ -1,6 +1,7 @@
 package scanner.game.console.commands;
 
-import scanner.game.console.ConsoleCommand;
+import org.apache.commons.lang3.NotImplementedException;
+import scanner.game.console.IConsoleCommand;
 import gearth.protocol.HMessage;
 import scanner.HabboScanner;
 
@@ -8,7 +9,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class LogoutConsoleCommand implements ConsoleCommand {
+public class LogoutConsoleCommand implements IConsoleCommand {
     @Override
     public void execute(HMessage message, String messageText, int userId) {
         String noMoreArchivingMessage = HabboScanner.getInstance().getConfigurator().getProperties().get("message")
@@ -25,5 +26,9 @@ public class LogoutConsoleCommand implements ConsoleCommand {
     public String getDescription() {
         return HabboScanner.getInstance().getConfigurator().getProperties().get("command_description")
                 .getProperty("console.logout.command.description");
+    }
+    @Override
+    public void resetForStart() {
+        throw new NotImplementedException();
     }
 }

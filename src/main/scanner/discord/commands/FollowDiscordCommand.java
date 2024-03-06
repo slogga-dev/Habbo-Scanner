@@ -87,7 +87,7 @@ public class FollowDiscordCommand implements DiscordCommand {
 
             switch (roomAccessMode) {
                 case OPEN: {
-                    followConsoleCommand.setIsFollowingFriend(true);
+                    followConsoleCommand.setFollowing(true);
 
                     FollowingActionMode actionMode = followConsoleCommand.getActionModes().get(followingAction);
 
@@ -97,6 +97,7 @@ public class FollowDiscordCommand implements DiscordCommand {
                 }
 
                 case LOCKED: {
+
                     String closedRoomAccessMessage = HabboScanner.getInstance().getConfigurator()
                             .getProperties().get("message").getProperty("closed.room.access.message");
 
@@ -106,6 +107,7 @@ public class FollowDiscordCommand implements DiscordCommand {
                 }
 
                 case UNKNOWN: {
+
                     String noRoomAccessMessage = HabboScanner.getInstance()
                             .getConfigurator()
                             .getProperties()

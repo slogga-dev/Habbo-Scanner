@@ -2,7 +2,6 @@ package scanner;
 
 import java.io.*;
 
-import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 
 import java.util.*;
@@ -14,7 +13,7 @@ import org.slf4j.*;
 
 import scanner.discord.DiscordBot;
 
-import scanner.game.console.ConsoleCommand;
+import scanner.game.console.IConsoleCommand;
 import scanner.game.console.commands.EnergySavingConsoleCommand;
 import scanner.game.console.commands.start.StartConsoleCommand;
 
@@ -270,7 +269,7 @@ public class HabboScanner extends Extension {
     }
 
     private void onClientOptimization(HMessage message) {
-        Map<String, ConsoleCommand> commands = configurator.getConsoleHandlers().getCommands();
+        Map<String, IConsoleCommand> commands = configurator.getConsoleHandlers().getCommands();
 
         EnergySavingConsoleCommand energySavingConsoleCommand = (EnergySavingConsoleCommand) commands.get(":energy_saving");
         boolean energySavingMode = energySavingConsoleCommand.getEnergySavingMode();

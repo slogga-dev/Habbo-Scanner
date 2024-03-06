@@ -1,12 +1,13 @@
 package scanner.game.console.commands;
 
-import scanner.game.console.ConsoleCommand;
+import org.apache.commons.lang3.NotImplementedException;
+import scanner.game.console.IConsoleCommand;
 import gearth.protocol.HMessage;
 import scanner.HabboScanner;
 
 import java.util.Properties;
 
-public class EnergySavingConsoleCommand implements ConsoleCommand {
+public class EnergySavingConsoleCommand implements IConsoleCommand {
     private boolean energySavingMode;
 
     @Override
@@ -30,7 +31,10 @@ public class EnergySavingConsoleCommand implements ConsoleCommand {
         return HabboScanner.getInstance().getConfigurator().getProperties().get("command_description")
                 .getProperty("console.energy_saving.command.description");
     }
-
+    @Override
+    public void resetForStart() {
+        throw new NotImplementedException();
+    }
     public boolean getEnergySavingMode() {
         return energySavingMode;
     }

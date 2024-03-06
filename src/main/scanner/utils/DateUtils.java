@@ -14,6 +14,8 @@ import scanner.models.ItemTimeline;
 
 public class DateUtils {
     public static Date getLinearInterpolatedDate(Triple<Integer, ItemTimeline, ItemTimeline> closestEntries) {
+        if(closestEntries == null)
+            return null;
         int id = closestEntries.getLeft();
 
         int lowestID = closestEntries.getMiddle().getId();

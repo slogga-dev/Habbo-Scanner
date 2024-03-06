@@ -10,8 +10,9 @@ import scanner.database.Database;
 import scanner.models.ItemTimeline;
 
 public class ItemsTimelineDAO {
-    public static Triple<Integer, ItemTimeline, ItemTimeline> selectClosestEntries(String type, int searchableID)
+    public static Triple<Integer, ItemTimeline, ItemTimeline> selectClosestEntries(String type, Integer searchableID)
             throws SQLException, IOException {
+
         String query = "SELECT * from items_timeline WHERE type = ? AND id IN "
                 + "((SELECT MAX(id) FROM items_timeline WHERE type = ? AND id < ?), "
                 + "(SELECT MIN(id) FROM items_timeline WHERE type = ? AND id >= ?))";

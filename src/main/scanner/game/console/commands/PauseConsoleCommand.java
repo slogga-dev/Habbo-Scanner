@@ -1,11 +1,12 @@
 package scanner.game.console.commands;
 
-import scanner.game.console.ConsoleCommand;
+import org.apache.commons.lang3.NotImplementedException;
+import scanner.game.console.IConsoleCommand;
 import scanner.game.console.commands.start.StartConsoleCommand;
 import gearth.protocol.HMessage;
 import scanner.HabboScanner;
 
-public class PauseConsoleCommand implements ConsoleCommand {
+public class PauseConsoleCommand implements IConsoleCommand {
     @Override
     public void execute(HMessage message, String messageText, int userId) {
         String relaxMomentMessage = HabboScanner.getInstance().getConfigurator().getProperties().get("message")
@@ -25,5 +26,9 @@ public class PauseConsoleCommand implements ConsoleCommand {
     public String getDescription() {
         return HabboScanner.getInstance().getConfigurator().getProperties().get("command_description")
                 .getProperty("console.pause.command.description");
+    }
+    @Override
+    public void resetForStart() {
+        throw new NotImplementedException();
     }
 }

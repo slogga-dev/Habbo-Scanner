@@ -2,10 +2,8 @@ package scanner.game.console;
 
 import gearth.protocol.HMessage;
 
-import java.sql.SQLException;
-
-public interface ConsoleCommand {
+public interface IConsoleCommand {
     void execute(HMessage message, String messageText, int userId);
-
+    void resetForStart();
     String getDescription();
 }

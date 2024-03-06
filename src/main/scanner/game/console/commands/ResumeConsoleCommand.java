@@ -2,12 +2,13 @@ package scanner.game.console.commands;
 
 import gearth.protocol.HMessage;
 
-import scanner.game.console.ConsoleCommand;
+import org.apache.commons.lang3.NotImplementedException;
+import scanner.game.console.IConsoleCommand;
 import scanner.game.console.commands.start.StartConsoleCommand;
 
 import scanner.HabboScanner;
 
-public class ResumeConsoleCommand implements ConsoleCommand {
+public class ResumeConsoleCommand implements IConsoleCommand {
     @Override
     public void execute(HMessage message, String messageText, int userId) {
         message.setBlocked(true);
@@ -23,5 +24,9 @@ public class ResumeConsoleCommand implements ConsoleCommand {
     public String getDescription() {
         return HabboScanner.getInstance().getConfigurator().getProperties().get("command_description")
                 .getProperty("console.resume.command.description");
+    }
+    @Override
+    public void resetForStart() {
+        throw new NotImplementedException();
     }
 }

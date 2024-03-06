@@ -5,14 +5,15 @@ import java.util.concurrent.*;
 
 import gearth.protocol.HMessage;
 
-import scanner.game.console.ConsoleCommand;
+import org.apache.commons.lang3.NotImplementedException;
+import scanner.game.console.IConsoleCommand;
 
 import scanner.game.console.commands.start.StartConsoleCommand;
 import scanner.game.console.commands.start.modes.StartBotInActiveRoomsMode;
 
 import scanner.HabboScanner;
 
-public class InfoConsoleCommand implements ConsoleCommand {
+public class InfoConsoleCommand implements IConsoleCommand {
     private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     @Override
@@ -26,7 +27,7 @@ public class InfoConsoleCommand implements ConsoleCommand {
                         .getProperties()
                         .get("bot").getProperty("room_furni_active.enabled"));
 
-        Map<String, ConsoleCommand> commands = HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getCommands();
+        Map<String, IConsoleCommand> commands = HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getCommands();
 
         EnergySavingConsoleCommand energySavingConsoleCommand = (EnergySavingConsoleCommand) commands.get(":energy_saving");
         boolean energySavingMode = energySavingConsoleCommand.getEnergySavingMode();
@@ -62,5 +63,9 @@ public class InfoConsoleCommand implements ConsoleCommand {
 
             HabboScanner.getInstance().sendPrivateMessage(userId, message);
         }, delay, TimeUnit.MILLISECONDS);
+    }
+    @Override
+    public void resetForStart() {
+        throw new NotImplementedException();
     }
 }

@@ -8,6 +8,7 @@ import java.sql.*;
 import java.util.Arrays;
 import java.util.concurrent.*;
 
+import lombok.Data;
 import org.apache.commons.lang3.tuple.Triple;
 
 import gearth.extensions.parsers.*;
@@ -28,7 +29,7 @@ import scanner.models.*;
 import scanner.models.furnitype.FurnitypeEnum;
 
 import scanner.utils.DateUtils;
-
+@Data
 public class ItemProcessingHandlers {
     private final FurniTracker furniTracker = new FurniTracker();
 
@@ -38,32 +39,27 @@ public class ItemProcessingHandlers {
     public void onFloorItems(HMessage message) {
         HFloorItem[] items = HFloorItem.parse(message.getPacket());
         FurnitypeEnum type = FurnitypeEnum.FLOOR;
-
         RoomInfoHandlers roomInfoHandlers = HabboScanner.getInstance().getConfigurator().getRoomInfoHandlers();
 
         ItemProcessor itemProcessor = roomInfoHandlers.getItemProcessor();
         int roomId = roomInfoHandlers.getRoomId();
-
         Arrays.stream(items).forEach(item -> itemProcessor.processFloorItem(item, type, roomId));
 
-        Triple<Integer, ItemTimeline, ItemTimeline> closestEntries;
+        Triple<Integer, ItemTimeline, ItemTimeline> closestEntries = null;
 
         Furni oldestFurni = itemProcessor.getOldestFurni();
 
-        try {
-            closestEntries = ItemsTimelineDAO
-                    .selectClosestEntries(type.getType(), oldestFurni.getId());
+        settingClosestEntries:try {
+            // if the id passed is null it just get outside this method since there are no items in the room
+            if (oldestFurni.getId() == null)
+                break settingClosestEntries;
+            closestEntries = ItemsTimelineDAO.selectClosestEntries(type.getType(), oldestFurni.getId());
         } catch (SQLException | IOException exception) {
             throw new RuntimeException(exception);
         }
 
         Date estimatedDate = DateUtils.getLinearInterpolatedDate(closestEntries);
-
         if (estimatedDate == null) return;
-
-        ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-
-        scheduledExecutorService.schedule(() -> furniTracker.manageFurniTracking(estimatedDate), 2, TimeUnit.SECONDS);
     }
 
     public void onWallItems(HMessage message) {

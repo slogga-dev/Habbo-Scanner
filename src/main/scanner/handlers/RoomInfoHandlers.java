@@ -3,7 +3,11 @@ package scanner.handlers;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
+import lombok.Data;
 import org.slf4j.*;
 
 import gearth.protocol.*;
@@ -14,6 +18,7 @@ import scanner.database.dao.RoomsDAO;
 
 import scanner.game.console.commands.start.StartConsoleCommand;
 
+import scanner.game.furni.FurniTracker;
 import scanner.models.RoomAccessMode;
 
 import scanner.database.dao.data.*;
@@ -21,7 +26,7 @@ import scanner.database.dao.data.*;
 import scanner.game.ItemProcessor;
 
 import scanner.HabboScanner;
-
+@Data
 public class RoomInfoHandlers {
     private static final Logger logger = LoggerFactory.getLogger(RoomInfoHandlers.class);
 
@@ -40,7 +45,14 @@ public class RoomInfoHandlers {
 
         packet.setReadIndex(15);
 
+        roomId = packet.readInteger();
+
+        this.itemProcessor = new ItemProcessor();
+        manageFurniTracking();
+        lastRoomAccess = System.currentTimeMillis();
+
         DiscordBot discordBot = HabboScanner.getInstance().getDiscordBot();
+
         boolean criticalAirCrashWarning = HabboScanner.getInstance().getCriticalAirCrashWarning();
 
         StartConsoleCommand startConsoleCommand = (StartConsoleCommand) HabboScanner.getInstance()
@@ -55,12 +67,6 @@ public class RoomInfoHandlers {
 
             HabboScanner.getInstance().setCriticalAirCrashWarning(false);
         }
-
-        roomId = packet.readInteger();
-
-        itemProcessor = new ItemProcessor();
-
-        lastRoomAccess = System.currentTimeMillis();
 
         boolean isRoomFurniActiveEnabled = Boolean.parseBoolean(HabboScanner.getInstance()
                 .getConfigurator()
@@ -127,24 +133,8 @@ public class RoomInfoHandlers {
     public void refreshLastRoomAccess() {
         this.lastRoomAccess = System.currentTimeMillis();
     }
-
-    public int getRoomId() {
-        return roomId;
-    }
-
-    public long getLastRoomAccess() {
-        return lastRoomAccess;
-    }
-
-    public ItemProcessor getItemProcessor() {
-        return itemProcessor;
-    }
-
-    public String getCurrentOwnerName() {
-        return currentOwnerName;
-    }
-
-    public RoomAccessMode getRoomAccessMode() {
-        return roomAccessMode;
+    private void manageFurniTracking(){
+        FurniTracker furniTracker = HabboScanner.getInstance().getConfigurator().getItemProcessingHandlers().getFurniTracker();
+        furniTracker.manageFurniTracking(null);
     }
 }

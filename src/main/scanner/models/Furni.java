@@ -5,23 +5,23 @@ import scanner.models.furnitype.FurnitypeEnum;
 import java.sql.Timestamp;
 
 public class Furni {
-    private int id;
+    private Integer id;
 
     private String classname;
 
     private String name;
 
-    private final String owner;
+    private String owner;
 
-    private final FurnitypeEnum type;
+    private  FurnitypeEnum type;
 
-    private final int roomID;
+    private int roomID;
 
-    private final String extraData;
+    private String extraData;
 
-    private final Timestamp timestamp;
+    private Timestamp timestamp;
 
-    public Furni(int id, String classname, String name, String owner,
+    public Furni(Integer id, String classname, String name, String owner,
                  FurnitypeEnum type, int roomID, String extradata, Timestamp timestamp) {
         this.id = id;
         this.classname = classname;
@@ -32,11 +32,11 @@ public class Furni {
         this.extraData = extradata;
         this.timestamp = timestamp;
     }
+    public Furni(){}
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
-
     public String getClassname() {
         return classname;
     }

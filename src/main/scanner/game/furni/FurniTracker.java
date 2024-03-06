@@ -26,16 +26,18 @@ public class FurniTracker {
         FollowConsoleCommand followConsoleCommand = (FollowConsoleCommand) HabboScanner.getInstance()
                 .getConfigurator().getConsoleHandlers().getCommands().get(":follow");
 
-        boolean isFollowingFriend = followConsoleCommand.getIsFollowingFriend();
+        boolean isFollowing = followConsoleCommand.isFollowing();
 
-        if (!isFollowingFriend) {
+        ItemProcessor itemProcessor = HabboScanner.getInstance().getConfigurator().getRoomInfoHandlers().getItemProcessor();
+        Furni oldestFurni = itemProcessor.getOldestFurni();
+
+        // is following the friend that called him via :follow command
+        // also the ItemProcessor never cycled the onFloorItems method so the oldestFurni attribute is just instanced with the id null
+        if (isFollowing && oldestFurni.getId() == null) {
             sendEmptyRoomMessage();
 
             return;
         }
-
-        ItemProcessor itemProcessor = HabboScanner.getInstance().getConfigurator().getRoomInfoHandlers().getItemProcessor();
-        Furni oldestFurni = itemProcessor.getOldestFurni();
 
         String name = oldestFurni.getName();
         String classname = oldestFurni.getClassname();
@@ -60,9 +62,9 @@ public class FurniTracker {
         scheduledExecutorService.schedule(() -> HabboScanner.getInstance()
                 .sendPrivateMessage(consoleUserId, finalMessage), 1, TimeUnit.SECONDS);
 
-        processTransactionsAndTerminate();
+        if (!isFollowing) return;
 
-        followConsoleCommand.setIsFollowingFriend(false);
+        processTransactionsAndTerminate();
     }
 
     private void sendEmptyRoomMessage() {

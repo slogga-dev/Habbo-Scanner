@@ -4,19 +4,20 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.NotImplementedException;
 import scanner.game.console.commands.EnergySavingConsoleCommand;
 import gearth.protocol.*;
 
-import scanner.game.console.ConsoleCommand;
+import scanner.game.console.IConsoleCommand;
 
 import scanner.game.console.commands.start.modes.*;
 
 import scanner.HabboScanner;
 
-public class StartConsoleCommand implements ConsoleCommand {
+public class StartConsoleCommand implements IConsoleCommand {
     private final Map<String, StartMode> startModes = new HashMap<>();
 
-    private boolean isBotRunning = false;
+    private boolean isBotRunning;
 
     public StartConsoleCommand() {
         startModes.put("bot.per.id", new StartBotPerIdMode());
@@ -25,10 +26,11 @@ public class StartConsoleCommand implements ConsoleCommand {
         startModes.put("bot.in.active.rooms", new StartBotInActiveRoomsMode());
     }
 
+
     @Override
     public void execute(HMessage message, String messageText, int userId) {
         message.setBlocked(true);
-
+        resetPreviousCommands();
         if (isBotRunning) return;
 
         isBotRunning = true;
@@ -69,6 +71,11 @@ public class StartConsoleCommand implements ConsoleCommand {
     }
 
     @Override
+    public void resetForStart() {
+        throw new NotImplementedException();
+    }
+
+    @Override
     public String getDescription() {
         return HabboScanner.getInstance().getConfigurator().getProperties().get("command_description")
                 .getProperty("console.start.command.description");
@@ -84,5 +91,13 @@ public class StartConsoleCommand implements ConsoleCommand {
 
     public void setIsBotRunning(boolean isBotRunning) {
         this.isBotRunning = isBotRunning;
+    }
+    // is called plural in case is necessary to reset other commands (for now is only necessary for follow )
+    private void resetPreviousCommands(){
+        IConsoleCommand command = HabboScanner.getInstance()
+                .getConfigurator()
+                .getConsoleHandlers().getCommands().get(":follow");
+        if (command != null)
+            command.resetForStart();
     }
 }

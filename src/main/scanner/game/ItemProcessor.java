@@ -23,10 +23,9 @@ public class ItemProcessor {
 
     private String rarestFurniName;
 
-    public ItemProcessor() {
+    public ItemProcessor(){
         highestSeenPieces = Integer.MAX_VALUE;
-        oldestFurni = new Furni(Integer.MAX_VALUE, null, null,
-                null, null, -1, null, null);
+        oldestFurni = new Furni();
     }
 
     public void processFloorItem(HFloorItem item, FurnitypeEnum type, int roomId) {
@@ -47,13 +46,14 @@ public class ItemProcessor {
             rarestFurniName = furnitype.getName();
         }
 
-        if (item.getId() < oldestFurni.getId()) {
+        if (oldestFurni.getId() == null || item.getId() < oldestFurni.getId()) {
             oldestFurni.setId(item.getId());
             oldestFurni.setClassname(furnitype.getClassname());
             oldestFurni.setName(furnitype.getName() != null ?
                     furnitype.getName() : (Objects.equals(oldestFurni.getClassname(),
                     "poster") ? "Poster" : ""));
         }
+
 
         Object[] rawExtradata = item.getStuff();
         String extradata = Arrays.stream(rawExtradata)
