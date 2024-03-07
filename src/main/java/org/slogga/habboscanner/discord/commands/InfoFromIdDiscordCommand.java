@@ -13,7 +13,7 @@ import org.apache.commons.lang3.tuple.Triple;
 
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
-import org.slogga.habboscanner.discord.DiscordCommand;
+import org.slogga.habboscanner.discord.IDiscordCommand;
 
 import org.slogga.habboscanner.HabboScanner;
 
@@ -24,7 +24,7 @@ import org.slogga.habboscanner.models.furnitype.FurnitypeEnum;
 
 import org.slogga.habboscanner.utils.DateUtils;
 
-public class InfoFromIdDiscordCommand implements DiscordCommand {
+public class InfoFromIdDiscordCommand implements IDiscordCommand {
     @Override
     public void execute(SlashCommandInteractionEvent event) {
         int id = Objects.requireNonNull(event.getOption("id")).getAsInt();

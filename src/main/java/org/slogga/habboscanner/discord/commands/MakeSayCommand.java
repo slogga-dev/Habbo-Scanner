@@ -4,13 +4,13 @@ import org.slogga.habboscanner.discord.DiscordBot;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 
-import org.slogga.habboscanner.discord.DiscordCommand;
+import org.slogga.habboscanner.discord.IDiscordCommand;
 
 import org.slogga.habboscanner.HabboScanner;
 
 import java.util.Properties;
 
-public class MakeSayCommand implements DiscordCommand {
+public class MakeSayCommand implements IDiscordCommand {
     @Override
     public void execute(SlashCommandInteractionEvent event) {
         OptionMapping textOption = event.getOption("text");

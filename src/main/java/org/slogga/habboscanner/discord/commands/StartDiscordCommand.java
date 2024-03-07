@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
-import org.slogga.habboscanner.discord.DiscordCommand;
+import org.slogga.habboscanner.discord.IDiscordCommand;
 
 import org.slogga.habboscanner.logic.game.console.commands.start.*;
 
@@ -14,7 +14,7 @@ import org.slogga.habboscanner.discord.DiscordBot;
 
 import org.slogga.habboscanner.HabboScanner;
 
-public class StartDiscordCommand implements DiscordCommand {
+public class StartDiscordCommand implements IDiscordCommand {
     @Override
     public void execute(SlashCommandInteractionEvent event) {
         StartConsoleCommand startConsoleCommand = (StartConsoleCommand) HabboScanner.getInstance()

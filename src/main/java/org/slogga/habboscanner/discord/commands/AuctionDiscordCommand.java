@@ -12,7 +12,7 @@ import org.apache.commons.lang3.tuple.Triple;
 
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
-import org.slogga.habboscanner.discord.DiscordCommand;
+import org.slogga.habboscanner.discord.IDiscordCommand;
 
 import org.slogga.habboscanner.handlers.ItemProcessingHandlers;
 
@@ -25,7 +25,7 @@ import org.slogga.habboscanner.utils.DateUtils;
 
 import org.slogga.habboscanner.dao.mysql.items.ItemsTimelineDAO;
 
-public class AuctionDiscordCommand implements DiscordCommand {
+public class AuctionDiscordCommand implements IDiscordCommand {
     @Override
     public void execute(SlashCommandInteractionEvent event) {
         ItemProcessingHandlers itemProcessingHandlers = HabboScanner.getInstance().getConfigurator().getItemProcessingHandlers();

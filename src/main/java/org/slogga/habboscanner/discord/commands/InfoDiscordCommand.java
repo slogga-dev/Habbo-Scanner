@@ -4,7 +4,7 @@ import java.util.Map;
 
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
-import org.slogga.habboscanner.discord.DiscordCommand;
+import org.slogga.habboscanner.discord.IDiscordCommand;
 
 import org.slogga.habboscanner.HabboScanner;
 
@@ -13,7 +13,7 @@ import org.slogga.habboscanner.logic.game.console.commands.EnergySavingConsoleCo
 import org.slogga.habboscanner.logic.game.console.commands.start.StartConsoleCommand;
 import org.slogga.habboscanner.logic.game.console.commands.start.modes.StartBotInActiveRoomsMode;
 
-public class InfoDiscordCommand implements DiscordCommand {
+public class InfoDiscordCommand implements IDiscordCommand {
     @Override
     public void execute(SlashCommandInteractionEvent event) {
         boolean isRoomFurniActiveEnabled = Boolean.parseBoolean(HabboScanner.getInstance()

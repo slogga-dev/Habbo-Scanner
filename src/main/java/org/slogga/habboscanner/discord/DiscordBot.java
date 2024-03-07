@@ -19,7 +19,7 @@ import org.slogga.habboscanner.HabboScanner;
 public class DiscordBot extends ListenerAdapter {
     private JDA discordAPI;
 
-    private final Map<String, DiscordCommand> commands = new HashMap<>();
+    private final Map<String, IDiscordCommand> commands = new HashMap<>();
 
     private Set<String> authorizedUserIds = new HashSet<>();
 
@@ -32,7 +32,7 @@ public class DiscordBot extends ListenerAdapter {
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
         String commandName = event.getName();
-        DiscordCommand command = commands.get(commandName);
+        IDiscordCommand command = commands.get(commandName);
 
         Properties messageProperties = HabboScanner.getInstance()
                 .getConfigurator()

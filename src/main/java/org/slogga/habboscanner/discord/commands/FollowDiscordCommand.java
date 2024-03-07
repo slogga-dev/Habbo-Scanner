@@ -8,7 +8,7 @@ import java.util.concurrent.*;
 import org.slogga.habboscanner.discord.DiscordBot;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
-import org.slogga.habboscanner.discord.DiscordCommand;
+import org.slogga.habboscanner.discord.IDiscordCommand;
 
 import org.slogga.habboscanner.logic.game.console.commands.follow.*;
 import org.slogga.habboscanner.logic.game.console.commands.start.StartConsoleCommand;
@@ -19,7 +19,7 @@ import org.slogga.habboscanner.models.*;
 
 import org.slogga.habboscanner.HabboScanner;
 
-public class FollowDiscordCommand implements DiscordCommand {
+public class FollowDiscordCommand implements IDiscordCommand {
     @Override
     public void execute(SlashCommandInteractionEvent event) {
         String mode = Objects.requireNonNull(event.getOption("mode")).getAsString();

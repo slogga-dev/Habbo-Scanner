@@ -9,11 +9,11 @@ import org.slogga.habboscanner.logic.game.console.commands.convert.*;
 
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
-import org.slogga.habboscanner.discord.DiscordCommand;
+import org.slogga.habboscanner.discord.IDiscordCommand;
 
 import org.slogga.habboscanner.HabboScanner;
 
-public class ConvertDiscordCommand implements DiscordCommand {
+public class ConvertDiscordCommand implements IDiscordCommand {
     @Override
     public void execute(SlashCommandInteractionEvent event) {
         String file = Objects.requireNonNull(event.getOption("file")).getAsString();

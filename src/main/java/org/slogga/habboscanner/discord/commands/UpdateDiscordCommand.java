@@ -5,13 +5,13 @@ import java.sql.SQLException;
 
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
-import org.slogga.habboscanner.discord.DiscordCommand;
+import org.slogga.habboscanner.discord.IDiscordCommand;
 
 import org.slogga.habboscanner.dao.mysql.items.ItemsDAO;
 
 import org.slogga.habboscanner.HabboScanner;
 
-public class UpdateDiscordCommand implements DiscordCommand {
+public class UpdateDiscordCommand implements IDiscordCommand {
     @Override
     public void execute(SlashCommandInteractionEvent event) {
         HabboScanner.getInstance().getConfigurator().loadProperty("bot");

@@ -2,13 +2,13 @@ package org.slogga.habboscanner.discord.commands;
 
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
-import org.slogga.habboscanner.discord.DiscordCommand;
+import org.slogga.habboscanner.discord.IDiscordCommand;
 
 import org.slogga.habboscanner.logic.game.console.commands.EnergySavingConsoleCommand;
 
 import org.slogga.habboscanner.HabboScanner;
 
-public class EnergySavingDiscordCommand implements DiscordCommand {
+public class EnergySavingDiscordCommand implements IDiscordCommand {
     @Override
     public void execute(SlashCommandInteractionEvent event) {
         EnergySavingConsoleCommand energySavingConsoleCommand = (EnergySavingConsoleCommand)
