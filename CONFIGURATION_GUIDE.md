@@ -17,15 +17,15 @@ All configuration files are located in the `src/main/resources` directory. Here 
 
 - `bot.properties`: Configures the bot's behavior.
 - `command_description.properties`: Defines the commands that the bot can execute.
-- `scanner.discord.properties`: Configures the Discord integration.
+- `discord.properties`: Configures the Discord integration.
 - `log4j.properties`: Configures the logging behavior.
 - `message.properties`: Defines the messages that the bot can send.
-- `mysql.properties`: Configures the MySQL scanner.database connection.
+- `mysql.properties`: Configures the MySQL dao connection.
 
 ## Setting Up ⚙️
 
-1. Navigate in the `database_structure` folder and import every sql file to your scanner.database.
-2. Populate the `items_timeline` and `items.sql` tables in your MySQL scanner.database. 
+1. Navigate in the `database_structure` folder and import every sql file to your dao.
+2. Populate the `items_timeline` and `items.sql` tables in your MySQL dao. 
 
    - The `items_timeline` table is mandatory for dating furni with the timeline. It has the following structure:
      - `date`: The date associated with the furni.
@@ -42,8 +42,8 @@ All configuration files are located in the `src/main/resources` directory. Here 
      
      Ideally, you should periodically update the data in this table.
 
-3. Ensure that the MySQL settings in the `mysql.properties` file are correctly set to connect to your scanner.database.
+3. Ensure that the MySQL settings in the `mysql.properties` file are correctly set to connect to your dao.
 4. Compile the Habbo Scanner extension as a .jar file and install it within your G-Earth.
 5. Configure the `bot.properties` file according to your needs. Follow the comments in the file for guidance.
 
-Now, you’re all set! You have successfully configured the Habbo Scanner bot. Enjoy exploring the comprehensive scanner.database of Habbo data! 🎉
+Now, you’re all set! You have successfully configured the Habbo Scanner bot. Enjoy exploring the comprehensive dao of Habbo data! 🎉
