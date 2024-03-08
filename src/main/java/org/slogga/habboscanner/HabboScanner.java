@@ -13,6 +13,7 @@ import org.slf4j.*;
 
 import org.slogga.habboscanner.discord.DiscordBot;
 
+import org.slogga.habboscanner.logic.DefaultValues;
 import org.slogga.habboscanner.logic.game.console.IConsoleCommand;
 import org.slogga.habboscanner.logic.game.console.commands.EnergySavingConsoleCommand;
 import org.slogga.habboscanner.logic.game.console.commands.start.StartConsoleCommand;
@@ -187,10 +188,7 @@ public class HabboScanner extends Extension {
                 .get("bot")
                 .getProperty("hotel.domain");
 
-        List<String> validDomains = Arrays.asList("s2", "it", "fi", "es", "de",
-                "com.br", "com.tr", "com", "fr", "nl");
-
-        if (!validDomains.contains(hotelDomain)) {
+        if (!DefaultValues.getInstance().getValidDomains().contains(hotelDomain)) {
             logger.error("The hotel domain is incorrect.");
 
             System.exit(0);

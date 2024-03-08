@@ -6,8 +6,8 @@ import java.util.*;
 
 import lombok.Data;
 
-import org.slogga.habboscanner.logic.IConfigurator;
 import org.slogga.habboscanner.handlers.*;
+import org.slogga.habboscanner.logic.DefaultValues;
 
 @Data
 public class HabboScannerConfigurator implements IConfigurator {
