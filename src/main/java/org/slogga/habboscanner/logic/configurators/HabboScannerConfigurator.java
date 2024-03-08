@@ -35,7 +35,7 @@ public class HabboScannerConfigurator implements IConfigurator {
         this.userHandlers = new UserHandlers();
         this.errorHandlers = new ErrorHandlers();
     }
-
+    @Override
     public void setupConfig() {
         properties = new HashMap<>();
         DefaultValues.getInstance().getPropertyNames().forEach(this::loadProperty);

@@ -9,11 +9,13 @@ import java.util.concurrent.*;
 
 import com.google.gson.Gson;
 
+import lombok.Data;
 import org.slf4j.*;
 
 import org.slogga.habboscanner.discord.DiscordBot;
 
 import org.slogga.habboscanner.logic.DefaultValues;
+import org.slogga.habboscanner.logic.configurators.FurnidataConfigurator;
 import org.slogga.habboscanner.logic.game.console.IConsoleCommand;
 import org.slogga.habboscanner.logic.game.console.commands.EnergySavingConsoleCommand;
 import org.slogga.habboscanner.logic.game.console.commands.start.StartConsoleCommand;
@@ -36,8 +38,8 @@ import org.slogga.habboscanner.logic.configurators.HabboScannerConfigurator;
 )
 public class HabboScanner extends Extension {
     private static HabboScanner instance;
-    private static final Logger logger = LoggerFactory.getLogger(HabboScanner.class);
     private HabboScannerConfigurator configurator;
+    private FurnidataConfigurator furnidataConfigurator;
     private Map<String, Map<String, String>> items;
     private DiscordBot discordBot;
     private boolean criticalAirCrashWarning;
@@ -124,6 +126,9 @@ public class HabboScanner extends Extension {
     public HabboScannerConfigurator getConfigurator() {
         return configurator;
     }
+    public FurnidataConfigurator getFurnidataConfigurator() {
+        return furnidataConfigurator;
+    }
 
     public void setItems(Map<String, Map<String, String>> items) {
         this.items = items;
@@ -136,15 +141,7 @@ public class HabboScanner extends Extension {
     @Override
     protected void initExtension() {
         configurator = new HabboScannerConfigurator();
-        configurator.setupConfig();
-
-        try {
-            fetchFurnidata();
-
-            items = ItemsDAO.fetchItems();
-        } catch (IOException | InterruptedException | SQLException exception) {
-            throw new RuntimeException(exception);
-        }
+        furnidataConfigurator = new FurnidataConfigurator();
 
         boolean isDiscordBotEnabled = Boolean.parseBoolean(configurator.getProperties().get("discord").getProperty("discord.bot.enabled"));
         boolean isBotEnabled = Boolean.parseBoolean(configurator.getProperties().get("bot").getProperty("bot.enabled"));
@@ -176,31 +173,6 @@ public class HabboScanner extends Extension {
         ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 
         scheduledExecutorService.schedule(() -> System.exit(0), 2, TimeUnit.SECONDS);
-    }
-
-
-
-
-
-    private void fetchFurnidata() throws InterruptedException, IOException {
-        String hotelDomain = configurator
-                .getProperties()
-                .get("bot")
-                .getProperty("hotel.domain");
-
-        if (!DefaultValues.getInstance().getValidDomains().contains(hotelDomain)) {
-            logger.error("The hotel domain is incorrect.");
-
-            System.exit(0);
-        }
-
-        String furnidataURL = getFurnidataURL(hotelDomain);
-        String furnidataJSON = JsonUtils.fetchJSON(furnidataURL);
-
-        Gson gson = new Gson();
-
-        Furnidata furnidata = gson.fromJson(furnidataJSON, Furnidata.class);
-        Furnidata.setInstance(furnidata);
     }
 
     private void scheduleAirCrashCheck() {
