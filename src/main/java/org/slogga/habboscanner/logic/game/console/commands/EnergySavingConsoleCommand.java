@@ -1,12 +1,15 @@
 package org.slogga.habboscanner.logic.game.console.commands;
 
+import lombok.Setter;
 import org.apache.commons.lang3.NotImplementedException;
+import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.console.IConsoleCommand;
 import gearth.protocol.HMessage;
 import org.slogga.habboscanner.HabboScanner;
 
 import java.util.Properties;
 
+@Setter
 public class EnergySavingConsoleCommand implements IConsoleCommand {
     private boolean energySavingMode;
 
@@ -23,7 +26,7 @@ public class EnergySavingConsoleCommand implements IConsoleCommand {
 
         String statusMessage = energySavingMode ? modeEnabledMessage : modeDisabledMessage;
 
-        HabboScanner.getInstance().sendPrivateMessage(userId, statusMessage);
+        HabboActions.sendPrivateMessage(userId, statusMessage);
     }
 
     @Override
@@ -39,7 +42,4 @@ public class EnergySavingConsoleCommand implements IConsoleCommand {
         return energySavingMode;
     }
 
-    public void setEnergySavingMode(boolean energySavingMode) {
-        this.energySavingMode = energySavingMode;
-    }
 }

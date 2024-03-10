@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 
 import org.slogga.habboscanner.discord.IDiscordCommand;
 
+import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.console.commands.follow.*;
 import org.slogga.habboscanner.logic.game.console.commands.start.StartConsoleCommand;
 
@@ -46,7 +47,7 @@ public class FollowDiscordCommand implements IDiscordCommand {
             return;
         }
 
-        startConsoleCommand.setIsBotRunning(false);
+        startConsoleCommand.setBotRunning(false);
 
         FollowConsoleCommand followConsoleCommand = (FollowConsoleCommand) HabboScanner.getInstance()
                 .getConfigurator().getConsoleHandlers().getCommands().get(":follow");
@@ -76,7 +77,7 @@ public class FollowDiscordCommand implements IDiscordCommand {
 
         event.reply(botMessageFollowing).queue();
 
-        HabboScanner.getInstance().followUser(habboUserId);
+        HabboActions.followUser(habboUserId);
         HabboScanner.getInstance().getConfigurator().getConsoleHandlers().setUserId(habboUserId);
 
         ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
@@ -101,7 +102,7 @@ public class FollowDiscordCommand implements IDiscordCommand {
                     String closedRoomAccessMessage = HabboScanner.getInstance().getConfigurator()
                             .getProperties().get("message").getProperty("closed.room.access.message");
 
-                    HabboScanner.getInstance().sendPrivateMessage(habboUserId, closedRoomAccessMessage);
+                    HabboActions.sendPrivateMessage(habboUserId, closedRoomAccessMessage);
 
                     break;
                 }
@@ -114,7 +115,7 @@ public class FollowDiscordCommand implements IDiscordCommand {
                             .get("message")
                             .getProperty("no.room.access.message");
 
-                    HabboScanner.getInstance().sendPrivateMessage(habboUserId, noRoomAccessMessage);
+                    HabboActions.sendPrivateMessage(habboUserId, noRoomAccessMessage);
 
                     break;
                 }

@@ -6,6 +6,7 @@ import java.util.concurrent.*;
 import gearth.protocol.HMessage;
 
 import org.apache.commons.lang3.NotImplementedException;
+import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.console.IConsoleCommand;
 
 import org.slogga.habboscanner.logic.game.console.commands.start.StartConsoleCommand;
@@ -44,8 +45,8 @@ public class InfoConsoleCommand implements IConsoleCommand {
         printStatus(userId, "isBotRunning", isBotRunning, 1000);
         printStatus(userId, "isProcessingActiveRooms", isProcessingActiveRooms, 1500);
 
-        scheduler.schedule(() -> HabboScanner.getInstance()
-                .sendPrivateMessage(userId, "----------------------"), 2500, TimeUnit.MILLISECONDS);
+        scheduler.schedule(() -> HabboActions.sendPrivateMessage(userId, "----------------------"),
+                2500, TimeUnit.MILLISECONDS);
     }
 
     @Override
@@ -61,7 +62,7 @@ public class InfoConsoleCommand implements IConsoleCommand {
         scheduler.schedule(() -> {
             String message = variableName + " " + status;
 
-            HabboScanner.getInstance().sendPrivateMessage(userId, message);
+            HabboActions.sendPrivateMessage(userId, message);
         }, delay, TimeUnit.MILLISECONDS);
     }
     @Override

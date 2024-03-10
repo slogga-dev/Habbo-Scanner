@@ -13,6 +13,7 @@ import org.slogga.habboscanner.discord.DiscordBot;
 
 import org.slogga.habboscanner.dao.mysql.RoomsDAO;
 
+import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.console.commands.start.StartConsoleCommand;
 
 import org.slogga.habboscanner.models.RoomAccessMode;
@@ -49,7 +50,7 @@ public class RoomInfoHandlers {
 
         DiscordBot discordBot = HabboScanner.getInstance().getDiscordBot();
 
-        boolean criticalAirCrashWarning = HabboScanner.getInstance().getCriticalAirCrashWarning();
+        boolean criticalAirCrashWarning = HabboScanner.getInstance().isCriticalAirCrashWarning();
 
         StartConsoleCommand startConsoleCommand = (StartConsoleCommand) HabboScanner.getInstance()
                 .getConfigurator()
@@ -123,11 +124,10 @@ public class RoomInfoHandlers {
 
         if (!isBotRunning & !isBotInActiveRooms) return;
 
-        HabboScanner.getInstance().goToHotelView();
+        HabboActions.goToHotelView();
     }
 
     public void refreshLastRoomAccess() {
         this.lastRoomAccess = System.currentTimeMillis();
     }
-
 }

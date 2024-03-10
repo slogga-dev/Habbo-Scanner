@@ -1,6 +1,7 @@
 package org.slogga.habboscanner.logic.game.console.commands;
 
 import org.apache.commons.lang3.NotImplementedException;
+import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.console.IConsoleCommand;
 import org.slogga.habboscanner.logic.game.console.commands.start.StartConsoleCommand;
 import gearth.protocol.HMessage;
@@ -12,14 +13,14 @@ public class PauseConsoleCommand implements IConsoleCommand {
         String relaxMomentMessage = HabboScanner.getInstance().getConfigurator().getProperties().get("message")
                 .getProperty("relax.moment.message");
 
-        HabboScanner.getInstance().sendPrivateMessage(userId, relaxMomentMessage);
+        HabboActions.sendPrivateMessage(userId, relaxMomentMessage);
 
         message.setBlocked(true);
 
         StartConsoleCommand startConsoleCommand = (StartConsoleCommand) HabboScanner.getInstance()
                 .getConfigurator()
                 .getConsoleHandlers().getCommands().get(":start");
-        startConsoleCommand.setIsBotRunning(false);
+        startConsoleCommand.setBotRunning(false);
     }
 
     @Override

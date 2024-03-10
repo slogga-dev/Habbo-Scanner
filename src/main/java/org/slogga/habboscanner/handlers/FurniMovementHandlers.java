@@ -3,12 +3,14 @@ package org.slogga.habboscanner.handlers;
 import java.io.IOException;
 import java.sql.*;
 
+import lombok.Getter;
 import org.apache.commons.lang3.tuple.Triple;
 
 import gearth.protocol.HMessage;
 
 import org.slogga.habboscanner.dao.mysql.items.ItemsTimelineDAO;
 
+import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.console.commands.follow.FollowConsoleCommand;
 import org.slogga.habboscanner.logic.game.furni.FurniInfoProvider;
 
@@ -20,6 +22,7 @@ import org.slogga.habboscanner.HabboScanner;
 import org.slogga.habboscanner.utils.DateUtils;
 
 public class FurniMovementHandlers {
+    @Getter
     private final FurniInfoProvider furniInfoProvider = new FurniInfoProvider();
 
     private long lastMovedTime = 0;
@@ -68,7 +71,7 @@ public class FurniMovementHandlers {
                     .get("message")
                     .getProperty("furni.date.calculation.error.message");
 
-            HabboScanner.getInstance().sendPrivateMessage(consoleUserId, furniDateCalculationErrorMessage);
+            HabboActions.sendPrivateMessage(consoleUserId, furniDateCalculationErrorMessage);
 
             return;
         }
@@ -83,8 +86,5 @@ public class FurniMovementHandlers {
         furniInfoProvider.provideFurniInfo(id, type, formattedDate, consoleUserId);
     }
 
-    public FurniInfoProvider getFurniInfoProvider() {
-        return furniInfoProvider;
-    }
 }
 

@@ -1,5 +1,6 @@
 package org.slogga.habboscanner.logic.game.console.commands.start.modes;
 
+import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.console.commands.start.StartConsoleCommand;
 import org.slogga.habboscanner.logic.game.console.commands.start.StartMode;
 
@@ -28,7 +29,7 @@ public class StartBotPerRoomIdListMode implements StartMode {
 
             int roomId = Integer.parseInt(roomIds[currentIndex.getAndIncrement()]);
 
-            HabboScanner.getInstance().moveToRoom(roomId);
+            HabboActions.moveToRoom(roomId);
         }, 0, 2, TimeUnit.SECONDS);
     }
 }

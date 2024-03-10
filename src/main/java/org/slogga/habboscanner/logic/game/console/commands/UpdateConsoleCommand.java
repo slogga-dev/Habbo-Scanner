@@ -8,6 +8,7 @@ import gearth.protocol.HMessage;
 import org.apache.commons.lang3.NotImplementedException;
 import org.slogga.habboscanner.dao.mysql.items.ItemsDAO;
 
+import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.console.IConsoleCommand;
 
 import org.slogga.habboscanner.HabboScanner;
@@ -18,7 +19,7 @@ public class UpdateConsoleCommand implements IConsoleCommand {
         HabboScanner.getInstance().getConfigurator().getProperties().get("bot");
 
         try {
-            HabboScanner.getInstance().setItems(ItemsDAO.fetchItems());
+            HabboScanner.getInstance().getFurnidataConfigurator().setItems(ItemsDAO.fetchItems());
         } catch (SQLException | IOException exception) {
             throw new RuntimeException(exception);
         }
@@ -26,7 +27,7 @@ public class UpdateConsoleCommand implements IConsoleCommand {
         String updateInformationMessage = HabboScanner.getInstance().getConfigurator().getProperties().get("message")
                 .getProperty("update.completed.message");
 
-        HabboScanner.getInstance().sendPrivateMessage(userId, updateInformationMessage);
+        HabboActions.sendPrivateMessage(userId, updateInformationMessage);
 
         message.setBlocked(true);
     }

@@ -4,6 +4,8 @@ import java.util.*;
 
 import gearth.protocol.HMessage;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.slogga.habboscanner.logic.game.ItemProcessor;
 import org.slogga.habboscanner.logic.game.console.commands.convert.ConvertConsoleCommand;
 import org.slogga.habboscanner.logic.game.console.commands.follow.FollowConsoleCommand;
@@ -14,9 +16,11 @@ import org.slogga.habboscanner.logic.game.console.commands.start.StartConsoleCom
 
 import org.slogga.habboscanner.HabboScanner;
 
+@Getter
 public class ConsoleHandlers {
     private final Map<String, IConsoleCommand> commands = new HashMap<>();
 
+    @Setter
     private int userId;
 
     public ConsoleHandlers() {
@@ -47,17 +51,5 @@ public class ConsoleHandlers {
             HabboScanner.getInstance().getConfigurator().getRoomInfoHandlers().setItemProcessor(new ItemProcessor());
             entry.getValue().execute(message, messageText, userId);
         }
-    }
-
-    public Map<String, IConsoleCommand> getCommands() {
-        return commands;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
     }
 }

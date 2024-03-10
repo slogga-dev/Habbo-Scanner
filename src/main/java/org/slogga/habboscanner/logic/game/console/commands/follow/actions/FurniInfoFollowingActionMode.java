@@ -1,5 +1,6 @@
 package org.slogga.habboscanner.logic.game.console.commands.follow.actions;
 
+import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.console.commands.follow.FollowingActionMode;
 import org.slogga.habboscanner.logic.game.console.commands.start.StartConsoleCommand;
 import org.slogga.habboscanner.HabboScanner;
@@ -15,7 +16,7 @@ public class FurniInfoFollowingActionMode implements FollowingActionMode {
 
         String startFurniInfoModeMessage = HabboScanner.getInstance().getConfigurator().getProperties().get("message").getProperty("start.furni_info.mode.message");
 
-        HabboScanner.getInstance().sendPrivateMessage(consoleUserId, startFurniInfoModeMessage);
+        HabboActions.sendPrivateMessage(consoleUserId, startFurniInfoModeMessage);
 
         ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 
@@ -23,13 +24,13 @@ public class FurniInfoFollowingActionMode implements FollowingActionMode {
             String endOfFurniInfoModeMessage = HabboScanner.getInstance().getConfigurator()
                     .getProperties().get("message").getProperty("end.of.furni_info.mode.message");
 
-            HabboScanner.getInstance().sendPrivateMessage(consoleUserId, endOfFurniInfoModeMessage);
+            HabboActions.sendPrivateMessage(consoleUserId, endOfFurniInfoModeMessage);
 
             StartConsoleCommand startConsoleCommand = (StartConsoleCommand) HabboScanner.getInstance()
                     .getConfigurator()
                     .getConsoleHandlers().getCommands().get(":start");
 
-            startConsoleCommand.setIsBotRunning(true);
+            startConsoleCommand.setBotRunning(true);
 
             HabboScanner.getInstance()
                     .getConfigurator()

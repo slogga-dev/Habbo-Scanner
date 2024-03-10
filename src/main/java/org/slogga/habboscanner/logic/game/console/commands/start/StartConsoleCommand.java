@@ -4,7 +4,10 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.NotImplementedException;
+import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.console.commands.EnergySavingConsoleCommand;
 import gearth.protocol.*;
 
@@ -15,8 +18,10 @@ import org.slogga.habboscanner.logic.game.console.commands.start.modes.*;
 import org.slogga.habboscanner.HabboScanner;
 
 public class StartConsoleCommand implements IConsoleCommand {
+    @Getter
     private final Map<String, StartMode> startModes = new HashMap<>();
 
+    @Setter
     private boolean isBotRunning;
 
     public StartConsoleCommand() {
@@ -60,7 +65,7 @@ public class StartConsoleCommand implements IConsoleCommand {
                     .get("message")
                     .getProperty("impossible.start.bot.message");
 
-            HabboScanner.getInstance().sendPrivateMessage(userId, impossibleStartBotMessage);
+            HabboActions.sendPrivateMessage(userId, impossibleStartBotMessage);
 
             return;
         }
@@ -81,23 +86,18 @@ public class StartConsoleCommand implements IConsoleCommand {
                 .getProperty("console.start.command.description");
     }
 
-    public Map<String, StartMode> getStartModes() {
-        return startModes;
-    }
-
     public boolean getIsBotRunning() {
         return isBotRunning;
     }
 
-    public void setIsBotRunning(boolean isBotRunning) {
-        this.isBotRunning = isBotRunning;
-    }
     // is called plural in case is necessary to reset other commands (for now is only necessary for follow )
     private void resetPreviousCommands(){
         IConsoleCommand command = HabboScanner.getInstance()
                 .getConfigurator()
                 .getConsoleHandlers().getCommands().get(":follow");
-        if (command != null)
-            command.resetForStart();
+
+        if (command == null) return;
+
+        command.resetForStart();
     }
 }

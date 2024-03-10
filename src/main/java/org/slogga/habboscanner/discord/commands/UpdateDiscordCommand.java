@@ -17,7 +17,7 @@ public class UpdateDiscordCommand implements IDiscordCommand {
         HabboScanner.getInstance().getConfigurator().loadProperty("bot");
 
         try {
-            HabboScanner.getInstance().setItems(ItemsDAO.fetchItems());
+            HabboScanner.getInstance().getFurnidataConfigurator().setItems(ItemsDAO.fetchItems());
         } catch (SQLException | IOException exception) {
             throw new RuntimeException(exception);
         }

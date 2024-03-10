@@ -1,5 +1,6 @@
 package org.slogga.habboscanner.logic.game.console.commands.start.modes;
 
+import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.console.commands.start.StartConsoleCommand;
 import org.slogga.habboscanner.logic.game.console.commands.start.StartMode;
 
@@ -30,7 +31,7 @@ public class StartBotPerOwnerNameListMode implements StartMode {
             String searchType = name.equals("%popular_rooms%") ? "popular" : "query";
             String searchValue = name.equals("%popular_rooms%") ? "" : "owner:" + name;
 
-            HabboScanner.getInstance().sendNavigatorSearch(searchType, searchValue);
+            HabboActions.sendNavigatorSearch(searchType, searchValue);
         }, 0, 2, TimeUnit.SECONDS);
     }
 }

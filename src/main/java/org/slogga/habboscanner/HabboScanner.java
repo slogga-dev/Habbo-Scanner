@@ -1,35 +1,18 @@
 package org.slogga.habboscanner;
 
-import java.io.*;
-
-import java.sql.SQLException;
-
-import java.util.*;
 import java.util.concurrent.*;
 
-import com.google.gson.Gson;
+import gearth.extensions.*;
 
-import lombok.Data;
-import org.slf4j.*;
+import lombok.*;
 
 import org.slogga.habboscanner.discord.DiscordBot;
 
-import org.slogga.habboscanner.logic.DefaultValues;
-import org.slogga.habboscanner.logic.configurators.FurnidataConfigurator;
-import org.slogga.habboscanner.logic.game.console.IConsoleCommand;
-import org.slogga.habboscanner.logic.game.console.commands.EnergySavingConsoleCommand;
+import org.slogga.habboscanner.logic.configurators.*;
 import org.slogga.habboscanner.logic.game.console.commands.start.StartConsoleCommand;
 
-import gearth.extensions.*;
-import gearth.protocol.*;
-
-import org.slogga.habboscanner.dao.mysql.items.ItemsDAO;
-
-import org.slogga.habboscanner.models.furnidata.Furnidata;
-
-import org.slogga.habboscanner.utils.JsonUtils;
-import org.slogga.habboscanner.logic.configurators.HabboScannerConfigurator;
-
+@Getter
+@Setter
 @ExtensionInfo(
         Title = "Habbo scanner",
         Description = "Scan data all around Habbo!",
@@ -38,10 +21,12 @@ import org.slogga.habboscanner.logic.configurators.HabboScannerConfigurator;
 )
 public class HabboScanner extends Extension {
     private static HabboScanner instance;
+
     private HabboScannerConfigurator configurator;
     private FurnidataConfigurator furnidataConfigurator;
-    private Map<String, Map<String, String>> items;
+
     private DiscordBot discordBot;
+
     private boolean criticalAirCrashWarning;
 
     public static void main(String[] args) {
@@ -56,86 +41,8 @@ public class HabboScanner extends Extension {
     public static HabboScanner getInstance() {
         if (instance == null)
             throw new IllegalStateException("HabboScanner instance has not yet been initialized.");
+
         return instance;
-    }
-    public void moveToRoom(int roomId) {
-        HPacket packet = new HPacket("GetGuestRoom", HMessage.Direction.TOSERVER,
-                roomId, 0, 1);
-
-        sendToServer(packet);
-    }
-
-    public void sendPrivateMessage(int userId, String text) {
-        HPacket packet = new HPacket("SendMsg", HMessage.Direction.TOSERVER,
-                userId, text);
-
-        sendToServer(packet);
-    }
-
-    public void sendNavigatorSearch(String searchType, String searchValue) {
-        HPacket packet = new HPacket("NewNavigatorSearch",
-                HMessage.Direction.TOSERVER, searchType, searchValue);
-
-        sendToServer(packet);
-    }
-
-    public void followUser(int userId) {
-        HPacket packet = new HPacket("FollowFriend",
-                HMessage.Direction.TOSERVER, userId);
-
-        sendToServer(packet);
-    }
-
-    public void sendAvatarExpression(int expressionId) {
-        HPacket packet = new HPacket("AvatarExpression",
-                HMessage.Direction.TOSERVER, expressionId);
-
-        sendToServer(packet);
-    }
-
-    public void goToHotelView() {
-        HPacket packet = new HPacket("Quit", HMessage.Direction.TOSERVER,
-                1);
-
-        sendToServer(packet);
-    }
-
-    public void dance(int danceId) {
-        HPacket packet = new HPacket("Dance", HMessage.Direction.TOSERVER, danceId);
-
-        sendToServer(packet);
-    }
-
-    public void sign(int signId) {
-        HPacket packet = new HPacket("Sign", HMessage.Direction.TOSERVER, signId);
-
-        sendToServer(packet);
-    }
-    public Map<String, Map<String, String>> getItems() {
-        return items;
-    }
-
-    public DiscordBot getDiscordBot() {
-        return discordBot;
-    }
-
-    public boolean getCriticalAirCrashWarning() {
-        return criticalAirCrashWarning;
-    }
-
-    public HabboScannerConfigurator getConfigurator() {
-        return configurator;
-    }
-    public FurnidataConfigurator getFurnidataConfigurator() {
-        return furnidataConfigurator;
-    }
-
-    public void setItems(Map<String, Map<String, String>> items) {
-        this.items = items;
-    }
-
-    public void setCriticalAirCrashWarning(boolean criticalAirCrashWarning) {
-        this.criticalAirCrashWarning = criticalAirCrashWarning;
     }
 
     @Override
@@ -143,8 +50,10 @@ public class HabboScanner extends Extension {
         configurator = new HabboScannerConfigurator();
         furnidataConfigurator = new FurnidataConfigurator();
 
-        boolean isDiscordBotEnabled = Boolean.parseBoolean(configurator.getProperties().get("discord").getProperty("discord.bot.enabled"));
-        boolean isBotEnabled = Boolean.parseBoolean(configurator.getProperties().get("bot").getProperty("bot.enabled"));
+        boolean isDiscordBotEnabled = Boolean.parseBoolean(configurator.getProperties()
+                .get("discord").getProperty("discord.bot.enabled"));
+        boolean isBotEnabled = Boolean.parseBoolean(configurator.getProperties()
+                .get("bot").getProperty("bot.enabled"));
 
         if (isDiscordBotEnabled && isBotEnabled) {
             try {
@@ -155,8 +64,6 @@ public class HabboScanner extends Extension {
         }
 
         scheduleAirCrashCheck();
-
-        registerHandlers();
     }
 
     @Override
@@ -178,11 +85,17 @@ public class HabboScanner extends Extension {
     private void scheduleAirCrashCheck() {
         ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 
-        final long accessTimeout = 400000; // Time in milliseconds. 400000 ms is approximately 6.67 minutes (400000 ms / 60000 ms/minute)
-        final String crashMessage = configurator.getProperties().get("message").getProperty("bot.room.manager.crash.message");
+        /*
+            Time in milliseconds.
+            400000 ms is approximately 6.67 minutes (400000 ms / 60000 ms/minute)
+        */
+        final long accessTimeout = 400000; //
+        final String crashMessage = configurator.getProperties()
+                .get("message").getProperty("bot.room.manager.crash.message");
 
         long lastRoomAccess = configurator.getRoomInfoHandlers().getLastRoomAccess();
-        StartConsoleCommand startConsoleCommand = (StartConsoleCommand) configurator.getConsoleHandlers().getCommands().get(":start");
+        StartConsoleCommand startConsoleCommand = (StartConsoleCommand) configurator
+                .getConsoleHandlers().getCommands().get(":start");
 
         boolean isBotRunning = startConsoleCommand.getIsBotRunning();
 
@@ -198,57 +111,5 @@ public class HabboScanner extends Extension {
 
             criticalAirCrashWarning = true;
         }, 0, 2, TimeUnit.MINUTES);
-    }
-
-    private void registerHandlers() {
-        intercept(HMessage.Direction.TOCLIENT, "RoomReady", configurator.getRoomInfoHandlers()::onRoomReady);
-        intercept(HMessage.Direction.TOCLIENT, "GetGuestRoomResult", configurator.getRoomInfoHandlers()::onGetGuestRoomResult);
-        intercept(HMessage.Direction.TOCLIENT, "RoomVisualizationSettings", configurator.getRoomInfoHandlers()::onRoomVisualizationSettings);
-
-        intercept(HMessage.Direction.TOCLIENT, "Objects", configurator.getItemProcessingHandlers()::onFloorItems);
-        intercept(HMessage.Direction.TOCLIENT, "Items", configurator.getItemProcessingHandlers()::onWallItems);
-        intercept(HMessage.Direction.TOCLIENT, "ObjectAdd", configurator.getItemProcessingHandlers()::onObjectAdd);
-        intercept(HMessage.Direction.TOCLIENT, "ItemAdd", configurator.getItemProcessingHandlers()::onItemAdd);
-
-        intercept(HMessage.Direction.TOSERVER, "MoveObject", configurator.getFurniMovementHandlers()::onMoveFurni);
-        intercept(HMessage.Direction.TOCLIENT, "ObjectUpdate", configurator.getFurniMovementHandlers()::onMoveFurni);
-        intercept(HMessage.Direction.TOSERVER, "MoveWallItem", configurator.getFurniMovementHandlers()::onMoveWallItem);
-        intercept(HMessage.Direction.TOCLIENT, "ItemUpdate", configurator.getFurniMovementHandlers()::onMoveWallItem);
-
-        intercept(HMessage.Direction.TOCLIENT, "NavigatorSearchResultBlocks", configurator.getNavigatorHandlers()::onNavigatorSearchResultBlocks);
-
-        intercept(HMessage.Direction.TOCLIENT, "NewConsole", configurator.getConsoleHandlers()::onNewConsole);
-        intercept(HMessage.Direction.TOSERVER, "SendMsg", configurator.getConsoleHandlers()::onNewConsole);
-
-        intercept(HMessage.Direction.TOCLIENT, "Users", configurator.getUserHandlers()::onUsers);
-        intercept(HMessage.Direction.TOCLIENT, "Chat", configurator.getUserHandlers()::onChat);
-
-        intercept(HMessage.Direction.TOCLIENT, "CantConnect", configurator.getErrorHandlers()::onCantConnect);
-        intercept(HMessage.Direction.TOCLIENT, "ErrorReport", configurator.getErrorHandlers()::onErrorReport);
-
-        intercept(HMessage.Direction.TOCLIENT, "Users", this::onClientOptimization);
-        intercept(HMessage.Direction.TOCLIENT, "RoomProperty", this::onClientOptimization);
-        intercept(HMessage.Direction.TOCLIENT, "HeightMap", this::onClientOptimization);
-    }
-
-    private String getFurnidataURL(String hotelDomain) {
-        if (hotelDomain.equals("s2"))
-            return "https://sandbox.habbo.com/gamedata/furnidata_json/1";
-
-        return "https://www.habbo." + hotelDomain + "/gamedata/furnidata_json/1";
-    }
-
-    private void onClientOptimization(HMessage message) {
-        Map<String, IConsoleCommand> commands = configurator.getConsoleHandlers().getCommands();
-
-        EnergySavingConsoleCommand energySavingConsoleCommand = (EnergySavingConsoleCommand) commands.get(":energy_saving");
-        boolean energySavingMode = energySavingConsoleCommand.getEnergySavingMode();
-
-        StartConsoleCommand startConsoleCommand = (StartConsoleCommand) commands.get(":start");
-        boolean isBotRunning = startConsoleCommand.getIsBotRunning();
-
-        if (!energySavingMode || !isBotRunning) return;
-
-        message.setBlocked(true);
     }
 }

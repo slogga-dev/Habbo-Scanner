@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.concurrent.*;
 
 import lombok.Data;
+import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.ItemProcessor;
 import org.slogga.habboscanner.logic.game.console.commands.start.StartConsoleCommand;
 import gearth.protocol.*;
@@ -46,7 +47,7 @@ public class FollowConsoleCommand implements IConsoleCommand {
 
         // set :start command to false, so it cannot be called by another user
         // we must implement a force follow for admin
-        startConsoleCommand.setIsBotRunning(false);
+        startConsoleCommand.setBotRunning(false);
 
         this.sourceType = SourceType.HABBO;
 
@@ -59,7 +60,7 @@ public class FollowConsoleCommand implements IConsoleCommand {
         followingAction = FollowingAction.fromValue(followingActionString
                 .orElse(FollowingAction.FURNI_INFO.getAction()));
 
-        HabboScanner.getInstance().followUser(userId);
+        HabboActions.followUser(userId);
 
         ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 
@@ -80,7 +81,7 @@ public class FollowConsoleCommand implements IConsoleCommand {
                         handleEmptyRoom(scheduledExecutorService, startConsoleCommand);
 
                         break;
-                    };
+                    }
 
                     this.isFollowing = true;
 
@@ -94,7 +95,7 @@ public class FollowConsoleCommand implements IConsoleCommand {
                     String closedRoomAccessMessage = HabboScanner.getInstance()
                             .getConfigurator().getProperties().get("message").getProperty("closed.room.access.message");
 
-                    HabboScanner.getInstance().sendPrivateMessage(userId, closedRoomAccessMessage);
+                    HabboActions.sendPrivateMessage(userId, closedRoomAccessMessage);
 
                     break;
                 }
@@ -103,7 +104,7 @@ public class FollowConsoleCommand implements IConsoleCommand {
                     String noRoomAccessMessage = HabboScanner.getInstance()
                             .getConfigurator().getProperties().get("message").getProperty("no.room.access.message");
 
-                    HabboScanner.getInstance().sendPrivateMessage(userId, noRoomAccessMessage);
+                    HabboActions.sendPrivateMessage(userId, noRoomAccessMessage);
 
                     break;
                 }
@@ -131,9 +132,9 @@ public class FollowConsoleCommand implements IConsoleCommand {
                     .getProperties().get("message").getProperty("end.of.furni_info.mode.message");
 
             int consoleUserId = HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getUserId();
-            HabboScanner.getInstance().sendPrivateMessage(consoleUserId, endOfFurniInfoModeMessage);
+            HabboActions.sendPrivateMessage(consoleUserId, endOfFurniInfoModeMessage);
 
-            startConsoleCommand.setIsBotRunning(true);
+            startConsoleCommand.setBotRunning(true);
 
             HabboScanner.getInstance()
                     .getConfigurator()
@@ -151,6 +152,6 @@ public class FollowConsoleCommand implements IConsoleCommand {
         int consoleUserId = HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getUserId();
         botEmptyRoomMessage = botMessageEmptyRoomArray[randomIndex];
 
-        HabboScanner.getInstance().sendPrivateMessage(consoleUserId, botEmptyRoomMessage);
+        HabboActions.sendPrivateMessage(consoleUserId, botEmptyRoomMessage);
     }
 }

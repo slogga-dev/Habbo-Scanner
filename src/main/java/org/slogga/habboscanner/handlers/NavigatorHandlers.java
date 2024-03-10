@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.*;
 
+import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.console.commands.start.StartConsoleCommand;
 import org.slogga.habboscanner.logic.game.console.commands.start.modes.StartBotInActiveRoomsMode;
 
@@ -41,7 +42,7 @@ public class NavigatorHandlers {
 
             // Checks if the room is open.
             if (openState == 0) {
-                startBotInActiveRoomsMode.setIsProcessingActiveRooms(false);
+                startBotInActiveRoomsMode.setProcessingActiveRooms(false);
 
                 return;
             }
@@ -74,7 +75,7 @@ public class NavigatorHandlers {
                 totalRoomUserAmount = totalRoomUserAmount + roomUserAmount;
 
                 if (roomId < 1)
-                    startBotInActiveRoomsMode.setIsProcessingActiveRooms(false);
+                    startBotInActiveRoomsMode.setProcessingActiveRooms(false);
 
                 if (roomUserAmount == 0) roomsFoundAmount--;
 
@@ -113,13 +114,11 @@ public class NavigatorHandlers {
                     int roomAdExpiresInMin = message.getPacket().readInteger();
                 }
 
-                long currentTime = System.currentTimeMillis();
-
                 if (accessMode == 0) {
-                    HabboScanner.getInstance().moveToRoom(roomId);
+                    HabboActions.moveToRoom(roomId);
 
                     ScheduledFuture<?> future = executorService.schedule(() ->
-                            HabboScanner.getInstance().moveToRoom(roomId), 2, TimeUnit.SECONDS);
+                            HabboActions.moveToRoom(roomId), 2, TimeUnit.SECONDS);
 
                     try {
                         future.get();
@@ -135,7 +134,7 @@ public class NavigatorHandlers {
                 rooms.add(room);
             }
 
-            startBotInActiveRoomsMode.setIsProcessingActiveRooms(false);
+            startBotInActiveRoomsMode.setProcessingActiveRooms(false);
 
             boolean isStatisticsInsertionActive = Boolean.parseBoolean(HabboScanner.getInstance()
                     .getConfigurator()

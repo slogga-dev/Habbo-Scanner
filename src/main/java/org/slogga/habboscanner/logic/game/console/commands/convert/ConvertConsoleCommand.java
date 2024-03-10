@@ -4,13 +4,16 @@ import java.util.*;
 
 import gearth.protocol.HMessage;
 
+import lombok.Getter;
 import org.apache.commons.lang3.NotImplementedException;
+import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.console.IConsoleCommand;
 
 import org.slogga.habboscanner.logic.game.console.commands.convert.files.*;
 
 import org.slogga.habboscanner.HabboScanner;
 
+@Getter
 public class ConvertConsoleCommand implements IConsoleCommand {
     private final Map<String, ConvertFile> convertFiles = new HashMap<>();
 
@@ -29,7 +32,7 @@ public class ConvertConsoleCommand implements IConsoleCommand {
             String noParametersMessage = HabboScanner.getInstance().getConfigurator().getProperties().get("command_description")
                     .getProperty("convert.command.no.parameters.message");
 
-            HabboScanner.getInstance().sendPrivateMessage(userId, noParametersMessage);
+            HabboActions.sendPrivateMessage(userId, noParametersMessage);
 
             return;
         }
@@ -41,7 +44,7 @@ public class ConvertConsoleCommand implements IConsoleCommand {
             String invalidParameterMessage = HabboScanner.getInstance().getConfigurator().getProperties().get("command_description")
                     .getProperty("convert.command.invalid.parameter.message");
 
-            HabboScanner.getInstance().sendPrivateMessage(userId, invalidParameterMessage);
+            HabboActions.sendPrivateMessage(userId, invalidParameterMessage);
 
             return;
         }
@@ -60,7 +63,4 @@ public class ConvertConsoleCommand implements IConsoleCommand {
                 .getProperty("console.convert.command.description");
     }
 
-    public Map<String, ConvertFile> getConvertFiles() {
-        return convertFiles;
-    }
 }

@@ -1,5 +1,7 @@
 package org.slogga.habboscanner.logic.game.console.commands.start.modes;
 
+import lombok.Setter;
+import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.console.commands.start.StartConsoleCommand;
 import org.slogga.habboscanner.logic.game.console.commands.start.StartMode;
 
@@ -7,6 +9,7 @@ import org.slogga.habboscanner.HabboScanner;
 
 import java.util.concurrent.*;
 
+@Setter
 public class StartBotInActiveRoomsMode implements StartMode {
     private boolean isProcessingActiveRooms;
 
@@ -26,7 +29,7 @@ public class StartBotInActiveRoomsMode implements StartMode {
             if (!isBotRunning || isProcessingActiveRooms)
                 return;
 
-            HabboScanner.getInstance().sendNavigatorSearch("groups", "");
+            HabboActions.sendNavigatorSearch("groups", "");
 
             isProcessingActiveRooms = true;
         }, 0, 2, TimeUnit.SECONDS);
@@ -36,7 +39,4 @@ public class StartBotInActiveRoomsMode implements StartMode {
         return isProcessingActiveRooms;
     }
 
-    public void setIsProcessingActiveRooms(boolean isProcessingActiveRooms) {
-        this.isProcessingActiveRooms = isProcessingActiveRooms;
-    }
 }

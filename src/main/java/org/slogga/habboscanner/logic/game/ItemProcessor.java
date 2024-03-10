@@ -7,6 +7,7 @@ import java.nio.charset.StandardCharsets;
 
 import gearth.extensions.parsers.*;
 
+import lombok.Getter;
 import org.slogga.habboscanner.models.furnidata.Furnidata;
 
 import org.slogga.habboscanner.models.Furni;
@@ -16,6 +17,7 @@ import org.slogga.habboscanner.HabboScanner;
 
 import org.slogga.habboscanner.services.FurniService;
 
+@Getter
 public class ItemProcessor {
     private int highestSeenPieces;
 
@@ -33,7 +35,8 @@ public class ItemProcessor {
 
         Furnitype furnitype = Furnidata.getInstance().getFurnitype(item.getTypeId(), type);
 
-        Map<String, String> itemDefinition = HabboScanner.getInstance().getItems().get(furnitype.getClassname());
+        Map<String, String> itemDefinition = HabboScanner.getInstance()
+                .getFurnidataConfigurator().getItems().get(furnitype.getClassname());
 
         int seenPieces = Optional.ofNullable(itemDefinition)
                 .map(map -> map.get("seen_pieces"))
@@ -109,15 +112,4 @@ public class ItemProcessor {
         FurniService.insertFurni(furni, lastFurniPlacedType, roomId, extradata);
     }
 
-    public int getHighestSeenPieces() {
-        return highestSeenPieces;
-    }
-
-    public Furni getOldestFurni() {
-        return oldestFurni;
-    }
-
-    public String getRarestFurniName() {
-        return rarestFurniName;
-    }
 }

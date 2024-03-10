@@ -8,6 +8,7 @@ import java.sql.*;
 import java.util.Arrays;
 
 import lombok.Data;
+import lombok.Getter;
 import org.apache.commons.lang3.tuple.Triple;
 
 import gearth.extensions.parsers.*;
@@ -32,7 +33,9 @@ import org.slogga.habboscanner.utils.DateUtils;
 public class ItemProcessingHandlers {
     private final FurniTracker furniTracker = new FurniTracker();
 
+    @Getter
     private int lastFurniPlacedId;
+    @Getter
     private FurnitypeEnum lastFurniPlacedType;
 
     public void onFloorItems(HMessage message) {
@@ -143,11 +146,4 @@ public class ItemProcessingHandlers {
                 .getItemProcessor().handleFurniAddition(id, typeId, ownerId, ownerName, extradata);
     }
 
-    public int getLastFurniPlacedId() {
-        return lastFurniPlacedId;
-    }
-
-    public FurnitypeEnum getLastFurniPlacedType() {
-        return lastFurniPlacedType;
-    }
 }

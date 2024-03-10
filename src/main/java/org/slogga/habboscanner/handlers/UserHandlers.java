@@ -7,6 +7,7 @@ import gearth.extensions.parsers.HEntity;
 import gearth.protocol.HMessage;
 
 import org.slogga.habboscanner.logic.game.BaseEntityFactory;
+import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.models.entities.*;
 
 import org.slogga.habboscanner.HabboScanner;
@@ -64,7 +65,7 @@ public class UserHandlers {
         if (botEntity == null) {
             String unsetBotNameMessage = HabboScanner.getInstance().getConfigurator()
                     .getProperties().get("message").getProperty("unset.bot.name.message");
-            HabboScanner.getInstance().sendPrivateMessage(consoleUserId, unsetBotNameMessage);
+            HabboActions.sendPrivateMessage(consoleUserId, unsetBotNameMessage);
 
             return;
         }

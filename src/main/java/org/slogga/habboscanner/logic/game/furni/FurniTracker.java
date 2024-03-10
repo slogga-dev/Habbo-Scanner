@@ -7,6 +7,7 @@ import java.util.concurrent.*;
 
 import org.slogga.habboscanner.dao.mysql.data.DataDAO;
 
+import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.ItemProcessor;
 
 import org.slogga.habboscanner.logic.game.console.commands.follow.FollowConsoleCommand;
@@ -53,8 +54,8 @@ public class FurniTracker {
         int consoleUserId = HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getUserId();
         String finalMessage = oldestFurniInRoomMessage;
 
-        scheduledExecutorService.schedule(() -> HabboScanner.getInstance()
-                .sendPrivateMessage(consoleUserId, finalMessage), 1, TimeUnit.SECONDS);
+        scheduledExecutorService.schedule(() -> HabboActions.sendPrivateMessage(consoleUserId, finalMessage),
+                1, TimeUnit.SECONDS);
 
         processTransactionsAndTerminate();
     }
@@ -83,7 +84,7 @@ public class FurniTracker {
         if (transactions.isEmpty()) {
             String noTradesDetectedMessage = HabboScanner.getInstance().getConfigurator().getProperties().get("message").getProperty("no.trades.detected.message");
 
-            HabboScanner.getInstance().sendPrivateMessage(consoleUserId, noTradesDetectedMessage);
+            HabboActions.sendPrivateMessage(consoleUserId, noTradesDetectedMessage);
 
             return;
         }
@@ -91,10 +92,10 @@ public class FurniTracker {
         String latestFurniPassedMessage = HabboScanner.getInstance().getConfigurator().getProperties().get("message")
                 .getProperty("latest.furni.passed.message");
 
-        HabboScanner.getInstance().sendPrivateMessage(consoleUserId, latestFurniPassedMessage);
+        HabboActions.sendPrivateMessage(consoleUserId, latestFurniPassedMessage);
 
         scheduledExecutorService.schedule(() -> transactions.forEach(transaction ->
-                HabboScanner.getInstance().sendPrivateMessage(consoleUserId, transaction)), 2, TimeUnit.SECONDS);
+                HabboActions.sendPrivateMessage(consoleUserId, transaction)), 2, TimeUnit.SECONDS);
     }
 
     private void sayGoodbye() {
@@ -108,7 +109,6 @@ public class FurniTracker {
         int userId = HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getUserId();
         String finalMessage = botGoodbyeMessage;
 
-        scheduledExecutorService.schedule(() ->
-                HabboScanner.getInstance().sendPrivateMessage(userId, finalMessage), 3, TimeUnit.SECONDS);
+        scheduledExecutorService.schedule(() -> HabboActions.sendPrivateMessage(userId, finalMessage), 3, TimeUnit.SECONDS);
     }
 }

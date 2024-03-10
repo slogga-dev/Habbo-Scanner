@@ -14,6 +14,7 @@ public class DefaultValues {
     private final Logger logger = LoggerFactory.getLogger(HabboScanner.class);
     private final List<String> propertyNames = Arrays.asList("bot", "message", "discord", "command_description");
     private final List<String> validDomains = Arrays.asList("s2", "it", "fi", "es", "de",
+
             "com.br", "com.tr", "com", "fr", "nl");
     public static DefaultValues getInstance() {
         if (instance == null)

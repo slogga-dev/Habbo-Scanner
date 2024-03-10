@@ -12,6 +12,7 @@ import org.slogga.habboscanner.HabboScanner;
 
 import org.slogga.habboscanner.dao.mysql.data.DataDAO;
 
+import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.models.furnitype.FurnitypeEnum;
 
 import org.slogga.habboscanner.utils.DateUtils;
@@ -45,7 +46,7 @@ public class FurniInfoProvider {
 
         dateNotification = dateNotification.replace("%formattedDate%", formattedDate);
 
-        HabboScanner.getInstance().sendPrivateMessage(userId, dateNotification);
+        HabboActions.sendPrivateMessage(userId, dateNotification);
 
         ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 
@@ -57,7 +58,7 @@ public class FurniInfoProvider {
                     .get("message")
                     .getProperty("furni.just.placed.message");
 
-            HabboScanner.getInstance().sendPrivateMessage(userId, furniJustPlacedMessage);
+            HabboActions.sendPrivateMessage(userId, furniJustPlacedMessage);
 
             scheduledExecutorService.shutdown();
         }, 4, TimeUnit.SECONDS);
@@ -70,7 +71,8 @@ public class FurniInfoProvider {
         String name = (String) row.get("name");
         String classname = (String) row.get("classname");
 
-        Map<String, String> itemDefinition = HabboScanner.getInstance().getItems().get(classname);
+        Map<String, String> itemDefinition = HabboScanner.getInstance()
+                .getFurnidataConfigurator().getItems().get(classname);
 
         handleItemDefinition(itemDefinition, name, formattedDate, classname, userId);
         handleFurniHistory(id, userId);
@@ -93,7 +95,7 @@ public class FurniInfoProvider {
 
         String message = furniNameDateInfoMessage + (category.isEmpty() ? "" : "." + itemCategoryMessage);
 
-        HabboScanner.getInstance().sendPrivateMessage(userId, message);
+        HabboActions.sendPrivateMessage(userId, message);
 
         ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 
@@ -154,7 +156,7 @@ public class FurniInfoProvider {
         String message = piecesObservedMessage + (topFurniOwnersReport.length() == 0 ?
                 noFurniOwnersMessage : topFurniOwnersMessage);
 
-        HabboScanner.getInstance().sendPrivateMessage(consoleUserId, message);
+        HabboActions.sendPrivateMessage(consoleUserId, message);
     }
 
     private void handleFurniHistory(int id, int userId) {
@@ -191,7 +193,7 @@ public class FurniInfoProvider {
 
             finalMessage.append(joiner);
 
-            HabboScanner.getInstance().sendPrivateMessage(userId, finalMessage.toString());
+            HabboActions.sendPrivateMessage(userId, finalMessage.toString());
         }, 5, TimeUnit.SECONDS);
     }
 

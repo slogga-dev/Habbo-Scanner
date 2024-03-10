@@ -4,6 +4,7 @@ import java.util.Properties;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.console.commands.start.StartConsoleCommand;
 import org.slogga.habboscanner.logic.game.console.commands.start.StartMode;
 
@@ -22,7 +23,7 @@ public class StartBotPerIdMode implements StartMode {
             String incorrectOrderMessage = HabboScanner.getInstance().
                     getConfigurator().getProperties().get("message").getProperty("incorrect.order.message");
 
-            HabboScanner.getInstance().sendPrivateMessage(userId, incorrectOrderMessage);
+            HabboActions.sendPrivateMessage(userId, incorrectOrderMessage);
 
             return;
         }
@@ -39,7 +40,7 @@ public class StartBotPerIdMode implements StartMode {
 
             if (!isBotRunning) return;
 
-            HabboScanner.getInstance().moveToRoom(initialRoomId.get());
+            HabboActions.moveToRoom(initialRoomId.get());
 
             initialRoomId.addAndGet(directionStep);
         }, 0, 2, TimeUnit.SECONDS);

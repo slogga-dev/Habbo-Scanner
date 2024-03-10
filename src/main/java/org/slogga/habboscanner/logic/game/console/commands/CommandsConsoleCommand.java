@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.concurrent.*;
 
 import org.apache.commons.lang3.NotImplementedException;
+import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.console.IConsoleCommand;
 
 import gearth.protocol.HMessage;
@@ -26,14 +27,12 @@ public class CommandsConsoleCommand implements IConsoleCommand {
 
             String commandMessageText = name + " - " + description;
 
-            executor.schedule(() -> HabboScanner.getInstance()
-                    .sendPrivateMessage(userId, commandMessageText), delay, TimeUnit.SECONDS);
+            executor.schedule(() -> HabboActions.sendPrivateMessage(userId, commandMessageText), delay, TimeUnit.SECONDS);
 
             delay++;
         }
 
-        executor.schedule(() -> HabboScanner.getInstance()
-                .sendPrivateMessage(userId, "----------------------"), delay, TimeUnit.SECONDS);
+        executor.schedule(() -> HabboActions.sendPrivateMessage(userId, "----------------------"), delay, TimeUnit.SECONDS);
     }
 
     @Override

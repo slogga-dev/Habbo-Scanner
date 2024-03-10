@@ -3,6 +3,7 @@ package org.slogga.habboscanner.logic.game.console.commands.convert.files;
 import java.io.*;
 import java.util.Properties;
 
+import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.console.commands.convert.ConvertFile;
 
 import org.slogga.habboscanner.HabboScanner;
@@ -18,17 +19,17 @@ public class ConvertTimelineFile implements ConvertFile {
 
             String actionCompletedMessage = messageProperties.getProperty("action.completed.message");
 
-            HabboScanner.getInstance().sendPrivateMessage(userId, actionCompletedMessage);
+            HabboActions.sendPrivateMessage(userId, actionCompletedMessage);
         } catch (FileNotFoundException exception) {
             String timelineFileNotFoundMessage = messageProperties.getProperty("timeline.file.not.found.message");
 
-            HabboScanner.getInstance().sendPrivateMessage(userId, timelineFileNotFoundMessage);
+            HabboActions.sendPrivateMessage(userId, timelineFileNotFoundMessage);
 
             throw new RuntimeException(exception);
         } catch (IOException exception) {
             String ioExceptionMessage = messageProperties.getProperty("io.exception.message");
 
-            HabboScanner.getInstance().sendPrivateMessage(userId, ioExceptionMessage);
+            HabboActions.sendPrivateMessage(userId, ioExceptionMessage);
 
             throw new RuntimeException(exception);
         }

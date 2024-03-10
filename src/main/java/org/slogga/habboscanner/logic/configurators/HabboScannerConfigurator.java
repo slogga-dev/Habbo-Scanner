@@ -4,8 +4,10 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
+import gearth.protocol.HMessage;
 import lombok.Data;
 
+import org.slogga.habboscanner.HabboScanner;
 import org.slogga.habboscanner.handlers.*;
 import org.slogga.habboscanner.logic.DefaultValues;
 
@@ -20,25 +22,82 @@ public class HabboScannerConfigurator implements IConfigurator {
     private ConsoleHandlers consoleHandlers;
     private UserHandlers userHandlers;
     private ErrorHandlers errorHandlers;
+    private ClientOptimizationHandler clientOptimizationHandler;
 
     public HabboScannerConfigurator() {
         setupConfig();
         setupHandlers();
+        registerHandlers();
     }
 
-    private void setupHandlers() {
-        this.roomInfoHandlers = new RoomInfoHandlers();
-        this.itemProcessingHandlers = new ItemProcessingHandlers();
-        this.furniMovementHandlers = new FurniMovementHandlers();
-        this.navigatorHandlers = new NavigatorHandlers();
-        this.consoleHandlers = new ConsoleHandlers();
-        this.userHandlers = new UserHandlers();
-        this.errorHandlers = new ErrorHandlers();
-    }
     @Override
     public void setupConfig() {
         properties = new HashMap<>();
+
         DefaultValues.getInstance().getPropertyNames().forEach(this::loadProperty);
+    }
+
+    private void setupHandlers() {
+        roomInfoHandlers = new RoomInfoHandlers();
+        itemProcessingHandlers = new ItemProcessingHandlers();
+        furniMovementHandlers = new FurniMovementHandlers();
+        navigatorHandlers = new NavigatorHandlers();
+        consoleHandlers = new ConsoleHandlers();
+        userHandlers = new UserHandlers();
+        errorHandlers = new ErrorHandlers();
+        clientOptimizationHandler = new ClientOptimizationHandler();
+    }
+
+    private void registerHandlers() {
+        HabboScanner.getInstance().intercept(HMessage.Direction.TOCLIENT,
+                "RoomReady", roomInfoHandlers::onRoomReady);
+        HabboScanner.getInstance().intercept(HMessage.Direction.TOCLIENT,
+                "GetGuestRoomResult", roomInfoHandlers::onGetGuestRoomResult);
+        HabboScanner.getInstance().intercept(HMessage.Direction.TOCLIENT,
+                "RoomVisualizationSettings", roomInfoHandlers::onRoomVisualizationSettings);
+
+        HabboScanner.getInstance().intercept(HMessage.Direction.TOCLIENT,
+                "Objects", itemProcessingHandlers::onFloorItems);
+        HabboScanner.getInstance().intercept(HMessage.Direction.TOCLIENT,
+                "Items", itemProcessingHandlers::onWallItems);
+        HabboScanner.getInstance().intercept(HMessage.Direction.TOCLIENT,
+                "ObjectAdd", itemProcessingHandlers::onObjectAdd);
+        HabboScanner.getInstance().intercept(HMessage.Direction.TOCLIENT,
+                "ItemAdd", itemProcessingHandlers::onItemAdd);
+
+        HabboScanner.getInstance().intercept(HMessage.Direction.TOSERVER,
+                "MoveObject", furniMovementHandlers::onMoveFurni);
+        HabboScanner.getInstance().intercept(HMessage.Direction.TOCLIENT,
+                "ObjectUpdate", furniMovementHandlers::onMoveFurni);
+        HabboScanner.getInstance().intercept(HMessage.Direction.TOSERVER,
+                "MoveWallItem", furniMovementHandlers::onMoveWallItem);
+        HabboScanner.getInstance().intercept(HMessage.Direction.TOCLIENT,
+                "ItemUpdate", furniMovementHandlers::onMoveWallItem);
+
+        HabboScanner.getInstance().intercept(HMessage.Direction.TOCLIENT,
+                "NavigatorSearchResultBlocks", navigatorHandlers::onNavigatorSearchResultBlocks);
+
+        HabboScanner.getInstance().intercept(HMessage.Direction.TOCLIENT,
+                "NewConsole", consoleHandlers::onNewConsole);
+        HabboScanner.getInstance().intercept(HMessage.Direction.TOSERVER,
+                "SendMsg", consoleHandlers::onNewConsole);
+
+        HabboScanner.getInstance().intercept(HMessage.Direction.TOCLIENT,
+                "Users", userHandlers::onUsers);
+        HabboScanner.getInstance().intercept(HMessage.Direction.TOCLIENT,
+                "Chat", userHandlers::onChat);
+
+        HabboScanner.getInstance().intercept(HMessage.Direction.TOCLIENT,
+                "CantConnect", errorHandlers::onCantConnect);
+        HabboScanner.getInstance().intercept(HMessage.Direction.TOCLIENT,
+                "ErrorReport", errorHandlers::onErrorReport);
+
+        HabboScanner.getInstance().intercept(HMessage.Direction.TOCLIENT,
+                "Users", clientOptimizationHandler::onClientOptimization);
+        HabboScanner.getInstance().intercept(HMessage.Direction.TOCLIENT,
+                "RoomProperty", clientOptimizationHandler::onClientOptimization);
+        HabboScanner.getInstance().intercept(HMessage.Direction.TOCLIENT,
+                "HeightMap", clientOptimizationHandler::onClientOptimization);
     }
 
     public void loadProperty(String name) {

@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import org.slogga.habboscanner.discord.IDiscordCommand;
 
 import org.slogga.habboscanner.HabboScanner;
+import org.slogga.habboscanner.logic.game.HabboActions;
 
 import java.util.Properties;
 
@@ -34,7 +35,7 @@ public class MakeSayCommand implements IDiscordCommand {
 
         int habboUserId = discordBot.getHabboIdFromDiscordId(discordUserId);
 
-        HabboScanner.getInstance().sendPrivateMessage(habboUserId, textOption.getAsString());
+        HabboActions.sendPrivateMessage(habboUserId, textOption.getAsString());
 
         String habboMessageSentConfirmation = messageProperties.getProperty("habbo.message.sent.confirmation");
 

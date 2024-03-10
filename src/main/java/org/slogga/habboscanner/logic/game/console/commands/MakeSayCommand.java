@@ -4,6 +4,7 @@ import org.apache.commons.lang3.NotImplementedException;
 import org.slogga.habboscanner.discord.DiscordBot;
 import gearth.protocol.HMessage;
 
+import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.console.IConsoleCommand;
 
 import org.slogga.habboscanner.HabboScanner;
@@ -17,7 +18,7 @@ public class MakeSayCommand implements IConsoleCommand {
             String missingMessageWarning = HabboScanner.getInstance().getConfigurator().getProperties().get("message")
                     .getProperty("missing.message.warning");
 
-            HabboScanner.getInstance().sendPrivateMessage(userId, missingMessageWarning);
+            HabboActions.sendPrivateMessage(userId, missingMessageWarning);
 
             return;
         }
@@ -27,7 +28,7 @@ public class MakeSayCommand implements IConsoleCommand {
         DiscordBot discordBot = HabboScanner.getInstance().getDiscordBot();
 
         if (discordBot == null) {
-            HabboScanner.getInstance().sendPrivateMessage(userId, consoleMessageText);
+            HabboActions.sendPrivateMessage(userId, consoleMessageText);
 
             return;
         }
@@ -37,7 +38,7 @@ public class MakeSayCommand implements IConsoleCommand {
         String messageSentConfirmation = HabboScanner.getInstance().getConfigurator().getProperties().get("message")
                 .getProperty("message.sent.confirmation");
 
-        HabboScanner.getInstance().sendPrivateMessage(userId, messageSentConfirmation);
+        HabboActions.sendPrivateMessage(userId, messageSentConfirmation);
     }
 
     @Override

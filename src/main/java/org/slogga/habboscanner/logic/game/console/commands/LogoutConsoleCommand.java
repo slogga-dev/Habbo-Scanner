@@ -1,13 +1,15 @@
 package org.slogga.habboscanner.logic.game.console.commands;
 
-import org.apache.commons.lang3.NotImplementedException;
-import org.slogga.habboscanner.logic.game.console.IConsoleCommand;
-import gearth.protocol.HMessage;
-import org.slogga.habboscanner.HabboScanner;
+import java.util.concurrent.*;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import gearth.protocol.HMessage;
+
+import org.apache.commons.lang3.NotImplementedException;
+
+import org.slogga.habboscanner.logic.game.HabboActions;
+import org.slogga.habboscanner.logic.game.console.IConsoleCommand;
+
+import org.slogga.habboscanner.HabboScanner;
 
 public class LogoutConsoleCommand implements IConsoleCommand {
     @Override
@@ -15,7 +17,7 @@ public class LogoutConsoleCommand implements IConsoleCommand {
         String noMoreArchivingMessage = HabboScanner.getInstance().getConfigurator().getProperties().get("message")
                 .getProperty("no.more.archiving.message");
 
-        HabboScanner.getInstance().sendPrivateMessage(userId, noMoreArchivingMessage);
+        HabboActions.sendPrivateMessage(userId, noMoreArchivingMessage);
 
         ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 

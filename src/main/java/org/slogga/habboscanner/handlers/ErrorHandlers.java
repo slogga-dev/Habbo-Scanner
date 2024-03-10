@@ -8,6 +8,7 @@ import gearth.protocol.HMessage;
 
 import org.slogga.habboscanner.HabboScanner;
 
+import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.console.commands.follow.FollowConsoleCommand;
 
 import org.slogga.habboscanner.dao.mysql.LogsDAO;
@@ -46,7 +47,7 @@ public class ErrorHandlers {
 
         switch (sourceType) {
             case HABBO:
-                HabboScanner.getInstance().sendPrivateMessage(consoleUserId, errorMessage);
+                HabboActions.sendPrivateMessage(consoleUserId, errorMessage);
                 break;
 
             case DISCORD:
