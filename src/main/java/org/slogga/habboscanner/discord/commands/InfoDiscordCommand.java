@@ -43,8 +43,8 @@ public class InfoDiscordCommand implements IDiscordCommand {
     }
 
     private String printStatus(String variableName, boolean isActive) {
-        String status = isActive ? "abilitato" : "disattivato";
+        String status = isActive ? "enabled" : "disabled";
 
-        return variableName + " è " + status + "\n";
+        return variableName + " is " + status + "\n";
     }
 }

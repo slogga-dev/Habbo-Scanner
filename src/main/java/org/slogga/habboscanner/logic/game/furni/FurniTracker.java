@@ -26,15 +26,20 @@ public class FurniTracker {
     public void manageFurniTracking(Date estimatedDate) {
         FollowConsoleCommand followCommand = (FollowConsoleCommand)HabboScanner.getInstance()
                 .getConfigurator().getConsoleHandlers().getCommands().get(":follow");
+
         if (estimatedDate == null || !followCommand.isFollowing())
             return;
 
-        ItemProcessor itemProcessor = HabboScanner.getInstance().getConfigurator().getRoomInfoHandlers().getItemProcessor();
+        ItemProcessor itemProcessor = HabboScanner.getInstance()
+                .getConfigurator().getRoomInfoHandlers().getItemProcessor();
         Furni oldestFurni = itemProcessor.getOldestFurni();
 
         String name = oldestFurni.getName();
         String classname = oldestFurni.getClassname();
-        String formattedDate = DateUtils.formatToStandardDate(estimatedDate);
+
+        Timestamp timestamp = new Timestamp(estimatedDate.getTime());
+        String formattedDate = DateUtils.formatTimestampToDate(timestamp);
+
         String rarestFurniName = itemProcessor.getRarestFurniName();
         int highestSeenPieces = itemProcessor.getHighestSeenPieces();
 
@@ -59,8 +64,6 @@ public class FurniTracker {
 
         processTransactionsAndTerminate();
     }
-
-
 
     private void processTransactionsAndTerminate() {
         try {

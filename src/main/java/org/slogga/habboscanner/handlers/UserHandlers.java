@@ -7,7 +7,6 @@ import gearth.extensions.parsers.HEntity;
 import gearth.protocol.HMessage;
 
 import org.slogga.habboscanner.logic.game.BaseEntityFactory;
-import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.models.entities.*;
 
 import org.slogga.habboscanner.HabboScanner;
@@ -52,27 +51,6 @@ public class UserHandlers {
         String messageText = message.getPacket().readString();
 
         if (entities == null) return;
-
-        String botName = HabboScanner.getInstance()
-                .getConfigurator()
-                .getProperties()
-                .get("bot").getProperty("bot.name");
-
-        HabboEntity botEntity = EntityFinder.findHabboBotEntity(entities, botName);
-
-        int consoleUserId = HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getUserId();
-
-        if (botEntity == null) {
-            String unsetBotNameMessage = HabboScanner.getInstance().getConfigurator()
-                    .getProperties().get("message").getProperty("unset.bot.name.message");
-            HabboActions.sendPrivateMessage(consoleUserId, unsetBotNameMessage);
-
-            return;
-        }
-
-        boolean isBotEntity = entityIndex == botEntity.getIndex();
-
-        if (isBotEntity) return;
 
         String phrasesThatTriggerBotReaction = HabboScanner.getInstance()
                 .getConfigurator()

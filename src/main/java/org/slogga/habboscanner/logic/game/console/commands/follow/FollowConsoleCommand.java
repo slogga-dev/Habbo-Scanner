@@ -28,6 +28,7 @@ public class FollowConsoleCommand implements IConsoleCommand {
     private SourceType sourceType;
 
     public FollowConsoleCommand() {
+        actionModes.put(FollowingAction.DEFAULT, new DefaultFollowingActionMode());
         actionModes.put(FollowingAction.FURNI_INFO, new FurniInfoFollowingActionMode());
         actionModes.put(FollowingAction.AUCTION, new AuctionFollowingActionMode());
 
@@ -58,7 +59,7 @@ public class FollowConsoleCommand implements IConsoleCommand {
                 .findFirst();
 
         followingAction = FollowingAction.fromValue(followingActionString
-                .orElse(FollowingAction.FURNI_INFO.getAction()));
+                .orElse(FollowingAction.DEFAULT.getAction()));
 
         HabboActions.followUser(userId);
 
@@ -72,11 +73,12 @@ public class FollowConsoleCommand implements IConsoleCommand {
 
             switch (roomAccessMode) {
                 case OPEN: {
-                    // Since the bot reaches the room it is following the habbo that called him with :follow command
-
-                    ItemProcessor itemProcessor = HabboScanner.getInstance().getConfigurator().getRoomInfoHandlers().getItemProcessor();
+                    // Since the bot reaches the room it is following the Habbo that called him with :follow command
+                    ItemProcessor itemProcessor = HabboScanner.getInstance()
+                            .getConfigurator().getRoomInfoHandlers().getItemProcessor();
                     Furni oldestFurni = itemProcessor.getOldestFurni();
 
+                    System.out.println(oldestFurni.getId());
                     if (oldestFurni.getId() == null) {
                         handleEmptyRoom(scheduledExecutorService, startConsoleCommand);
 
@@ -92,6 +94,8 @@ public class FollowConsoleCommand implements IConsoleCommand {
                 }
 
                 case LOCKED: {
+                    this.isFollowing = false;
+
                     String closedRoomAccessMessage = HabboScanner.getInstance()
                             .getConfigurator().getProperties().get("message").getProperty("closed.room.access.message");
 
@@ -101,6 +105,8 @@ public class FollowConsoleCommand implements IConsoleCommand {
                 }
 
                 case UNKNOWN: {
+                    this.isFollowing = false;
+
                     String noRoomAccessMessage = HabboScanner.getInstance()
                             .getConfigurator().getProperties().get("message").getProperty("no.room.access.message");
 
@@ -109,8 +115,7 @@ public class FollowConsoleCommand implements IConsoleCommand {
                     break;
                 }
             }
-        }, 1, TimeUnit.SECONDS);
-        this.isFollowing = false;
+        }, 500, TimeUnit.MILLISECONDS);
     }
 
     @Override
@@ -127,19 +132,17 @@ public class FollowConsoleCommand implements IConsoleCommand {
     private void handleEmptyRoom(ScheduledExecutorService scheduledExecutorService, StartConsoleCommand startConsoleCommand) {
         sendEmptyRoomMessage();
 
-        scheduledExecutorService.schedule(() -> {
-            String endOfFurniInfoModeMessage = HabboScanner.getInstance().getConfigurator()
-                    .getProperties().get("message").getProperty("end.of.furni_info.mode.message");
+        String endOfFurniInfoModeMessage = HabboScanner.getInstance().getConfigurator()
+                .getProperties().get("message").getProperty("end.of.furni_info.mode.message");
 
-            int consoleUserId = HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getUserId();
-            HabboActions.sendPrivateMessage(consoleUserId, endOfFurniInfoModeMessage);
+        int consoleUserId = HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getUserId();
+        HabboActions.sendPrivateMessage(consoleUserId, endOfFurniInfoModeMessage);
 
-            startConsoleCommand.setBotRunning(true);
+        startConsoleCommand.setBotRunning(true);
 
-            HabboScanner.getInstance()
-                    .getConfigurator()
-                    .getRoomInfoHandlers().refreshLastRoomAccess();
-        }, 1, TimeUnit.SECONDS);
+        HabboScanner.getInstance()
+                .getConfigurator()
+                .getRoomInfoHandlers().refreshLastRoomAccess();
     }
 
     private void sendEmptyRoomMessage() {

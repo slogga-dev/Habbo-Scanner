@@ -1,8 +1,12 @@
 package org.slogga.habboscanner.models;
 
+import lombok.Getter;
+
 import java.util.*;
 
+@Getter
 public enum FollowingAction {
+    DEFAULT(""),
     FURNI_INFO("furni_info"),
     AUCTION("auction");
 
@@ -17,9 +21,5 @@ public enum FollowingAction {
 
     FollowingAction(String action) {
         this.action = action;
-    }
-
-    public String getAction() {
-        return action;
     }
 }

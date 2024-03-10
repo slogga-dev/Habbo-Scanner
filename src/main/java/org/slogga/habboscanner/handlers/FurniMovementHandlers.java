@@ -85,6 +85,5 @@ public class FurniMovementHandlers {
 
         furniInfoProvider.provideFurniInfo(id, type, formattedDate, consoleUserId);
     }
-
 }
 

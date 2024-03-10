@@ -24,14 +24,29 @@ public class HabboScannerConfigurator implements IConfigurator {
     private ErrorHandlers errorHandlers;
     private ClientOptimizationHandler clientOptimizationHandler;
 
-    public HabboScannerConfigurator() {
-        setupConfig();
+    @Override
+    public void setupConfig() {
+        setupProperties();
         setupHandlers();
         registerHandlers();
     }
 
-    @Override
-    public void setupConfig() {
+    public void loadProperty(String name) {
+        try (InputStream inputStream = getClass().getClassLoader()
+                .getResourceAsStream(String.format("%s.properties", name))) {
+            assert inputStream != null;
+
+            try (InputStreamReader streamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8)) {
+                Properties value = new Properties();
+                value.load(streamReader);
+                properties.put(name, value);
+            }
+        } catch (IOException exception) {
+            throw new RuntimeException(String.format("Error reading %s properties.", name), exception);
+        }
+    }
+
+    private void setupProperties() {
         properties = new HashMap<>();
 
         DefaultValues.getInstance().getPropertyNames().forEach(this::loadProperty);
@@ -98,20 +113,5 @@ public class HabboScannerConfigurator implements IConfigurator {
                 "RoomProperty", clientOptimizationHandler::onClientOptimization);
         HabboScanner.getInstance().intercept(HMessage.Direction.TOCLIENT,
                 "HeightMap", clientOptimizationHandler::onClientOptimization);
-    }
-
-    public void loadProperty(String name) {
-        try (InputStream inputStream = getClass().getClassLoader()
-                .getResourceAsStream(String.format("%s.properties", name))) {
-            assert inputStream != null;
-
-            try (InputStreamReader streamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8)) {
-                Properties value = new Properties();
-                value.load(streamReader);
-                properties.put(name, value);
-            }
-        } catch (IOException exception) {
-            throw new RuntimeException(String.format("Error reading %s properties.", name), exception);
-        }
     }
 }

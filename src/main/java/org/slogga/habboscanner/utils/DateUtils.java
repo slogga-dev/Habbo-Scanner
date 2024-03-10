@@ -35,12 +35,6 @@ public class DateUtils {
         return new Date(milliseconds);
     }
 
-    public static String formatToStandardDate(Date date) {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-
-        return formatter.format(date);
-    }
-
     public static String formatTimestampToDate(Timestamp timestamp) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("d MMMM yyyy");
 

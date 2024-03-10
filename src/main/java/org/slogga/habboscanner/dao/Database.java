@@ -34,6 +34,7 @@ public class Database {
         config.setIdleTimeout(600000);
         config.setMaximumPoolSize(100);
         config.setMinimumIdle(10);
+
         config.addDataSourceProperty("cachePrepStmts", "true");
         config.addDataSourceProperty("prepStmtCacheSize", "250");
         config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");

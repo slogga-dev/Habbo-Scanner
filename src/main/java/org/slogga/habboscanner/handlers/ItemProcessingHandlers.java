@@ -3,13 +3,14 @@ package org.slogga.habboscanner.handlers;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+import org.apache.commons.lang3.tuple.Triple;
+
 import java.sql.*;
 
 import java.util.Arrays;
-
-import lombok.Data;
-import lombok.Getter;
-import org.apache.commons.lang3.tuple.Triple;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import gearth.extensions.parsers.*;
 
@@ -17,6 +18,8 @@ import gearth.protocol.HPacket;
 
 import gearth.extensions.parsers.HFloorItem;
 import gearth.protocol.HMessage;
+
+import lombok.*;
 
 import org.slogga.habboscanner.HabboScanner;
 
@@ -29,12 +32,14 @@ import org.slogga.habboscanner.models.*;
 import org.slogga.habboscanner.models.furnitype.FurnitypeEnum;
 
 import org.slogga.habboscanner.utils.DateUtils;
+
 @Data
 public class ItemProcessingHandlers {
     private final FurniTracker furniTracker = new FurniTracker();
 
     @Getter
     private int lastFurniPlacedId;
+
     @Getter
     private FurnitypeEnum lastFurniPlacedType;
 
@@ -53,9 +58,10 @@ public class ItemProcessingHandlers {
         Furni oldestFurni = itemProcessor.getOldestFurni();
 
         settingClosestEntries:try {
-            // if the id passed is null it just get outside this method since there are no items in the room
+            // If the id passed is null it just gets outside this method since there are no items in the room
             if (oldestFurni.getId() == null)
                 break settingClosestEntries;
+
             closestEntries = ItemsTimelineDAO.selectClosestEntries(type.getType(), oldestFurni.getId());
         } catch (SQLException | IOException exception) {
             throw new RuntimeException(exception);
@@ -145,5 +151,4 @@ public class ItemProcessingHandlers {
         HabboScanner.getInstance().getConfigurator().getRoomInfoHandlers()
                 .getItemProcessor().handleFurniAddition(id, typeId, ownerId, ownerName, extradata);
     }
-
 }

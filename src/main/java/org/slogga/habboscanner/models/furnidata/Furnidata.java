@@ -18,9 +18,11 @@ public class Furnidata {
         Gson gson = new Gson();
         instance = gson.fromJson(furnidataJSON, Furnidata.class);
     }
+
     public static Furnidata getInstance() {
         if (instance == null)
             throw new IllegalStateException("Furnidata instance has not yet been initialized.");
+
         return instance;
     }
 

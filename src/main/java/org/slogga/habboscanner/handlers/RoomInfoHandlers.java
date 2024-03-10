@@ -44,7 +44,7 @@ public class RoomInfoHandlers {
 
         roomId = packet.readInteger();
 
-        this.itemProcessor = new ItemProcessor();
+        itemProcessor = new ItemProcessor();
 
         lastRoomAccess = System.currentTimeMillis();
 

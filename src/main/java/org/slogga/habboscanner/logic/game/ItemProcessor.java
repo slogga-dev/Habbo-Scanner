@@ -57,7 +57,6 @@ public class ItemProcessor {
                     "poster") ? "Poster" : ""));
         }
 
-
         Object[] rawExtradata = item.getStuff();
         String extradata = Arrays.stream(rawExtradata)
                 .map(Object::toString)

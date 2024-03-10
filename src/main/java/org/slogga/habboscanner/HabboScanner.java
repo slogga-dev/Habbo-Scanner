@@ -50,6 +50,9 @@ public class HabboScanner extends Extension {
         configurator = new HabboScannerConfigurator();
         furnidataConfigurator = new FurnidataConfigurator();
 
+        configurator.setupConfig();
+        furnidataConfigurator.setupConfig();
+
         boolean isDiscordBotEnabled = Boolean.parseBoolean(configurator.getProperties()
                 .get("discord").getProperty("discord.bot.enabled"));
         boolean isBotEnabled = Boolean.parseBoolean(configurator.getProperties()
