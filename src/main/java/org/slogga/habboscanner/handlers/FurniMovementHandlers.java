@@ -12,7 +12,7 @@ import org.slogga.habboscanner.dao.mysql.items.ItemsTimelineDAO;
 
 import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.console.commands.follow.FollowConsoleCommand;
-import org.slogga.habboscanner.logic.game.furni.FurniInfoProvider;
+import org.slogga.habboscanner.logic.game.furni.info.FurniInfoProvider;
 
 import org.slogga.habboscanner.models.*;
 import org.slogga.habboscanner.models.furnitype.FurnitypeEnum;
