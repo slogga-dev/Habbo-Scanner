@@ -64,7 +64,6 @@ public class UserHandlers {
         if (botEntity == null) {
             String unsetBotNameMessage = HabboScanner.getInstance().getConfigurator()
                     .getProperties().get("message").getProperty("unset.bot.name.message");
-
             HabboScanner.getInstance().sendPrivateMessage(consoleUserId, unsetBotNameMessage);
 
             return;
