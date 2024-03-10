@@ -15,7 +15,7 @@ public class ResumeConsoleCommand implements IConsoleCommand {
 
         StartConsoleCommand startConsoleCommand = (StartConsoleCommand) HabboScanner
                 .getInstance().getConfigurator().getConsoleHandlers().getCommands().get(":start");
-        startConsoleCommand.setIsBotRunning(true);
+        startConsoleCommand.setBotRunning(true);
 
         HabboScanner.getInstance().getConfigurator().getRoomInfoHandlers().refreshLastRoomAccess();
     }

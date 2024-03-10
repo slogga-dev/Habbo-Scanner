@@ -14,7 +14,7 @@ public class PauseDiscordCommand implements IDiscordCommand {
                 .getConfigurator()
                 .getConsoleHandlers()
                 .getCommands().get(":start");
-        startConsoleCommand.setIsBotRunning(false);
+        startConsoleCommand.setBotRunning(false);
 
         String relaxMomentMessage = HabboScanner.getInstance()
                 .getConfigurator()

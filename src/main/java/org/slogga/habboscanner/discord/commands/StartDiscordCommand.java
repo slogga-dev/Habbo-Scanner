@@ -31,7 +31,7 @@ public class StartDiscordCommand implements IDiscordCommand {
             return;
         }
 
-        startConsoleCommand.setIsBotRunning(true);
+        startConsoleCommand.setBotRunning(true);
 
         List<Map.Entry<String, StartMode>> enabledModes = startConsoleCommand.getStartModes().entrySet().stream()
                 .filter(entry -> Boolean.parseBoolean(HabboScanner.getInstance()

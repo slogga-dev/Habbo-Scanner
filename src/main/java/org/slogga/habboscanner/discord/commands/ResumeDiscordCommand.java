@@ -15,7 +15,7 @@ public class ResumeDiscordCommand implements IDiscordCommand {
                 .getConfigurator()
                 .getConsoleHandlers()
                 .getCommands().get(":start");
-        startConsoleCommand.setIsBotRunning(true);
+        startConsoleCommand.setBotRunning(true);
 
         String botResumeOperationMessage = HabboScanner.getInstance()
                 .getConfigurator()
