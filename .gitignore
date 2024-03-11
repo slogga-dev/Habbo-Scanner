@@ -1,3 +1,6 @@
+# Configuration files
+src/main/resources/mysql.properties
+
 # Compiled class file
 *.class
 
