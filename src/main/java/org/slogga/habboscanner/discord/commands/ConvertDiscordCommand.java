@@ -12,6 +12,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import org.slogga.habboscanner.discord.IDiscordCommand;
 
 import org.slogga.habboscanner.HabboScanner;
+import org.slogga.habboscanner.models.CommandKeys;
 
 public class ConvertDiscordCommand implements IDiscordCommand {
     @Override
@@ -32,7 +33,7 @@ public class ConvertDiscordCommand implements IDiscordCommand {
 
         ConvertConsoleCommand convertConsoleCommand = (ConvertConsoleCommand)
                 HabboScanner.getInstance().getConfigurator().getConsoleHandlers()
-                .getCommands().get(":convert");
+                .getCommands().get(CommandKeys.CONVERT.getKey());
 
         ConvertFile convertFile = convertConsoleCommand.getConvertFiles().get(file);
 

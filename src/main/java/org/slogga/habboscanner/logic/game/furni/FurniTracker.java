@@ -10,8 +10,6 @@ import org.slogga.habboscanner.dao.mysql.data.DataDAO;
 import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.ItemProcessor;
 
-import org.slogga.habboscanner.logic.game.console.commands.follow.FollowConsoleCommand;
-
 import org.slogga.habboscanner.handlers.RoomInfoHandlers;
 
 import org.slogga.habboscanner.models.Furni;
@@ -24,10 +22,7 @@ public class FurniTracker {
     private final ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 
     public void manageFurniTracking(Date estimatedDate) {
-        FollowConsoleCommand followCommand = (FollowConsoleCommand)HabboScanner.getInstance()
-                .getConfigurator().getConsoleHandlers().getCommands().get(":follow");
-
-        if (estimatedDate == null || !followCommand.isFollowing())
+        if (estimatedDate == null )
             return;
 
         ItemProcessor itemProcessor = HabboScanner.getInstance()

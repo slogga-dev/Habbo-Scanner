@@ -3,11 +3,12 @@ package org.slogga.habboscanner.logic.game.console.commands.follow;
 import java.util.*;
 import java.util.concurrent.*;
 
-import lombok.Data;
-import org.slogga.habboscanner.logic.game.HabboActions;
-import org.slogga.habboscanner.logic.game.ItemProcessor;
-import org.slogga.habboscanner.logic.game.console.commands.start.StartConsoleCommand;
 import gearth.protocol.*;
+
+import lombok.Data;
+
+import org.slogga.habboscanner.logic.game.HabboActions;
+import org.slogga.habboscanner.logic.game.console.commands.start.StartConsoleCommand;
 
 import org.slogga.habboscanner.logic.game.console.commands.follow.actions.*;
 import org.slogga.habboscanner.logic.game.console.IConsoleCommand;
@@ -42,11 +43,11 @@ public class FollowConsoleCommand implements IConsoleCommand {
 
         StartConsoleCommand startConsoleCommand = (StartConsoleCommand) HabboScanner.getInstance()
                 .getConfigurator()
-                .getConsoleHandlers().getCommands().get(":start");
+                .getConsoleHandlers().getCommands().get(CommandKeys.START.getKey());
 
         if (!startConsoleCommand.getIsBotRunning()) return;
 
-        // set :start command to false, so it cannot be called by another user
+        // Set :start command to false, so it cannot be called by another user
         // we must implement a force follow for admin
         startConsoleCommand.setBotRunning(false);
 
@@ -61,12 +62,13 @@ public class FollowConsoleCommand implements IConsoleCommand {
         followingAction = FollowingAction.fromValue(followingActionString
                 .orElse(FollowingAction.DEFAULT.getAction()));
 
-        //the bot follows the user
+        // The bot follows the user
         HabboActions.followUser(userId);
 
         ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-        // the bot is already trying to follow the user
-        // is scheduled to let habbo set the access mode to the room by the interceptor
+
+        // The bot is already trying to follow the user
+        // is scheduled to let Habbo set the access mode to the room by the interceptor
         scheduledExecutorService.schedule(() -> {
             RoomInfoHandlers roomInfoHandlers = HabboScanner.getInstance()
                     .getConfigurator()
@@ -75,22 +77,7 @@ public class FollowConsoleCommand implements IConsoleCommand {
 
             switch (roomAccessMode) {
                 case OPEN: {
-                    // Since the bot reaches the room it is following the Habbo that called him with :follow command
-//                    ItemProcessor itemProcessor = HabboScanner.getInstance()
-//                            .getConfigurator().getRoomInfoHandlers().getItemProcessor();
-//                    Furni oldestFurni = itemProcessor.getOldestFurni();
-//
-//                    System.out.println(oldestFurni.getId());
-//                    if (oldestFurni.getId() == null) {
-//                        handleEmptyRoom(startConsoleCommand);
-//
-//                        break;
-//                    }
-
                     this.isFollowing = true;
-
-//                    FollowingActionMode actionMode = actionModes.get(followingAction);
-//                    actionMode.handle();
 
                     break;
                 }
@@ -113,7 +100,7 @@ public class FollowConsoleCommand implements IConsoleCommand {
                     break;
                 }
             }
-        }, 1000, TimeUnit.MILLISECONDS);
+        }, 1, TimeUnit.SECONDS);
     }
 
     @Override
@@ -130,7 +117,7 @@ public class FollowConsoleCommand implements IConsoleCommand {
     public void handleEmptyRoom() {
         StartConsoleCommand startConsoleCommand = (StartConsoleCommand) HabboScanner.getInstance()
                 .getConfigurator()
-                .getConsoleHandlers().getCommands().get(":start");
+                .getConsoleHandlers().getCommands().get(CommandKeys.START.getKey());
         sendEmptyRoomMessage();
 
         String endOfFurniInfoModeMessage = HabboScanner.getInstance().getConfigurator()

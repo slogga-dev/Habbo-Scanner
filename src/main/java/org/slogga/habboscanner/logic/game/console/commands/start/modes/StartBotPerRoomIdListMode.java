@@ -5,6 +5,7 @@ import org.slogga.habboscanner.logic.game.console.commands.start.StartConsoleCom
 import org.slogga.habboscanner.logic.game.console.commands.start.StartMode;
 
 import org.slogga.habboscanner.HabboScanner;
+import org.slogga.habboscanner.models.CommandKeys;
 
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -21,7 +22,7 @@ public class StartBotPerRoomIdListMode implements StartMode {
 
         executorService.scheduleAtFixedRate(() -> {
             StartConsoleCommand startConsoleCommand = (StartConsoleCommand) HabboScanner
-                    .getInstance().getConfigurator().getConsoleHandlers().getCommands().get(":start");
+                    .getInstance().getConfigurator().getConsoleHandlers().getCommands().get(CommandKeys.START.getKey());
             boolean isBotRunning = startConsoleCommand.getIsBotRunning();
 
             if (!isBotRunning || currentIndex.get() >= roomIds.length)

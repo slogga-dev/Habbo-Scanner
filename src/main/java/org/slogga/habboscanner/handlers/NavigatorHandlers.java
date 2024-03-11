@@ -15,13 +15,14 @@ import org.slogga.habboscanner.dao.mysql.*;
 
 import org.slogga.habboscanner.HabboScanner;
 
+import org.slogga.habboscanner.models.CommandKeys;
 import org.slogga.habboscanner.utils.DateUtils;
 
 public class NavigatorHandlers {
     public void onNavigatorSearchResultBlocks(HMessage message) {
         CompletableFuture.runAsync(() -> {
             StartConsoleCommand startConsoleCommand = (StartConsoleCommand) HabboScanner
-                    .getInstance().getConfigurator().getConsoleHandlers().getCommands().get(":start");
+                    .getInstance().getConfigurator().getConsoleHandlers().getCommands().get(CommandKeys.START.getKey());
             boolean isBotRunning = startConsoleCommand.getIsBotRunning();
 
             if (!isBotRunning) return;
@@ -35,7 +36,7 @@ public class NavigatorHandlers {
 
             StartConsoleCommand startCommand = (StartConsoleCommand) HabboScanner.getInstance()
                     .getConfigurator()
-                    .getConsoleHandlers().getCommands().get(":start");
+                    .getConsoleHandlers().getCommands().get(CommandKeys.START.getKey());
 
             StartBotInActiveRoomsMode startBotInActiveRoomsMode = (StartBotInActiveRoomsMode)
                     startCommand.getStartModes().get("bot.in.active.rooms");

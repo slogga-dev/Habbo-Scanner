@@ -7,6 +7,7 @@ import org.slogga.habboscanner.logic.game.console.IConsoleCommand;
 import org.slogga.habboscanner.logic.game.console.commands.start.StartConsoleCommand;
 
 import org.slogga.habboscanner.HabboScanner;
+import org.slogga.habboscanner.models.CommandKeys;
 
 public class ResumeConsoleCommand implements IConsoleCommand {
     @Override
@@ -14,7 +15,7 @@ public class ResumeConsoleCommand implements IConsoleCommand {
         message.setBlocked(true);
 
         StartConsoleCommand startConsoleCommand = (StartConsoleCommand) HabboScanner
-                .getInstance().getConfigurator().getConsoleHandlers().getCommands().get(":start");
+                .getInstance().getConfigurator().getConsoleHandlers().getCommands().get(CommandKeys.START.getKey());
         startConsoleCommand.setBotRunning(true);
 
         HabboScanner.getInstance().getConfigurator().getRoomInfoHandlers().refreshLastRoomAccess();

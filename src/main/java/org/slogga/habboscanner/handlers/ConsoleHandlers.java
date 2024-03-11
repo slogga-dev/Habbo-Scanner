@@ -12,9 +12,12 @@ import org.slogga.habboscanner.logic.game.console.commands.follow.FollowConsoleC
 
 import org.slogga.habboscanner.logic.game.console.IConsoleCommand;
 import org.slogga.habboscanner.logic.game.console.commands.*;
+import org.slogga.habboscanner.logic.game.console.commands.follow.actions.FurniInfoFollowingActionMode;
 import org.slogga.habboscanner.logic.game.console.commands.start.StartConsoleCommand;
 
 import org.slogga.habboscanner.HabboScanner;
+import org.slogga.habboscanner.models.CommandKeys;
+import org.slogga.habboscanner.models.FollowingAction;
 
 @Getter
 public class ConsoleHandlers {
@@ -24,17 +27,17 @@ public class ConsoleHandlers {
     private int userId;
 
     public ConsoleHandlers() {
-        commands.put(":start", new StartConsoleCommand());
-        commands.put(":pause", new PauseConsoleCommand());
-        commands.put(":resume", new ResumeConsoleCommand());
-        commands.put(":follow", new FollowConsoleCommand());
-        commands.put(":info", new InfoConsoleCommand());
-        commands.put(":convert", new ConvertConsoleCommand());
-        commands.put(":update", new UpdateConsoleCommand());
-        commands.put(":makesay", new MakeSayCommand());
-        commands.put(":logout", new LogoutConsoleCommand());
-        commands.put(":energy_saving", new EnergySavingConsoleCommand());
-        commands.put(":commands", new CommandsConsoleCommand());
+        commands.put(CommandKeys.START.getKey(), new StartConsoleCommand());
+        commands.put(CommandKeys.PAUSE.getKey(), new PauseConsoleCommand());
+        commands.put(CommandKeys.RESUME.getKey(), new ResumeConsoleCommand());
+        commands.put(CommandKeys.FOLLOW.getKey(), new FollowConsoleCommand());
+        commands.put(CommandKeys.INFO.getKey(), new InfoConsoleCommand());
+        commands.put(CommandKeys.CONVERT.getKey(), new ConvertConsoleCommand());
+        commands.put(CommandKeys.UPDATE.getKey(), new UpdateConsoleCommand());
+        commands.put(CommandKeys.MAKESAY.getKey(), new MakeSayCommand());
+        commands.put(CommandKeys.LOGOUT.getKey(), new LogoutConsoleCommand());
+        commands.put(CommandKeys.ENERGY_SAVING.getKey(), new EnergySavingConsoleCommand());
+        commands.put(CommandKeys.COMMANDS.getKey(), new CommandsConsoleCommand());
     }
 
     public void onNewConsole(HMessage message) {
@@ -45,10 +48,17 @@ public class ConsoleHandlers {
         userId = message.getPacket().readInteger();
         String messageText = message.getPacket().readString();
 
+        FollowConsoleCommand followConsoleCommand = (FollowConsoleCommand) commands.get(CommandKeys.FOLLOW.getKey());
+        FurniInfoFollowingActionMode furniInfoFollowingActionMode = (FurniInfoFollowingActionMode)
+                followConsoleCommand.getActionModes().get(FollowingAction.FURNI_INFO);
+
+        if (messageText.equals("go away")) furniInfoFollowingActionMode.goAway();
+
         for (Map.Entry<String, IConsoleCommand> entry : commands.entrySet()) {
             if (!messageText.startsWith(entry.getKey())) continue;
 
             HabboScanner.getInstance().getConfigurator().getRoomInfoHandlers().setItemProcessor(new ItemProcessor());
+
             entry.getValue().execute(message, messageText, userId);
         }
     }

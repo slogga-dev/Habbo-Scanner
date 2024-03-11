@@ -10,6 +10,7 @@ import org.slogga.habboscanner.discord.DiscordBot;
 
 import org.slogga.habboscanner.logic.configurators.*;
 import org.slogga.habboscanner.logic.game.console.commands.start.StartConsoleCommand;
+import org.slogga.habboscanner.models.CommandKeys;
 
 @Getter
 @Setter
@@ -98,7 +99,7 @@ public class HabboScanner extends Extension {
 
         long lastRoomAccess = configurator.getRoomInfoHandlers().getLastRoomAccess();
         StartConsoleCommand startConsoleCommand = (StartConsoleCommand) configurator
-                .getConsoleHandlers().getCommands().get(":start");
+                .getConsoleHandlers().getCommands().get(CommandKeys.START.getKey());
 
         boolean isBotRunning = startConsoleCommand.getIsBotRunning();
 

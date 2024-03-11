@@ -6,6 +6,7 @@ import org.slogga.habboscanner.logic.game.console.IConsoleCommand;
 import org.slogga.habboscanner.logic.game.console.commands.start.StartConsoleCommand;
 import gearth.protocol.HMessage;
 import org.slogga.habboscanner.HabboScanner;
+import org.slogga.habboscanner.models.CommandKeys;
 
 public class PauseConsoleCommand implements IConsoleCommand {
     @Override
@@ -19,7 +20,7 @@ public class PauseConsoleCommand implements IConsoleCommand {
 
         StartConsoleCommand startConsoleCommand = (StartConsoleCommand) HabboScanner.getInstance()
                 .getConfigurator()
-                .getConsoleHandlers().getCommands().get(":start");
+                .getConsoleHandlers().getCommands().get(CommandKeys.START.getKey());
         startConsoleCommand.setBotRunning(false);
     }
 

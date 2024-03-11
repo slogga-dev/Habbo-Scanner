@@ -8,9 +8,8 @@ import org.apache.commons.lang3.tuple.Triple;
 import java.sql.*;
 
 import java.util.Arrays;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+
+import java.util.concurrent.atomic.AtomicReference;
 
 import gearth.extensions.parsers.*;
 
@@ -55,32 +54,35 @@ public class ItemProcessingHandlers {
         int roomId = roomInfoHandlers.getRoomId();
         Arrays.stream(items).forEach(item -> itemProcessor.processFloorItem(item, type, roomId));
 
-        Triple<Integer, ItemTimeline, ItemTimeline> closestEntries = null;
+        AtomicReference<Triple<Integer, ItemTimeline, ItemTimeline>> closestEntries = new AtomicReference<>();
 
         Furni oldestFurni = itemProcessor.getOldestFurni();
 
-        settingClosestEntries:try {
-            FollowConsoleCommand followConsoleCommmand = (FollowConsoleCommand)HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getCommands().get(":follow");
-            // If the id passed is null it just gets outside this method since there are no items in the room
-            System.out.println(oldestFurni.getId());
-            System.out.println(followConsoleCommmand.isFollowing());
-            if (oldestFurni.getId() == null){
-                if(followConsoleCommmand.isFollowing()){
-                    followConsoleCommmand.handleEmptyRoom();
-                }
-                break settingClosestEntries;
-            }
-            if(followConsoleCommmand.isFollowing()){
-                FollowingActionMode actionMode = followConsoleCommmand.getActionModes().get(followConsoleCommmand.getFollowingAction());
-                actionMode.handle();
-            }
+        FollowConsoleCommand followConsoleCommand = (FollowConsoleCommand) HabboScanner.getInstance()
+                .getConfigurator().getConsoleHandlers().getCommands().get(CommandKeys.FOLLOW.getKey());
 
-            closestEntries = ItemsTimelineDAO.selectClosestEntries(type.getType(), oldestFurni.getId());
+        settingClosestEntries:try {
+            if (!followConsoleCommand.isFollowing())
+                return;
+
+            if (oldestFurni.getId() == null && followConsoleCommand.isFollowing())
+                followConsoleCommand.handleEmptyRoom();
+
+            if (oldestFurni.getId() == null)
+                break settingClosestEntries;
+
+            FollowingActionMode actionMode = followConsoleCommand.getActionModes()
+                    .get(followConsoleCommand.getFollowingAction());
+            actionMode.handle();
+
+            closestEntries.set(ItemsTimelineDAO.selectClosestEntries(type.getType(), oldestFurni.getId()));
         } catch (SQLException | IOException exception) {
             throw new RuntimeException(exception);
         }
 
-        Date estimatedDate = DateUtils.getLinearInterpolatedDate(closestEntries);
+        Date estimatedDate = DateUtils.getLinearInterpolatedDate(closestEntries.get());
+
+        if (followConsoleCommand.getFollowingAction() != FollowingAction.DEFAULT) return;
 
         furniTracker.manageFurniTracking(estimatedDate);
     }
@@ -109,14 +111,14 @@ public class ItemProcessingHandlers {
         lastFurniPlacedType = FurnitypeEnum.FLOOR;
 
         int typeId = packet.readInteger();
-        
+
         int unknownVariable1 = packet.readInteger();
         int unknownVariable2 = packet.readInteger();
         int unknownVariable3 = packet.readInteger();
         String unknownVariable4 = packet.readString();
         String unknownVariable5 = packet.readString();
         int unknownVariable6 = packet.readInteger();
-        
+
         int extradataCategory = packet.readInteger();
         String extradata = Arrays.toString(HStuff.readData(packet, extradataCategory));
 

@@ -6,6 +6,7 @@ import org.slogga.habboscanner.logic.game.console.commands.start.StartConsoleCom
 import org.slogga.habboscanner.logic.game.console.commands.start.StartMode;
 
 import org.slogga.habboscanner.HabboScanner;
+import org.slogga.habboscanner.models.CommandKeys;
 
 import java.util.concurrent.*;
 
@@ -23,7 +24,7 @@ public class StartBotInActiveRoomsMode implements StartMode {
                     .getConfigurator()
                     .getConsoleHandlers()
                     .getCommands()
-                    .get(":start");
+                    .get(CommandKeys.START.getKey());
             boolean isBotRunning = startConsoleCommand.getIsBotRunning();
 
             if (!isBotRunning || isProcessingActiveRooms)

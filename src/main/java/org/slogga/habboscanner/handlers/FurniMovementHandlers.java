@@ -38,7 +38,7 @@ public class FurniMovementHandlers {
     }
 
     private void handleMoveItem(HMessage message, FurnitypeEnum type) {
-        FollowConsoleCommand followConsoleCommand = (FollowConsoleCommand) HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getCommands().get(":follow");
+        FollowConsoleCommand followConsoleCommand = (FollowConsoleCommand) HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getCommands().get(CommandKeys.FOLLOW.getKey());
         FollowingAction followingAction = followConsoleCommand.getFollowingAction();
 
         if (followingAction == FollowingAction.AUCTION) return;

@@ -16,6 +16,7 @@ import org.slogga.habboscanner.dao.mysql.RoomsDAO;
 import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.console.commands.start.StartConsoleCommand;
 
+import org.slogga.habboscanner.models.CommandKeys;
 import org.slogga.habboscanner.models.RoomAccessMode;
 
 import org.slogga.habboscanner.dao.mysql.data.*;
@@ -56,7 +57,7 @@ public class RoomInfoHandlers {
                 .getConfigurator()
                 .getConsoleHandlers()
                 .getCommands()
-                .get(":start");
+                .get(CommandKeys.START.getKey());
         boolean isBotRunning = startConsoleCommand.getIsBotRunning();
 
         if (discordBot != null && criticalAirCrashWarning && isBotRunning) {
@@ -112,7 +113,7 @@ public class RoomInfoHandlers {
         StartConsoleCommand startConsoleCommand = (StartConsoleCommand) HabboScanner
                 .getInstance()
                 .getConfigurator()
-                .getConsoleHandlers().getCommands().get(":start");
+                .getConsoleHandlers().getCommands().get(CommandKeys.START.getKey());
 
         boolean isBotRunning = startConsoleCommand.getIsBotRunning();
 

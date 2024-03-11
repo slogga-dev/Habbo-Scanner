@@ -13,13 +13,14 @@ import org.slogga.habboscanner.logic.game.console.commands.start.*;
 import org.slogga.habboscanner.discord.DiscordBot;
 
 import org.slogga.habboscanner.HabboScanner;
+import org.slogga.habboscanner.models.CommandKeys;
 
 public class StartDiscordCommand implements IDiscordCommand {
     @Override
     public void execute(SlashCommandInteractionEvent event) {
         StartConsoleCommand startConsoleCommand = (StartConsoleCommand) HabboScanner.getInstance()
                 .getConfigurator()
-                .getConsoleHandlers().getCommands().get(":start");
+                .getConsoleHandlers().getCommands().get(CommandKeys.START.getKey());
 
         Properties messageProperties = HabboScanner.getInstance().getConfigurator().getProperties().get("message");
 

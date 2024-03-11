@@ -37,7 +37,7 @@ public class FollowDiscordCommand implements IDiscordCommand {
 
         StartConsoleCommand startConsoleCommand = (StartConsoleCommand) HabboScanner.getInstance()
                 .getConfigurator()
-                .getConsoleHandlers().getCommands().get(":start");
+                .getConsoleHandlers().getCommands().get(CommandKeys.START.getKey());
 
         if (!startConsoleCommand.getIsBotRunning()) {
             String botNotActiveMessage = messageProperties.getProperty("bot.not.active.message");
@@ -50,7 +50,7 @@ public class FollowDiscordCommand implements IDiscordCommand {
         startConsoleCommand.setBotRunning(false);
 
         FollowConsoleCommand followConsoleCommand = (FollowConsoleCommand) HabboScanner.getInstance()
-                .getConfigurator().getConsoleHandlers().getCommands().get(":follow");
+                .getConfigurator().getConsoleHandlers().getCommands().get(CommandKeys.FOLLOW.getKey());
 
         followConsoleCommand.setSourceType(SourceType.DISCORD);
 

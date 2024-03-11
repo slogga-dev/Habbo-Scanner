@@ -12,6 +12,7 @@ import org.slogga.habboscanner.logic.game.console.IConsoleCommand;
 import org.slogga.habboscanner.logic.game.console.commands.EnergySavingConsoleCommand;
 import org.slogga.habboscanner.logic.game.console.commands.start.StartConsoleCommand;
 import org.slogga.habboscanner.logic.game.console.commands.start.modes.StartBotInActiveRoomsMode;
+import org.slogga.habboscanner.models.CommandKeys;
 
 public class InfoDiscordCommand implements IDiscordCommand {
     @Override
@@ -23,10 +24,10 @@ public class InfoDiscordCommand implements IDiscordCommand {
 
         Map<String, IConsoleCommand> commands = HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getCommands();
 
-        EnergySavingConsoleCommand energySavingConsoleCommand = (EnergySavingConsoleCommand) commands.get(":energy_saving");
+        EnergySavingConsoleCommand energySavingConsoleCommand = (EnergySavingConsoleCommand) commands.get(CommandKeys.ENERGY_SAVING.getKey());
         boolean energySavingMode = energySavingConsoleCommand.getEnergySavingMode();
 
-        StartConsoleCommand startConsoleCommand = (StartConsoleCommand) commands.get(":start");
+        StartConsoleCommand startConsoleCommand = (StartConsoleCommand) commands.get(CommandKeys.START.getKey());
         boolean isBotRunning = startConsoleCommand.getIsBotRunning();
 
         StartBotInActiveRoomsMode startBotInActiveRoomsMode = (StartBotInActiveRoomsMode)

@@ -7,6 +7,7 @@ import org.slogga.habboscanner.logic.game.console.commands.follow.FollowConsoleC
 import org.slogga.habboscanner.logic.game.console.commands.follow.FollowingActionMode;
 import org.slogga.habboscanner.logic.game.console.commands.start.StartConsoleCommand;
 import org.slogga.habboscanner.HabboScanner;
+import org.slogga.habboscanner.models.CommandKeys;
 
 import java.util.Map;
 import java.util.concurrent.Executors;
@@ -27,23 +28,27 @@ public class FurniInfoFollowingActionMode implements FollowingActionMode {
 
         ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 
-        scheduledExecutorService.schedule(() -> {
-            String endOfFurniInfoModeMessage = HabboScanner.getInstance().getConfigurator()
-                    .getProperties().get("message").getProperty("end.of.furni_info.mode.message");
+        scheduledExecutorService.schedule(this::goAway, 2, TimeUnit.MINUTES);
+    }
 
-            HabboActions.sendPrivateMessage(consoleUserId, endOfFurniInfoModeMessage);
+    public void goAway() {
+        int consoleUserId = HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getUserId();
 
-            Map<String, IConsoleCommand> commands = HabboScanner.getInstance().getConfigurator()
-                    .getConsoleHandlers().getCommands();
-            StartConsoleCommand startConsoleCommand = (StartConsoleCommand) commands.get(":start");
-            FollowConsoleCommand followConsoleCommand = (FollowConsoleCommand) commands.get(":follow");
+        String endOfFurniInfoModeMessage = HabboScanner.getInstance().getConfigurator()
+                .getProperties().get("message").getProperty("end.of.furni_info.mode.message");
 
-            startConsoleCommand.setBotRunning(true);
-            followConsoleCommand.setFollowing(false);
+        HabboActions.sendPrivateMessage(consoleUserId, endOfFurniInfoModeMessage);
 
-            HabboScanner.getInstance()
-                    .getConfigurator()
-                    .getRoomInfoHandlers().refreshLastRoomAccess();
-        }, 2, TimeUnit.MINUTES);
+        Map<String, IConsoleCommand> commands = HabboScanner.getInstance().getConfigurator()
+                .getConsoleHandlers().getCommands();
+        StartConsoleCommand startConsoleCommand = (StartConsoleCommand) commands.get(CommandKeys.START.getKey());
+        FollowConsoleCommand followConsoleCommand = (FollowConsoleCommand) commands.get(CommandKeys.FOLLOW.getKey());
+
+        startConsoleCommand.setBotRunning(true);
+        followConsoleCommand.setFollowing(false);
+
+        HabboScanner.getInstance()
+                .getConfigurator()
+                .getRoomInfoHandlers().refreshLastRoomAccess();
     }
 }

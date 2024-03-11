@@ -13,6 +13,7 @@ import org.slogga.habboscanner.logic.game.console.commands.start.StartConsoleCom
 import org.slogga.habboscanner.logic.game.console.commands.start.modes.StartBotInActiveRoomsMode;
 
 import org.slogga.habboscanner.HabboScanner;
+import org.slogga.habboscanner.models.CommandKeys;
 
 public class InfoConsoleCommand implements IConsoleCommand {
     private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
@@ -30,10 +31,10 @@ public class InfoConsoleCommand implements IConsoleCommand {
 
         Map<String, IConsoleCommand> commands = HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getCommands();
 
-        EnergySavingConsoleCommand energySavingConsoleCommand = (EnergySavingConsoleCommand) commands.get(":energy_saving");
+        EnergySavingConsoleCommand energySavingConsoleCommand = (EnergySavingConsoleCommand) commands.get(CommandKeys.ENERGY_SAVING.getKey());
         boolean energySavingMode = energySavingConsoleCommand.getEnergySavingMode();
 
-        StartConsoleCommand startConsoleCommand = (StartConsoleCommand) commands.get(":start");
+        StartConsoleCommand startConsoleCommand = (StartConsoleCommand) commands.get(CommandKeys.START.getKey());
         boolean isBotRunning = startConsoleCommand.getIsBotRunning();
 
         StartBotInActiveRoomsMode startBotInActiveRoomsMode = (StartBotInActiveRoomsMode)

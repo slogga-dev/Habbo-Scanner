@@ -15,6 +15,7 @@ import org.slogga.habboscanner.dao.mysql.LogsDAO;
 
 import org.slogga.habboscanner.discord.DiscordBot;
 
+import org.slogga.habboscanner.models.CommandKeys;
 import org.slogga.habboscanner.models.SourceType;
 
 public class ErrorHandlers {
@@ -39,7 +40,7 @@ public class ErrorHandlers {
         int consoleUserId = consoleHandlers.getUserId();
 
         FollowConsoleCommand followConsoleCommand = (FollowConsoleCommand)
-                consoleHandlers.getCommands().get(":follow");
+                consoleHandlers.getCommands().get(CommandKeys.FOLLOW.getKey());
 
         SourceType sourceType = followConsoleCommand.getSourceType();
 

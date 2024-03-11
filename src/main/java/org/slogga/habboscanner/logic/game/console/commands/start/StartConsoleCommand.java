@@ -16,6 +16,7 @@ import org.slogga.habboscanner.logic.game.console.IConsoleCommand;
 import org.slogga.habboscanner.logic.game.console.commands.start.modes.*;
 
 import org.slogga.habboscanner.HabboScanner;
+import org.slogga.habboscanner.models.CommandKeys;
 
 public class StartConsoleCommand implements IConsoleCommand {
     @Getter
@@ -46,7 +47,7 @@ public class StartConsoleCommand implements IConsoleCommand {
                 .getConfigurator().getProperties().get("bot").getProperty("bot.energy.saving.mode.enabled"));
 
         EnergySavingConsoleCommand energySavingConsoleCommand = (EnergySavingConsoleCommand)
-                HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getCommands().get(":energy_saving");
+                HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getCommands().get(CommandKeys.ENERGY_SAVING.getKey());
 
         if (isEnergySavingModeEnabled) energySavingConsoleCommand.setEnergySavingMode(true);
 
@@ -94,7 +95,7 @@ public class StartConsoleCommand implements IConsoleCommand {
     private void resetPreviousCommands(){
         IConsoleCommand command = HabboScanner.getInstance()
                 .getConfigurator()
-                .getConsoleHandlers().getCommands().get(":follow");
+                .getConsoleHandlers().getCommands().get(CommandKeys.FOLLOW.getKey());
 
         if (command == null) return;
 

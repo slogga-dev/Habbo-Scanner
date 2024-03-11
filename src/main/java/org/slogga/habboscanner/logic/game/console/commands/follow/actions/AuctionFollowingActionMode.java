@@ -14,14 +14,14 @@ import org.slogga.habboscanner.HabboScanner;
 public class AuctionFollowingActionMode implements FollowingActionMode {
     @Override
     public void handle() {
-        ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-
         int consoleUserId = HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getUserId();
 
         String followingAuctionMessage = HabboScanner.getInstance().getConfigurator()
                 .getProperties().get("message").getProperty("following.auction.message");
-        scheduledExecutorService.schedule(() -> HabboActions.sendPrivateMessage(consoleUserId, followingAuctionMessage),
-                1000, TimeUnit.MILLISECONDS);
+
+        ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+
+        HabboActions.sendPrivateMessage(consoleUserId, followingAuctionMessage);
 
         AtomicReference<Instant> lastMessageTime = new AtomicReference<>(Instant.now());
 
