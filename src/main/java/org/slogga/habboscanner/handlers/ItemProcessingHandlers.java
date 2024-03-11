@@ -26,6 +26,8 @@ import org.slogga.habboscanner.HabboScanner;
 import org.slogga.habboscanner.dao.mysql.items.ItemsTimelineDAO;
 
 import org.slogga.habboscanner.logic.game.ItemProcessor;
+import org.slogga.habboscanner.logic.game.console.commands.follow.FollowConsoleCommand;
+import org.slogga.habboscanner.logic.game.console.commands.follow.FollowingActionMode;
 import org.slogga.habboscanner.logic.game.furni.FurniTracker;
 
 import org.slogga.habboscanner.models.*;
@@ -58,9 +60,20 @@ public class ItemProcessingHandlers {
         Furni oldestFurni = itemProcessor.getOldestFurni();
 
         settingClosestEntries:try {
+            FollowConsoleCommand followConsoleCommmand = (FollowConsoleCommand)HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getCommands().get(":follow");
             // If the id passed is null it just gets outside this method since there are no items in the room
-            if (oldestFurni.getId() == null)
+            System.out.println(oldestFurni.getId());
+            System.out.println(followConsoleCommmand.isFollowing());
+            if (oldestFurni.getId() == null){
+                if(followConsoleCommmand.isFollowing()){
+                    followConsoleCommmand.handleEmptyRoom();
+                }
                 break settingClosestEntries;
+            }
+            if(followConsoleCommmand.isFollowing()){
+                FollowingActionMode actionMode = followConsoleCommmand.getActionModes().get(followConsoleCommmand.getFollowingAction());
+                actionMode.handle();
+            }
 
             closestEntries = ItemsTimelineDAO.selectClosestEntries(type.getType(), oldestFurni.getId());
         } catch (SQLException | IOException exception) {

@@ -16,10 +16,6 @@ public class DefaultFollowingActionMode implements FollowingActionMode {
     @Override
     public void handle() {
         int consoleUserId = HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getUserId();
-
-        ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-
-        scheduledExecutorService.schedule(() -> {
             String endOfFurniInfoModeMessage = HabboScanner.getInstance().getConfigurator()
                     .getProperties().get("message").getProperty("end.of.furni_info.mode.message");
 
@@ -36,7 +32,6 @@ public class DefaultFollowingActionMode implements FollowingActionMode {
             HabboScanner.getInstance()
                     .getConfigurator()
                     .getRoomInfoHandlers().refreshLastRoomAccess();
-        }, 3, TimeUnit.SECONDS);
     }
 }
 
