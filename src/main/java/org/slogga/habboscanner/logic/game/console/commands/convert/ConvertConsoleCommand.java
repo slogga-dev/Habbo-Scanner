@@ -5,7 +5,7 @@ import java.util.*;
 import gearth.protocol.HMessage;
 
 import lombok.Getter;
-import org.apache.commons.lang3.NotImplementedException;
+
 import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.console.IConsoleCommand;
 
@@ -50,11 +50,6 @@ public class ConvertConsoleCommand implements IConsoleCommand {
         }
 
         convertFile.handle(userId);
-    }
-
-    @Override
-    public void resetForStart() {
-        throw new NotImplementedException();
     }
 
     @Override

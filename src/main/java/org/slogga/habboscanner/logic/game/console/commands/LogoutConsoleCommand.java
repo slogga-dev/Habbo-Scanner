@@ -4,8 +4,6 @@ import java.util.concurrent.*;
 
 import gearth.protocol.HMessage;
 
-import org.apache.commons.lang3.NotImplementedException;
-
 import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.console.IConsoleCommand;
 
@@ -28,9 +26,5 @@ public class LogoutConsoleCommand implements IConsoleCommand {
     public String getDescription() {
         return HabboScanner.getInstance().getConfigurator().getProperties().get("command_description")
                 .getProperty("console.logout.command.description");
-    }
-    @Override
-    public void resetForStart() {
-        throw new NotImplementedException();
     }
 }

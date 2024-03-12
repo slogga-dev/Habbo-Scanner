@@ -5,7 +5,6 @@ import java.util.concurrent.*;
 
 import gearth.protocol.HMessage;
 
-import org.apache.commons.lang3.NotImplementedException;
 import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.console.IConsoleCommand;
 
@@ -35,7 +34,7 @@ public class InfoConsoleCommand implements IConsoleCommand {
         boolean energySavingMode = energySavingConsoleCommand.getEnergySavingMode();
 
         StartConsoleCommand startConsoleCommand = (StartConsoleCommand) commands.get(CommandKeys.START.getKey());
-        boolean isBotRunning = startConsoleCommand.getIsBotRunning();
+        boolean isBotRunning = startConsoleCommand.isBotRunning();
 
         StartBotInActiveRoomsMode startBotInActiveRoomsMode = (StartBotInActiveRoomsMode)
                 startConsoleCommand.getStartModes().get("bot.in.active.rooms");
@@ -65,9 +64,5 @@ public class InfoConsoleCommand implements IConsoleCommand {
 
             HabboActions.sendPrivateMessage(userId, message);
         }, delay, TimeUnit.MILLISECONDS);
-    }
-    @Override
-    public void resetForStart() {
-        throw new NotImplementedException();
     }
 }

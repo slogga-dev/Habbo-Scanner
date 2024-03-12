@@ -5,7 +5,6 @@ import java.sql.SQLException;
 
 import gearth.protocol.HMessage;
 
-import org.apache.commons.lang3.NotImplementedException;
 import org.slogga.habboscanner.dao.mysql.items.ItemsDAO;
 
 import org.slogga.habboscanner.logic.game.HabboActions;
@@ -36,9 +35,5 @@ public class UpdateConsoleCommand implements IConsoleCommand {
     public String getDescription() {
         return HabboScanner.getInstance().getConfigurator().getProperties().get("command_description")
                 .getProperty("console.update.command.description");
-    }
-    @Override
-    public void resetForStart() {
-        throw new NotImplementedException();
     }
 }

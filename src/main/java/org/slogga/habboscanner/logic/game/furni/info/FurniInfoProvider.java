@@ -52,18 +52,16 @@ public class FurniInfoProvider {
 
         ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 
-        scheduledExecutorService.schedule(() -> {
-            String furniJustPlacedMessage = HabboScanner
-                    .getInstance()
-                    .getConfigurator()
-                    .getProperties()
-                    .get("message")
-                    .getProperty("furni.just.placed.message");
+        String furniJustPlacedMessage = HabboScanner
+                .getInstance()
+                .getConfigurator()
+                .getProperties()
+                .get("message")
+                .getProperty("furni.just.placed.message");
 
-            HabboActions.sendPrivateMessage(userId, furniJustPlacedMessage);
+        HabboActions.sendPrivateMessage(userId, furniJustPlacedMessage);
 
-            scheduledExecutorService.shutdown();
-        }, 4, TimeUnit.SECONDS);
+        scheduledExecutorService.shutdown();
     }
 
     private void processRoomWithFurni(ArrayList<HashMap<String, Object>> roomFurni,
@@ -99,12 +97,8 @@ public class FurniInfoProvider {
 
         HabboActions.sendPrivateMessage(userId, message);
 
-        ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+        if (itemDefinition == null) return;
 
-        scheduledExecutorService.schedule(() -> {
-            if (itemDefinition == null) return;
-
-            furniInfoHandler.handleUserWithMorePieces(itemDefinition, classname);
-        }, 4500, TimeUnit.MILLISECONDS);
+        furniInfoHandler.handleUserWithMorePieces(itemDefinition, classname);
     }
 }

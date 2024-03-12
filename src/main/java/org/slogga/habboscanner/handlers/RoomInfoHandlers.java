@@ -14,6 +14,7 @@ import org.slogga.habboscanner.discord.DiscordBot;
 import org.slogga.habboscanner.dao.mysql.RoomsDAO;
 
 import org.slogga.habboscanner.logic.game.HabboActions;
+import org.slogga.habboscanner.logic.game.console.commands.follow.FollowConsoleCommand;
 import org.slogga.habboscanner.logic.game.console.commands.start.StartConsoleCommand;
 
 import org.slogga.habboscanner.models.CommandKeys;
@@ -44,9 +45,7 @@ public class RoomInfoHandlers {
         packet.setReadIndex(15);
 
         roomId = packet.readInteger();
-
         itemProcessor = new ItemProcessor();
-
         lastRoomAccess = System.currentTimeMillis();
 
         DiscordBot discordBot = HabboScanner.getInstance().getDiscordBot();
@@ -58,7 +57,7 @@ public class RoomInfoHandlers {
                 .getConsoleHandlers()
                 .getCommands()
                 .get(CommandKeys.START.getKey());
-        boolean isBotRunning = startConsoleCommand.getIsBotRunning();
+        boolean isBotRunning = startConsoleCommand.isBotRunning();
 
         if (discordBot != null && criticalAirCrashWarning && isBotRunning) {
             discordBot.sendMessageToFeedChannel("ma... che è successo @everyone? boo forse ero ubriaca perché ora il mio client funziona non so perché agaga ho ripreso a lavorare!");
@@ -107,6 +106,36 @@ public class RoomInfoHandlers {
         }
 
         roomAccessMode = RoomAccessMode.fromValue(message.getPacket().readInteger());
+
+        FollowConsoleCommand followConsoleCommand = (FollowConsoleCommand) HabboScanner.getInstance()
+                .getConfigurator().getConsoleHandlers().getCommands().get(CommandKeys.FOLLOW.getKey());
+
+        if (!followConsoleCommand.isFollowing()) return;
+
+        int consoleUserId = HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getUserId();
+
+        switch (roomAccessMode) {
+            case LOCKED: {
+                String closedRoomAccessMessage = HabboScanner.getInstance()
+                        .getConfigurator().getProperties().get("message").getProperty("closed.room.access.message");
+
+                HabboActions.sendPrivateMessage(consoleUserId, closedRoomAccessMessage);
+
+                break;
+            }
+
+            case UNKNOWN: {
+                String noRoomAccessMessage = HabboScanner.getInstance()
+                        .getConfigurator().getProperties().get("message").getProperty("no.room.access.message");
+
+                HabboActions.sendPrivateMessage(consoleUserId, noRoomAccessMessage);
+
+                break;
+            }
+
+            default:
+                break;
+        }
     }
 
     public void onRoomVisualizationSettings(HMessage message) {
@@ -115,7 +144,7 @@ public class RoomInfoHandlers {
                 .getConfigurator()
                 .getConsoleHandlers().getCommands().get(CommandKeys.START.getKey());
 
-        boolean isBotRunning = startConsoleCommand.getIsBotRunning();
+        boolean isBotRunning = startConsoleCommand.isBotRunning();
 
         boolean isBotInActiveRooms = Boolean.parseBoolean(HabboScanner.getInstance()
                         .getConfigurator()
@@ -129,6 +158,6 @@ public class RoomInfoHandlers {
     }
 
     public void refreshLastRoomAccess() {
-        this.lastRoomAccess = System.currentTimeMillis();
+        lastRoomAccess = System.currentTimeMillis();
     }
 }

@@ -28,7 +28,7 @@ public class InfoDiscordCommand implements IDiscordCommand {
         boolean energySavingMode = energySavingConsoleCommand.getEnergySavingMode();
 
         StartConsoleCommand startConsoleCommand = (StartConsoleCommand) commands.get(CommandKeys.START.getKey());
-        boolean isBotRunning = startConsoleCommand.getIsBotRunning();
+        boolean isBotRunning = startConsoleCommand.isBotRunning();
 
         StartBotInActiveRoomsMode startBotInActiveRoomsMode = (StartBotInActiveRoomsMode)
                 startConsoleCommand.getStartModes().get("bot.in.active.rooms");

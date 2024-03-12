@@ -22,7 +22,7 @@ public class FurniTracker {
     private final ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 
     public void manageFurniTracking(Date estimatedDate) {
-        if (estimatedDate == null )
+        if (estimatedDate == null)
             return;
 
         ItemProcessor itemProcessor = HabboScanner.getInstance()
@@ -42,22 +42,29 @@ public class FurniTracker {
                 .getConfigurator().getProperties()
                 .get("message").getProperty("oldest.furni.in.room.message");
 
-        if (oldestFurniInRoomMessage == null) return;
-
         oldestFurniInRoomMessage = oldestFurniInRoomMessage
                 .replace("%name%", name)
                 .replace("%classname%", classname)
-                .replace("%date%", formattedDate)
+                .replace("%date%", formattedDate);
+
+        String rarestFurniInRoomMessage = HabboScanner.getInstance()
+                .getConfigurator().getProperties()
+                .get("message").getProperty("rarest.furni.in.room.message");
+
+        rarestFurniInRoomMessage = rarestFurniInRoomMessage
                 .replace("%rarestFurniName%", rarestFurniName)
                 .replace("%highestSeenPieces%", Integer.toString(highestSeenPieces));
 
         int consoleUserId = HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getUserId();
-        String finalMessage = oldestFurniInRoomMessage;
 
-        scheduledExecutorService.schedule(() -> HabboActions.sendPrivateMessage(consoleUserId, finalMessage),
-                1, TimeUnit.SECONDS);
+        HabboActions.sendPrivateMessage(consoleUserId, oldestFurniInRoomMessage);
 
-        processTransactionsAndTerminate();
+        String finalRarestFurniInRoomMessage = rarestFurniInRoomMessage;
+
+        scheduledExecutorService.schedule(() -> HabboActions.
+                sendPrivateMessage(consoleUserId, finalRarestFurniInRoomMessage), 1, TimeUnit.SECONDS);
+
+        scheduledExecutorService.schedule(this::processTransactionsAndTerminate, 2, TimeUnit.SECONDS);
     }
 
     private void processTransactionsAndTerminate() {
@@ -67,7 +74,7 @@ public class FurniTracker {
             throw new RuntimeException(exception);
         }
 
-        sayGoodbye();
+        scheduledExecutorService.schedule(this::sayGoodbye, 2, TimeUnit.SECONDS);
     }
 
     private void processTransactions() throws SQLException {
@@ -80,7 +87,8 @@ public class FurniTracker {
         int consoleUserId = HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getUserId();
 
         if (transactions.isEmpty()) {
-            String noTradesDetectedMessage = HabboScanner.getInstance().getConfigurator().getProperties().get("message").getProperty("no.trades.detected.message");
+            String noTradesDetectedMessage = HabboScanner.getInstance().getConfigurator()
+                    .getProperties().get("message").getProperty("no.trades.detected.message");
 
             HabboActions.sendPrivateMessage(consoleUserId, noTradesDetectedMessage);
 
@@ -92,8 +100,8 @@ public class FurniTracker {
 
         HabboActions.sendPrivateMessage(consoleUserId, latestFurniPassedMessage);
 
-        scheduledExecutorService.schedule(() -> transactions.forEach(transaction ->
-                HabboActions.sendPrivateMessage(consoleUserId, transaction)), 2, TimeUnit.SECONDS);
+        transactions.forEach(transaction -> scheduledExecutorService.schedule(() ->
+                HabboActions.sendPrivateMessage(consoleUserId, transaction), 2, TimeUnit.SECONDS));
     }
 
     private void sayGoodbye() {
@@ -107,6 +115,6 @@ public class FurniTracker {
         int userId = HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getUserId();
         String finalMessage = botGoodbyeMessage;
 
-        scheduledExecutorService.schedule(() -> HabboActions.sendPrivateMessage(userId, finalMessage), 3, TimeUnit.SECONDS);
+        HabboActions.sendPrivateMessage(userId, finalMessage);
     }
 }

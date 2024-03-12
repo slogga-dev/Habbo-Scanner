@@ -25,7 +25,7 @@ public class StartBotInActiveRoomsMode implements StartMode {
                     .getConsoleHandlers()
                     .getCommands()
                     .get(CommandKeys.START.getKey());
-            boolean isBotRunning = startConsoleCommand.getIsBotRunning();
+            boolean isBotRunning = startConsoleCommand.isBotRunning();
 
             if (!isBotRunning || isProcessingActiveRooms)
                 return;

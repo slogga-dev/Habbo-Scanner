@@ -4,9 +4,8 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.apache.commons.lang3.NotImplementedException;
+import lombok.*;
+
 import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.console.commands.EnergySavingConsoleCommand;
 import gearth.protocol.*;
@@ -22,6 +21,9 @@ public class StartConsoleCommand implements IConsoleCommand {
     @Getter
     private final Map<String, StartMode> startModes = new HashMap<>();
 
+    private boolean hasExecuted = false;
+
+    @Getter
     @Setter
     private boolean isBotRunning;
 
@@ -36,10 +38,12 @@ public class StartConsoleCommand implements IConsoleCommand {
     @Override
     public void execute(HMessage message, String messageText, int userId) {
         message.setBlocked(true);
-        resetPreviousCommands();
-        if (isBotRunning) return;
+
+        if (hasExecuted)
+            return;
 
         isBotRunning = true;
+        hasExecuted = true;
 
         HabboScanner.getInstance().getConfigurator().getRoomInfoHandlers().refreshLastRoomAccess();
 
@@ -77,28 +81,8 @@ public class StartConsoleCommand implements IConsoleCommand {
     }
 
     @Override
-    public void resetForStart() {
-        throw new NotImplementedException();
-    }
-
-    @Override
     public String getDescription() {
         return HabboScanner.getInstance().getConfigurator().getProperties().get("command_description")
                 .getProperty("console.start.command.description");
-    }
-
-    public boolean getIsBotRunning() {
-        return isBotRunning;
-    }
-
-    // is called plural in case is necessary to reset other commands (for now is only necessary for follow )
-    private void resetPreviousCommands(){
-        IConsoleCommand command = HabboScanner.getInstance()
-                .getConfigurator()
-                .getConsoleHandlers().getCommands().get(CommandKeys.FOLLOW.getKey());
-
-        if (command == null) return;
-
-        command.resetForStart();
     }
 }

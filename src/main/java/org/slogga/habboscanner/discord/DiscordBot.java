@@ -195,7 +195,8 @@ public class DiscordBot extends ListenerAdapter {
     }
 
     private void setupConvertCommand() {
-        Properties commandDescriptionProperties = HabboScanner.getInstance().getConfigurator().getProperties().get("command_description");
+        Properties commandDescriptionProperties = HabboScanner.getInstance()
+                .getConfigurator().getProperties().get("command_description");
 
         String description = commandDescriptionProperties.getProperty("discord.convert.command.description");
 

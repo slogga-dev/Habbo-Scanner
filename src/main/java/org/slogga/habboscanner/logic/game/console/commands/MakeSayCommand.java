@@ -1,8 +1,8 @@
 package org.slogga.habboscanner.logic.game.console.commands;
 
-import org.apache.commons.lang3.NotImplementedException;
-import org.slogga.habboscanner.discord.DiscordBot;
 import gearth.protocol.HMessage;
+
+import org.slogga.habboscanner.discord.DiscordBot;
 
 import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.console.IConsoleCommand;
@@ -45,9 +45,5 @@ public class MakeSayCommand implements IConsoleCommand {
     public String getDescription() {
         return HabboScanner.getInstance().getConfigurator().getProperties().get("command_description")
                 .getProperty("console.makesay.command.description");
-    }
-    @Override
-    public void resetForStart() {
-        throw new NotImplementedException();
     }
 }

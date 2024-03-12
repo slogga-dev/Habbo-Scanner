@@ -1,7 +1,6 @@
 package org.slogga.habboscanner.logic.game.console.commands.follow;
 
 import java.util.*;
-import java.util.concurrent.*;
 
 import gearth.protocol.*;
 
@@ -12,8 +11,6 @@ import org.slogga.habboscanner.logic.game.console.commands.start.StartConsoleCom
 
 import org.slogga.habboscanner.logic.game.console.commands.follow.actions.*;
 import org.slogga.habboscanner.logic.game.console.IConsoleCommand;
-
-import org.slogga.habboscanner.handlers.RoomInfoHandlers;
 
 import org.slogga.habboscanner.models.*;
 
@@ -33,7 +30,7 @@ public class FollowConsoleCommand implements IConsoleCommand {
         actionModes.put(FollowingAction.FURNI_INFO, new FurniInfoFollowingActionMode());
         actionModes.put(FollowingAction.AUCTION, new AuctionFollowingActionMode());
 
-        // Is set as false until it reaches the room; if for some reason it doesn't this doesn't work
+        // Is set as false until it reaches the room; If for some reason it doesn't this doesn't work
         this.isFollowing = false;
     }
 
@@ -45,13 +42,12 @@ public class FollowConsoleCommand implements IConsoleCommand {
                 .getConfigurator()
                 .getConsoleHandlers().getCommands().get(CommandKeys.START.getKey());
 
-        if (!startConsoleCommand.getIsBotRunning()) return;
+        if (!startConsoleCommand.isBotRunning() || isFollowing) return;
 
         // Set :start command to false, so it cannot be called by another user
-        // we must implement a force follow for admin
         startConsoleCommand.setBotRunning(false);
 
-        this.sourceType = SourceType.HABBO;
+        sourceType = SourceType.HABBO;
 
         String[] arguments = messageText.split(" ", 2);
 
@@ -62,50 +58,9 @@ public class FollowConsoleCommand implements IConsoleCommand {
         followingAction = FollowingAction.fromValue(followingActionString
                 .orElse(FollowingAction.DEFAULT.getAction()));
 
-        // The bot follows the user
+        isFollowing = true;
+
         HabboActions.followUser(userId);
-
-        ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-
-        // The bot is already trying to follow the user
-        // is scheduled to let Habbo set the access mode to the room by the interceptor
-        scheduledExecutorService.schedule(() -> {
-            RoomInfoHandlers roomInfoHandlers = HabboScanner.getInstance()
-                    .getConfigurator()
-                    .getRoomInfoHandlers();
-            RoomAccessMode roomAccessMode = roomInfoHandlers.getRoomAccessMode();
-
-            switch (roomAccessMode) {
-                case OPEN: {
-                    this.isFollowing = true;
-
-                    break;
-                }
-
-                case LOCKED: {
-                    String closedRoomAccessMessage = HabboScanner.getInstance()
-                            .getConfigurator().getProperties().get("message").getProperty("closed.room.access.message");
-
-                    HabboActions.sendPrivateMessage(userId, closedRoomAccessMessage);
-
-                    break;
-                }
-
-                case UNKNOWN: {
-                    String noRoomAccessMessage = HabboScanner.getInstance()
-                            .getConfigurator().getProperties().get("message").getProperty("no.room.access.message");
-
-                    HabboActions.sendPrivateMessage(userId, noRoomAccessMessage);
-
-                    break;
-                }
-            }
-        }, 1, TimeUnit.SECONDS);
-    }
-
-    @Override
-    public void resetForStart() {
-        this.isFollowing = false;
     }
 
     @Override

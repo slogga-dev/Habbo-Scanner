@@ -24,7 +24,7 @@ public class StartDiscordCommand implements IDiscordCommand {
 
         Properties messageProperties = HabboScanner.getInstance().getConfigurator().getProperties().get("message");
 
-        if (startConsoleCommand.getIsBotRunning()) {
+        if (startConsoleCommand.isBotRunning()) {
             String botAlreadySearchingMessage = messageProperties.getProperty("bot.already.searching.message");
 
             event.reply(botAlreadySearchingMessage).queue();

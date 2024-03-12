@@ -37,7 +37,7 @@ public class StartBotPerIdMode implements StartMode {
         scheduledExecutorService.scheduleAtFixedRate(() -> {
             StartConsoleCommand startConsoleCommand = (StartConsoleCommand) HabboScanner
                     .getInstance().getConfigurator().getConsoleHandlers().getCommands().get(CommandKeys.START.getKey());
-            boolean isBotRunning = startConsoleCommand.getIsBotRunning();
+            boolean isBotRunning = startConsoleCommand.isBotRunning();
 
             if (!isBotRunning) return;
 

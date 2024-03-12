@@ -9,8 +9,6 @@ import java.sql.*;
 
 import java.util.Arrays;
 
-import java.util.concurrent.atomic.AtomicReference;
-
 import gearth.extensions.parsers.*;
 
 import gearth.protocol.HPacket;
@@ -25,8 +23,7 @@ import org.slogga.habboscanner.HabboScanner;
 import org.slogga.habboscanner.dao.mysql.items.ItemsTimelineDAO;
 
 import org.slogga.habboscanner.logic.game.ItemProcessor;
-import org.slogga.habboscanner.logic.game.console.commands.follow.FollowConsoleCommand;
-import org.slogga.habboscanner.logic.game.console.commands.follow.FollowingActionMode;
+import org.slogga.habboscanner.logic.game.console.commands.follow.*;
 import org.slogga.habboscanner.logic.game.furni.FurniTracker;
 
 import org.slogga.habboscanner.models.*;
@@ -54,7 +51,7 @@ public class ItemProcessingHandlers {
         int roomId = roomInfoHandlers.getRoomId();
         Arrays.stream(items).forEach(item -> itemProcessor.processFloorItem(item, type, roomId));
 
-        AtomicReference<Triple<Integer, ItemTimeline, ItemTimeline>> closestEntries = new AtomicReference<>();
+        Triple<Integer, ItemTimeline, ItemTimeline> closestEntries = null;
 
         Furni oldestFurni = itemProcessor.getOldestFurni();
 
@@ -75,12 +72,12 @@ public class ItemProcessingHandlers {
                     .get(followConsoleCommand.getFollowingAction());
             actionMode.handle();
 
-            closestEntries.set(ItemsTimelineDAO.selectClosestEntries(type.getType(), oldestFurni.getId()));
+            closestEntries = ItemsTimelineDAO.selectClosestEntries(type.getType(), oldestFurni.getId());
         } catch (SQLException | IOException exception) {
             throw new RuntimeException(exception);
         }
 
-        Date estimatedDate = DateUtils.getLinearInterpolatedDate(closestEntries.get());
+        Date estimatedDate = DateUtils.getLinearInterpolatedDate(closestEntries);
 
         if (followConsoleCommand.getFollowingAction() != FollowingAction.DEFAULT) return;
 

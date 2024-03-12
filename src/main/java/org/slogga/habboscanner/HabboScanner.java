@@ -89,19 +89,17 @@ public class HabboScanner extends Extension {
     private void scheduleAirCrashCheck() {
         ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 
-        /*
-            Time in milliseconds.
-            400000 ms is approximately 6.67 minutes (400000 ms / 60000 ms/minute)
-        */
-        final long accessTimeout = 400000; //
-        final String crashMessage = configurator.getProperties()
-                .get("message").getProperty("bot.room.manager.crash.message");
+        /* Time in milliseconds.
+            400000 ms is approximately 6.67 minutes (400000 ms / 60000 ms/minutes */
+        final long accessTimeout = 400000;
+        final String crashMessage = configurator.getProperties().get("message")
+                .getProperty("bot.room.manager.crash.message");
 
         long lastRoomAccess = configurator.getRoomInfoHandlers().getLastRoomAccess();
         StartConsoleCommand startConsoleCommand = (StartConsoleCommand) configurator
                 .getConsoleHandlers().getCommands().get(CommandKeys.START.getKey());
 
-        boolean isBotRunning = startConsoleCommand.getIsBotRunning();
+        boolean isBotRunning = startConsoleCommand.isBotRunning();
 
         scheduledExecutorService.scheduleAtFixedRate(() -> {
             boolean isAccessRecent = lastRoomAccess > 0;

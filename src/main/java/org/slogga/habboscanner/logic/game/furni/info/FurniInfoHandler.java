@@ -3,7 +3,6 @@ package org.slogga.habboscanner.logic.game.furni.info;
 import java.io.IOException;
 import java.sql.*;
 import java.util.*;
-import java.util.concurrent.*;
 
 import org.slogga.habboscanner.HabboScanner;
 import org.slogga.habboscanner.dao.mysql.data.*;
@@ -66,41 +65,38 @@ public class FurniInfoHandler {
     }
 
     public void handleFurniHistory(int id, int userId) {
-        ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+        ArrayList<HashMap<String, Object>> furniHistory;
 
-        executorService.schedule(() -> {
-            ArrayList<HashMap<String, Object>> furniHistory;
+        try {
+            furniHistory = DataDAO.retrieveDataHistory(id, FurnitypeEnum.FLOOR.getType());
+        } catch (SQLException exception) {
+            throw new RuntimeException(exception);
+        }
 
-            try {
-                furniHistory = DataDAO.retrieveDataHistory(id, FurnitypeEnum.FLOOR.getType());
-            } catch (SQLException exception) {
-                throw new RuntimeException(exception);
-            }
+        StringBuilder finalMessage = new StringBuilder();
 
-            StringBuilder finalMessage = new StringBuilder();
+        if (furniHistory.size() == 1) {
+            String noTradeInfoMessage = HabboScanner.getInstance()
+                    .getConfigurator()
+                    .getProperties()
+                    .get("message")
+                    .getProperty("no.trade.info.message");
 
-            if (furniHistory.size() == 1) {
-                String noTradeInfoMessage = HabboScanner.getInstance()
-                        .getConfigurator()
-                        .getProperties()
-                        .get("message")
-                        .getProperty("no.trade.info.message");
+            finalMessage.append(noTradeInfoMessage);
 
-                finalMessage.append(noTradeInfoMessage);
+            return;
+        }
 
-                return;
-            }
+        String furniHistoryMessage = HabboScanner.getInstance().getConfigurator()
+                .getProperties().get("message").getProperty("furni.history.message");
 
-            String furniHistoryMessage = HabboScanner.getInstance().getConfigurator().getProperties().get("message").getProperty("furni.history.message");
+        finalMessage.append(furniHistoryMessage);
 
-            finalMessage.append(furniHistoryMessage);
+        StringJoiner joiner = getFurniHistoryStringJoiner(furniHistory);
 
-            StringJoiner joiner = getFurniHistoryStringJoiner(furniHistory);
+        finalMessage.append(joiner);
 
-            finalMessage.append(joiner);
-
-            HabboActions.sendPrivateMessage(userId, finalMessage.toString());
-        }, 5, TimeUnit.SECONDS);
+        HabboActions.sendPrivateMessage(userId, finalMessage.toString());
     }
 
     private StringJoiner getFurniHistoryStringJoiner(ArrayList<HashMap<String, Object>> furniHistory) {

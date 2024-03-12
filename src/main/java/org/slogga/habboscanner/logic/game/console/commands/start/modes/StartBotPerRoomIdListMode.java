@@ -23,7 +23,7 @@ public class StartBotPerRoomIdListMode implements StartMode {
         executorService.scheduleAtFixedRate(() -> {
             StartConsoleCommand startConsoleCommand = (StartConsoleCommand) HabboScanner
                     .getInstance().getConfigurator().getConsoleHandlers().getCommands().get(CommandKeys.START.getKey());
-            boolean isBotRunning = startConsoleCommand.getIsBotRunning();
+            boolean isBotRunning = startConsoleCommand.isBotRunning();
 
             if (!isBotRunning || currentIndex.get() >= roomIds.length)
                 return;

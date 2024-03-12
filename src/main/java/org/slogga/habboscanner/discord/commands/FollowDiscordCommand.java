@@ -39,7 +39,7 @@ public class FollowDiscordCommand implements IDiscordCommand {
                 .getConfigurator()
                 .getConsoleHandlers().getCommands().get(CommandKeys.START.getKey());
 
-        if (!startConsoleCommand.getIsBotRunning()) {
+        if (!startConsoleCommand.isBotRunning()) {
             String botNotActiveMessage = messageProperties.getProperty("bot.not.active.message");
 
             event.reply(botNotActiveMessage).queue();

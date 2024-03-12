@@ -17,7 +17,7 @@ public class ClientOptimizationHandler {
         boolean energySavingMode = energySavingConsoleCommand.getEnergySavingMode();
 
         StartConsoleCommand startConsoleCommand = (StartConsoleCommand) commands.get(CommandKeys.START.getKey());
-        boolean isBotRunning = startConsoleCommand.getIsBotRunning();
+        boolean isBotRunning = startConsoleCommand.isBotRunning();
 
         if (!energySavingMode || !isBotRunning) return;
 

@@ -3,7 +3,6 @@ package org.slogga.habboscanner.logic.game.console.commands;
 import java.util.*;
 import java.util.concurrent.*;
 
-import org.apache.commons.lang3.NotImplementedException;
 import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.console.IConsoleCommand;
 
@@ -33,11 +32,6 @@ public class CommandsConsoleCommand implements IConsoleCommand {
         }
 
         executor.schedule(() -> HabboActions.sendPrivateMessage(userId, "----------------------"), delay, TimeUnit.SECONDS);
-    }
-
-    @Override
-    public void resetForStart() {
-        throw new NotImplementedException();
     }
 
     @Override
