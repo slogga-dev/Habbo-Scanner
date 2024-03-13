@@ -39,8 +39,7 @@ public class StartConsoleCommand implements IConsoleCommand {
     public void execute(HMessage message, String messageText, int userId) {
         message.setBlocked(true);
 
-        if (hasExecuted)
-            return;
+        if (hasExecuted) return;
 
         isBotRunning = true;
         hasExecuted = true;

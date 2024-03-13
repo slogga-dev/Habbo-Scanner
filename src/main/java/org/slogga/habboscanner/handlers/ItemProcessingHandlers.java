@@ -59,8 +59,7 @@ public class ItemProcessingHandlers {
                 .getConfigurator().getConsoleHandlers().getCommands().get(CommandKeys.FOLLOW.getKey());
 
         settingClosestEntries:try {
-            if (!followConsoleCommand.isFollowing())
-                return;
+            if (!followConsoleCommand.isFollowing()) return;
 
             if (oldestFurni.getId() == null && followConsoleCommand.isFollowing())
                 followConsoleCommand.handleEmptyRoom();
@@ -70,7 +69,9 @@ public class ItemProcessingHandlers {
 
             FollowingActionMode actionMode = followConsoleCommand.getActionModes()
                     .get(followConsoleCommand.getFollowingAction());
-            actionMode.handle();
+
+            if (actionMode != null)
+                actionMode.handle();
 
             closestEntries = ItemsTimelineDAO.selectClosestEntries(type.getType(), oldestFurni.getId());
         } catch (SQLException | IOException exception) {

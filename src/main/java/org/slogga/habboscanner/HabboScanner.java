@@ -15,7 +15,7 @@ import org.slogga.habboscanner.models.CommandKeys;
 @Getter
 @Setter
 @ExtensionInfo(
-        Title = "Habbo scanner",
+        Title = "Habbo Scanner",
         Description = "Scan data all around Habbo!",
         Version = "3.0.0",
         Author = "slogga.it"

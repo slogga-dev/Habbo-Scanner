@@ -27,7 +27,7 @@ public class FurniMovementHandlers {
 
     private long lastMovedTime = 0;
 
-    private static final int MOVE_DELAY_IN_MILLISECONDS = 2 * 1000; // 2 seconds.
+    private static final int MOVE_DELAY_IN_MILLISECONDS = 1000; // 1 second.
 
     public void onMoveWallItem(HMessage message) {
         handleMoveItem(message, FurnitypeEnum.WALL);

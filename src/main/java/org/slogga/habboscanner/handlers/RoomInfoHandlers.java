@@ -121,6 +121,8 @@ public class RoomInfoHandlers {
 
                 HabboActions.sendPrivateMessage(consoleUserId, closedRoomAccessMessage);
 
+                followConsoleCommand.initiateBotAndRefreshRoomAccess();
+
                 break;
             }
 
@@ -130,11 +132,10 @@ public class RoomInfoHandlers {
 
                 HabboActions.sendPrivateMessage(consoleUserId, noRoomAccessMessage);
 
+                followConsoleCommand.initiateBotAndRefreshRoomAccess();
+
                 break;
             }
-
-            default:
-                break;
         }
     }
 

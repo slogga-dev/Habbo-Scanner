@@ -3,7 +3,7 @@ package org.slogga.habboscanner.logic.game.console.commands;
 import gearth.protocol.HMessage;
 
 import org.slogga.habboscanner.logic.game.console.IConsoleCommand;
-import org.slogga.habboscanner.logic.game.console.commands.start.StartConsoleCommand;
+import org.slogga.habboscanner.logic.game.console.commands.follow.FollowConsoleCommand;
 
 import org.slogga.habboscanner.HabboScanner;
 import org.slogga.habboscanner.models.CommandKeys;
@@ -13,11 +13,10 @@ public class ResumeConsoleCommand implements IConsoleCommand {
     public void execute(HMessage message, String messageText, int userId) {
         message.setBlocked(true);
 
-        StartConsoleCommand startConsoleCommand = (StartConsoleCommand) HabboScanner
-                .getInstance().getConfigurator().getConsoleHandlers().getCommands().get(CommandKeys.START.getKey());
-        startConsoleCommand.setBotRunning(true);
+        FollowConsoleCommand followConsoleCommand = (FollowConsoleCommand) HabboScanner.getInstance().getConfigurator()
+                .getConsoleHandlers().getCommands().get(CommandKeys.FOLLOW.getKey());
 
-        HabboScanner.getInstance().getConfigurator().getRoomInfoHandlers().refreshLastRoomAccess();
+        followConsoleCommand.initiateBotAndRefreshRoomAccess();
     }
 
     @Override

@@ -9,10 +9,11 @@ import org.slogga.habboscanner.dao.mysql.data.DataDAO;
 
 import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.ItemProcessor;
+import org.slogga.habboscanner.logic.game.console.commands.follow.FollowConsoleCommand;
 
 import org.slogga.habboscanner.handlers.RoomInfoHandlers;
 
-import org.slogga.habboscanner.models.Furni;
+import org.slogga.habboscanner.models.*;
 
 import org.slogga.habboscanner.HabboScanner;
 
@@ -21,9 +22,10 @@ import org.slogga.habboscanner.utils.DateUtils;
 public class FurniTracker {
     private final ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 
+    private List<String> transactions;
+
     public void manageFurniTracking(Date estimatedDate) {
-        if (estimatedDate == null)
-            return;
+        if (estimatedDate == null) return;
 
         ItemProcessor itemProcessor = HabboScanner.getInstance()
                 .getConfigurator().getRoomInfoHandlers().getItemProcessor();
@@ -61,10 +63,9 @@ public class FurniTracker {
 
         String finalRarestFurniInRoomMessage = rarestFurniInRoomMessage;
 
-        scheduledExecutorService.schedule(() -> HabboActions.
-                sendPrivateMessage(consoleUserId, finalRarestFurniInRoomMessage), 1, TimeUnit.SECONDS);
+        HabboActions.sendPrivateMessage(consoleUserId, finalRarestFurniInRoomMessage);
 
-        scheduledExecutorService.schedule(this::processTransactionsAndTerminate, 2, TimeUnit.SECONDS);
+        this.processTransactionsAndTerminate();
     }
 
     private void processTransactionsAndTerminate() {
@@ -74,7 +75,8 @@ public class FurniTracker {
             throw new RuntimeException(exception);
         }
 
-        scheduledExecutorService.schedule(this::sayGoodbye, 2, TimeUnit.SECONDS);
+        // Schedule the sayGoodbye method to run after all transactions have been processed
+        scheduledExecutorService.schedule(this::sayGoodbye, 2L * transactions.size() + 1, TimeUnit.SECONDS);
     }
 
     private void processTransactions() throws SQLException {
@@ -82,7 +84,7 @@ public class FurniTracker {
         String currentOwnerName = roomInfoHandlers.getCurrentOwnerName();
         int roomId = roomInfoHandlers.getRoomId();
 
-        List<String> transactions = DataDAO.retrieveDataTransactions(currentOwnerName, roomId);
+        transactions = DataDAO.retrieveDataTransactions(currentOwnerName, roomId);
 
         int consoleUserId = HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getUserId();
 
@@ -100,8 +102,8 @@ public class FurniTracker {
 
         HabboActions.sendPrivateMessage(consoleUserId, latestFurniPassedMessage);
 
-        transactions.forEach(transaction -> scheduledExecutorService.schedule(() ->
-                HabboActions.sendPrivateMessage(consoleUserId, transaction), 2, TimeUnit.SECONDS));
+        transactions.forEach((transaction) -> scheduledExecutorService.schedule(() -> HabboActions.
+                sendPrivateMessage(consoleUserId, transaction), 2, TimeUnit.SECONDS));
     }
 
     private void sayGoodbye() {
@@ -116,5 +118,10 @@ public class FurniTracker {
         String finalMessage = botGoodbyeMessage;
 
         HabboActions.sendPrivateMessage(userId, finalMessage);
+
+        FollowConsoleCommand followConsoleCommand = (FollowConsoleCommand) HabboScanner.getInstance().getConfigurator()
+                .getConsoleHandlers().getCommands().get(CommandKeys.FOLLOW.getKey());
+
+        followConsoleCommand.initiateBotAndRefreshRoomAccess();
     }
 }
