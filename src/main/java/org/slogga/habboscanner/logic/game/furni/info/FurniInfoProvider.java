@@ -97,7 +97,7 @@ public class FurniInfoProvider {
 
         HabboActions.sendPrivateMessage(userId, message);
 
-        if (itemDefinition == null) return;
+        assert itemDefinition != null;
 
         furniInfoHandler.handleUserWithMorePieces(itemDefinition, classname);
     }

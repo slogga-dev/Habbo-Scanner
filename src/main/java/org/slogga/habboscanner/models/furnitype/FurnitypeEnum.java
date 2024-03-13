@@ -1,8 +1,11 @@
 package org.slogga.habboscanner.models.furnitype;
 
+import lombok.Getter;
+
 import java.util.Arrays;
 import java.util.Objects;
 
+@Getter
 public enum FurnitypeEnum {
     FLOOR("Floor"),
     WALL("Wall");
@@ -20,7 +23,4 @@ public enum FurnitypeEnum {
         this.type = type;
     }
 
-    public String getType() {
-        return type;
-    }
 }

@@ -41,7 +41,7 @@ public class FurniMovementHandlers {
         FollowConsoleCommand followConsoleCommand = (FollowConsoleCommand) HabboScanner.getInstance()
                 .getConfigurator().getConsoleHandlers().getCommands().get(CommandKeys.FOLLOW.getKey());
 
-        if (followConsoleCommand.getFollowingAction() == FollowingAction.DEFAULT) return;
+        if (followConsoleCommand.getFollowingAction() != FollowingAction.FURNI_INFO) return;
 
         int id = message.getPacket().readInteger();
 

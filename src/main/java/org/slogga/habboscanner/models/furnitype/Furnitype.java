@@ -1,7 +1,9 @@
 package org.slogga.habboscanner.models.furnitype;
 
+import lombok.Getter;
 import org.slogga.habboscanner.models.furnidata.furnitype.PartColors;
 
+@Getter
 public class Furnitype {
     private final int id;
     private final String classname;
@@ -60,22 +62,5 @@ public class Furnitype {
         this.furniline = furniline;
         this.environment = environment;
         this.rare = rare;
-    }
-
-    public String toString() {
-        return String.format("Furnitype with ID: %d, classname: %s and name: %s \n",
-                id, classname, name);
-    }
-
-    public int getID() {
-        return id;
-    }
-
-    public String getClassname() {
-        return classname;
-    }
-
-    public String getName() {
-        return name;
     }
 }

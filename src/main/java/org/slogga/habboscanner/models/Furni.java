@@ -1,14 +1,19 @@
 package org.slogga.habboscanner.models;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.slogga.habboscanner.models.furnitype.FurnitypeEnum;
 
 import java.sql.Timestamp;
 
+@Getter
 public class Furni {
     private Integer id;
 
+    @Setter
     private String classname;
 
+    @Setter
     private String name;
 
     private String owner;
@@ -34,47 +39,8 @@ public class Furni {
     }
     public Furni(){}
 
-    public Integer getId() {
-        return id;
-    }
-    public String getClassname() {
-        return classname;
-    }
-
-
-    public String getName() {
-        return name;
-    }
-
-    public String getOwner() {
-        return owner;
-    }
-
-    public FurnitypeEnum getType() {
-        return type;
-    }
-
-    public int getRoomID() {
-        return roomID;
-    }
-
-    public String getExtraData() {
-        return extraData;
-    }
-
-    public Timestamp getTimestamp() {
-        return timestamp;
-    }
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public void setClassname(String classname) {
-        this.classname = classname;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 }

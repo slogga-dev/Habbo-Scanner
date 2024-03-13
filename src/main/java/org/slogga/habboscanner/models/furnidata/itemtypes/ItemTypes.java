@@ -1,9 +1,11 @@
 package org.slogga.habboscanner.models.furnidata.itemtypes;
 
+import lombok.Getter;
 import org.slogga.habboscanner.models.furnitype.Furnitype;
 
 import java.util.ArrayList;
 
+@Getter
 public abstract class ItemTypes {
     private final ArrayList<Furnitype> furnitype;
 
@@ -11,7 +13,4 @@ public abstract class ItemTypes {
         this.furnitype = furnitype;
     }
 
-    public ArrayList<Furnitype> getFurnitype() {
-        return furnitype;
-    }
 }

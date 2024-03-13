@@ -31,41 +31,45 @@ public class FurniTracker {
                 .getConfigurator().getRoomInfoHandlers().getItemProcessor();
         Furni oldestFurni = itemProcessor.getOldestFurni();
 
+        String oldestFurniInRoomMessage = prepareOldestFurniMessage(oldestFurni, estimatedDate);
+        String rarestFurniInRoomMessage = prepareRarestFurniMessage(itemProcessor);
+
+        int consoleUserId = HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getUserId();
+
+        HabboActions.sendPrivateMessage(consoleUserId, oldestFurniInRoomMessage);
+        HabboActions.sendPrivateMessage(consoleUserId, rarestFurniInRoomMessage);
+
+        this.processTransactionsAndTerminate();
+    }
+
+    private String prepareOldestFurniMessage(Furni oldestFurni, Date estimatedDate) {
         String name = oldestFurni.getName();
         String classname = oldestFurni.getClassname();
 
         Timestamp timestamp = new Timestamp(estimatedDate.getTime());
         String formattedDate = DateUtils.formatTimestampToDate(timestamp);
 
-        String rarestFurniName = itemProcessor.getRarestFurniName();
-        int highestSeenPieces = itemProcessor.getHighestSeenPieces();
-
         String oldestFurniInRoomMessage = HabboScanner.getInstance()
                 .getConfigurator().getProperties()
                 .get("message").getProperty("oldest.furni.in.room.message");
 
-        oldestFurniInRoomMessage = oldestFurniInRoomMessage
+        return oldestFurniInRoomMessage
                 .replace("%name%", name)
                 .replace("%classname%", classname)
                 .replace("%date%", formattedDate);
+    }
+
+    private String prepareRarestFurniMessage(ItemProcessor itemProcessor) {
+        String rarestFurniName = itemProcessor.getRarestFurniName();
+        int highestSeenPieces = itemProcessor.getHighestSeenPieces();
 
         String rarestFurniInRoomMessage = HabboScanner.getInstance()
                 .getConfigurator().getProperties()
                 .get("message").getProperty("rarest.furni.in.room.message");
 
-        rarestFurniInRoomMessage = rarestFurniInRoomMessage
+        return rarestFurniInRoomMessage
                 .replace("%rarestFurniName%", rarestFurniName)
                 .replace("%highestSeenPieces%", Integer.toString(highestSeenPieces));
-
-        int consoleUserId = HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getUserId();
-
-        HabboActions.sendPrivateMessage(consoleUserId, oldestFurniInRoomMessage);
-
-        String finalRarestFurniInRoomMessage = rarestFurniInRoomMessage;
-
-        HabboActions.sendPrivateMessage(consoleUserId, finalRarestFurniInRoomMessage);
-
-        this.processTransactionsAndTerminate();
     }
 
     private void processTransactionsAndTerminate() {

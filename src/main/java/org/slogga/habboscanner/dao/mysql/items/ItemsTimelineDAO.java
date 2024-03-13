@@ -10,7 +10,7 @@ import org.slogga.habboscanner.dao.Database;
 import org.slogga.habboscanner.models.ItemTimeline;
 
 public class ItemsTimelineDAO {
-    public static Triple<Integer, ItemTimeline, ItemTimeline> selectClosestEntries(String type, Integer searchableID)
+    public static Triple<Integer, ItemTimeline, ItemTimeline> selectClosestEntries(String type, Integer searchableId)
             throws SQLException, IOException {
 
         String query = "SELECT * from items_timeline WHERE type = ? AND id IN "
@@ -21,9 +21,9 @@ public class ItemsTimelineDAO {
              PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, type);
             statement.setString(2, type);
-            statement.setInt(3, searchableID);
+            statement.setInt(3, searchableId);
             statement.setString(4, type);
-            statement.setInt(5, searchableID);
+            statement.setInt(5, searchableId);
 
             try (ResultSet resultSet = statement.executeQuery()) {
                 ItemTimeline minimumEntry = null;
@@ -39,7 +39,7 @@ public class ItemsTimelineDAO {
                     maximumEntry = itemTimeline;
                 }
 
-                return Triple.of(searchableID, minimumEntry, maximumEntry);
+                return Triple.of(searchableId, minimumEntry, maximumEntry);
             }
         }
     }

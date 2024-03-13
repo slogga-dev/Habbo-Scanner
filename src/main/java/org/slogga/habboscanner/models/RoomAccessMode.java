@@ -1,7 +1,10 @@
 package org.slogga.habboscanner.models;
 
+import lombok.Getter;
+
 import java.util.Arrays;
 
+@Getter
 public enum RoomAccessMode {
     OPEN(0),
     LOCKED(1),
@@ -20,7 +23,4 @@ public enum RoomAccessMode {
         this.accessMode = accessMode;
     }
 
-    public int getAccessMode() {
-        return accessMode;
-    }
 }

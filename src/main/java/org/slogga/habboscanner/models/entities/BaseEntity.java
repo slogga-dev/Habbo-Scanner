@@ -13,11 +13,4 @@ public abstract class BaseEntity {
 
     public abstract void processEntity();
 
-    public int getIndex() {
-        return entity.getIndex();
-    }
-
-    public boolean isBotWithName(String botName) {
-        return entity.getName().equals(botName);
-    }
 }

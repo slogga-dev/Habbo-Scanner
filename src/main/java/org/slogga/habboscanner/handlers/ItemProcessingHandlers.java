@@ -51,28 +51,25 @@ public class ItemProcessingHandlers {
         int roomId = roomInfoHandlers.getRoomId();
         Arrays.stream(items).forEach(item -> itemProcessor.processFloorItem(item, type, roomId));
 
-        Triple<Integer, ItemTimeline, ItemTimeline> closestEntries = null;
+        Triple<Integer, ItemTimeline, ItemTimeline> closestEntries;
 
         Furni oldestFurni = itemProcessor.getOldestFurni();
 
         FollowConsoleCommand followConsoleCommand = (FollowConsoleCommand) HabboScanner.getInstance()
                 .getConfigurator().getConsoleHandlers().getCommands().get(CommandKeys.FOLLOW.getKey());
 
-        settingClosestEntries:try {
-            if (!followConsoleCommand.isFollowing()) return;
+        if (!followConsoleCommand.isFollowing()) return;
 
-            if (oldestFurni.getId() == null && followConsoleCommand.isFollowing())
-                followConsoleCommand.handleEmptyRoom();
+        if (oldestFurni.getId() == null)
+            followConsoleCommand.handleEmptyRoom();
 
-            if (oldestFurni.getId() == null)
-                break settingClosestEntries;
+        FollowingActionMode actionMode = followConsoleCommand.getActionModes()
+                .get(followConsoleCommand.getFollowingAction());
 
-            FollowingActionMode actionMode = followConsoleCommand.getActionModes()
-                    .get(followConsoleCommand.getFollowingAction());
+        if (actionMode != null)
+            actionMode.handle();
 
-            if (actionMode != null)
-                actionMode.handle();
-
+        try {
             closestEntries = ItemsTimelineDAO.selectClosestEntries(type.getType(), oldestFurni.getId());
         } catch (SQLException | IOException exception) {
             throw new RuntimeException(exception);
