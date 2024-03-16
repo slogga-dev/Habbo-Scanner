@@ -14,7 +14,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 
 import org.slogga.habboscanner.discord.IDiscordCommand;
 
-import org.slogga.habboscanner.handlers.ItemProcessingHandlers;
+import org.slogga.habboscanner.handlers.item.ItemAdditionHandlers;
 
 import org.slogga.habboscanner.HabboScanner;
 
@@ -28,9 +28,9 @@ import org.slogga.habboscanner.dao.mysql.items.ItemsTimelineDAO;
 public class AuctionDiscordCommand implements IDiscordCommand {
     @Override
     public void execute(SlashCommandInteractionEvent event) {
-        ItemProcessingHandlers itemProcessingHandlers = HabboScanner.getInstance().getConfigurator().getItemProcessingHandlers();
+        ItemAdditionHandlers itemAdditionHandlers = HabboScanner.getInstance().getConfigurator().getItemAdditionHandlers();
 
-        int id = itemProcessingHandlers.getLastFurniPlacedId();
+        int id = itemAdditionHandlers.getLastFurniPlacedId();
 
         Properties messageProperties = HabboScanner.getInstance().getConfigurator().getProperties().get("message");
 
@@ -42,7 +42,7 @@ public class AuctionDiscordCommand implements IDiscordCommand {
             return;
         }
 
-        FurnitypeEnum type = itemProcessingHandlers.getLastFurniPlacedType();
+        FurnitypeEnum type = itemAdditionHandlers.getLastFurniPlacedType();
 
         Triple<Integer, ItemTimeline, ItemTimeline> closestEntries;
 

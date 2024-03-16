@@ -105,9 +105,9 @@ public class ItemProcessor {
             }
         };
 
-        int roomId = HabboScanner.getInstance().getConfigurator().getRoomInfoHandlers().getRoomId();
+        int roomId = HabboScanner.getInstance().getConfigurator().getRoomEntryHandler().getRoomId();
         FurnitypeEnum lastFurniPlacedType = HabboScanner.getInstance()
-                .getConfigurator().getItemProcessingHandlers().getLastFurniPlacedType();
+                .getConfigurator().getItemAdditionHandlers().getLastFurniPlacedType();
 
         FurniService.insertFurni(furni, lastFurniPlacedType, roomId, extradata);
     }

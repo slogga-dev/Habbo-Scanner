@@ -57,7 +57,7 @@ public class ConsoleHandlers {
         for (Map.Entry<String, IConsoleCommand> entry : commands.entrySet()) {
             if (!messageText.startsWith(entry.getKey())) continue;
 
-            HabboScanner.getInstance().getConfigurator().getRoomInfoHandlers().setItemProcessor(new ItemProcessor());
+            HabboScanner.getInstance().getConfigurator().getRoomEntryHandler().setItemProcessor(new ItemProcessor());
 
             entry.getValue().execute(message, messageText, userId);
         }

@@ -14,8 +14,8 @@ import org.slogga.habboscanner.dao.Database;
 public class DataDAO {
     private static final Logger logger = LoggerFactory.getLogger(DataDAO.class);
 
-    public static ArrayList<HashMap<String, Object>> retrieveData(int id, String type) throws SQLException {
-        String query = "SELECT * FROM data WHERE id = ? AND type = ?";
+    public static HashMap<String, Object> retrieveData(int id, String type) throws SQLException {
+        String query = "SELECT * FROM data WHERE id = ? AND type = ? LIMIT 1";
 
         try (Connection connection = Database.getInstance().getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
@@ -27,25 +27,21 @@ public class DataDAO {
 
                 int columnCount = resultSetMetaData.getColumnCount();
 
-                ArrayList<HashMap<String, Object>> result = new ArrayList<>();
+                HashMap<String, Object> row = new HashMap<>();
 
-                while (resultSet.next()) {
-                    HashMap<String, Object> row = new HashMap<>();
-
+                if (resultSet.next()) {
                     for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
                         String columnName = resultSetMetaData.getColumnName(columnIndex);
                         Object columnValue = resultSet.getObject(columnIndex);
 
                         row.put(columnName, columnValue);
                     }
-
-                    result.add(row);
                 }
 
-                return result;
+                return row;
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
         }
     }
 
@@ -100,6 +96,38 @@ public class DataDAO {
         return transactions;
     }
 
+    public static ArrayList<HashMap<String, Object>> getTopOwnersByFurniType(String classname) throws SQLException, IOException {
+        String query = "SELECT owner, COUNT(*) as furniCount FROM data " +
+                "WHERE classname = ? GROUP BY owner ORDER BY furniCount  DESC LIMIT 3";
+
+        try (Connection connection = Database.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, classname);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                ResultSetMetaData setMetaData = resultSet.getMetaData();
+                int columnCount = setMetaData.getColumnCount();
+
+                ArrayList<HashMap<String, Object>> result = new ArrayList<>();
+
+                while (resultSet.next()) {
+                    HashMap<String, Object> row = new HashMap<>();
+
+                    for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
+                        String columnName = setMetaData.getColumnName(columnIndex);
+                        Object columnValue = resultSet.getObject(columnIndex);
+
+                        row.put(columnName, columnValue);
+                    }
+
+                    result.add(row);
+                }
+
+                return result;
+            }
+        }
+    }
+
     public static ArrayList<HashMap<String, Object>> retrieveDataHistory(int id, String type) throws SQLException {
         String query = "SELECT owner, timestamp from data WHERE id IN " +
                 "(SELECT id FROM data WHERE (id,type) = (?,?)) ORDER BY timestamp DESC";
@@ -130,8 +158,8 @@ public class DataDAO {
 
                 return result;
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
         }
     }
 

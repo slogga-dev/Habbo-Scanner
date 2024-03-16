@@ -49,6 +49,6 @@ public class FurniInfoFollowingActionMode implements FollowingActionMode {
 
         HabboScanner.getInstance()
                 .getConfigurator()
-                .getRoomInfoHandlers().refreshLastRoomAccess();
+                .getRoomEntryHandler().refreshLastRoomAccess();
     }
 }

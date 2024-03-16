@@ -22,5 +22,4 @@ public enum FurnitypeEnum {
     FurnitypeEnum(String type) {
         this.type = type;
     }
-
 }

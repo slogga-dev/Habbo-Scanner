@@ -18,8 +18,8 @@ public class BotService {
 
         try {
             BotsDAO.insertBot(id, name, motto, look, roomId, isOldBot, extradata);
-        } catch (SQLException | IOException e) {
-            throw new RuntimeException(e);
+        } catch (SQLException | IOException exception) {
+            throw new RuntimeException(exception);
         }
     }
 }

@@ -14,8 +14,6 @@ import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.console.commands.follow.*;
 import org.slogga.habboscanner.logic.game.console.commands.start.StartConsoleCommand;
 
-import org.slogga.habboscanner.handlers.RoomInfoHandlers;
-
 import org.slogga.habboscanner.models.*;
 
 import org.slogga.habboscanner.HabboScanner;
@@ -83,8 +81,7 @@ public class FollowDiscordCommand implements IDiscordCommand {
         ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 
         scheduledExecutorService.schedule(() -> {
-            RoomInfoHandlers roomInfoHandlers = HabboScanner.getInstance().getConfigurator().getRoomInfoHandlers();
-            RoomAccessMode roomAccessMode = roomInfoHandlers.getRoomAccessMode();
+            RoomAccessMode roomAccessMode = HabboScanner.getInstance().getConfigurator().getRoomDetailsHandlers().getRoomAccessMode();
 
             switch (roomAccessMode) {
                 case OPEN: {
@@ -98,7 +95,6 @@ public class FollowDiscordCommand implements IDiscordCommand {
                 }
 
                 case LOCKED: {
-
                     String closedRoomAccessMessage = HabboScanner.getInstance().getConfigurator()
                             .getProperties().get("message").getProperty("closed.room.access.message");
 
@@ -108,7 +104,6 @@ public class FollowDiscordCommand implements IDiscordCommand {
                 }
 
                 case UNKNOWN: {
-
                     String noRoomAccessMessage = HabboScanner.getInstance()
                             .getConfigurator()
                             .getProperties()

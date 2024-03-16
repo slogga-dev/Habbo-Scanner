@@ -17,7 +17,7 @@ public class FurniOwnershipTracker {
         ArrayList<HashMap<String, Object>> topOwnersByFurniType;
 
         try {
-            topOwnersByFurniType = DataUniqueDAO.getTopOwnersByFurniType(classname);
+            topOwnersByFurniType = DataDAO.getTopOwnersByFurniType(classname);
         } catch (SQLException | IOException exception) {
             throw new RuntimeException(exception);
         }
@@ -28,7 +28,7 @@ public class FurniOwnershipTracker {
 
         for (HashMap<String, Object> ownerFurniCountRow : topOwnersByFurniType) {
             String ownerName = (String) ownerFurniCountRow.get("owner");
-            int furniCount = ((Long) ownerFurniCountRow.get("uniqueFurniCount")).intValue();
+            Long furniCount = (Long) ownerFurniCountRow.get("furniCount");
 
             topFurniOwnersReport.add(ownerName + " (" + furniCount + ")");
         }
@@ -83,6 +83,8 @@ public class FurniOwnershipTracker {
                     .getProperty("no.trade.info.message");
 
             finalMessage.append(noTradeInfoMessage);
+
+            HabboActions.sendPrivateMessage(userId, finalMessage.toString());
 
             return;
         }

@@ -7,11 +7,8 @@ import java.util.concurrent.*;
 
 import org.slogga.habboscanner.dao.mysql.data.DataDAO;
 
-import org.slogga.habboscanner.logic.game.HabboActions;
-import org.slogga.habboscanner.logic.game.ItemProcessor;
+import org.slogga.habboscanner.logic.game.*;
 import org.slogga.habboscanner.logic.game.console.commands.follow.FollowConsoleCommand;
-
-import org.slogga.habboscanner.handlers.RoomInfoHandlers;
 
 import org.slogga.habboscanner.models.*;
 
@@ -28,7 +25,7 @@ public class FurniInsightsAndTransactionExecutor {
         if (estimatedDate == null) return;
 
         ItemProcessor itemProcessor = HabboScanner.getInstance()
-                .getConfigurator().getRoomInfoHandlers().getItemProcessor();
+                .getConfigurator().getRoomEntryHandler().getItemProcessor();
         Furni oldestFurni = itemProcessor.getOldestFurni();
 
         String oldestFurniInRoomMessage = generateOldestFurniInsight(oldestFurni, estimatedDate);
@@ -73,20 +70,19 @@ public class FurniInsightsAndTransactionExecutor {
     }
 
     private void executeTransactionsAndTerminateSession() {
-        try {
-            performFurniTransactions();
-        } catch (SQLException exception) {
-            throw new RuntimeException(exception);
-        }
+        performFurniTransactions();
 
-        // Schedule the dispatchGoodbyeMessageAndUpdateAccess method to run after all transactions have been processed.
-        scheduledExecutorService.schedule(this::dispatchGoodbyeMessageAndUpdateAccess, 2L * transactions.size() + 1, TimeUnit.SECONDS);
+        /*
+         Schedule the dispatchGoodbyeMessageAndUpdateAccess method to
+         run after all transactions have been processed.
+         */
+        scheduledExecutorService.schedule(this::dispatchGoodbyeMessageAndUpdateAccess,
+                2L * transactions.size() + 1, TimeUnit.SECONDS);
     }
 
-    private void performFurniTransactions() throws SQLException {
-        RoomInfoHandlers roomInfoHandlers = HabboScanner.getInstance().getConfigurator().getRoomInfoHandlers();
-        String currentOwnerName = roomInfoHandlers.getCurrentOwnerName();
-        int roomId = roomInfoHandlers.getRoomId();
+    private void performFurniTransactions() {
+        String currentOwnerName = HabboScanner.getInstance().getConfigurator().getRoomDetailsHandlers().getCurrentOwnerName();
+        int roomId = HabboScanner.getInstance().getConfigurator().getRoomEntryHandler().getRoomId();
 
         transactions = DataDAO.retrieveDataTransactions(currentOwnerName, roomId);
 

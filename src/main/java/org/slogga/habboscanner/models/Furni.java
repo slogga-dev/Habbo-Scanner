@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 
 @Getter
 public class Furni {
+    @Setter
     private Integer id;
 
     @Setter
@@ -38,9 +39,4 @@ public class Furni {
         this.timestamp = timestamp;
     }
     public Furni(){}
-
-
-    public void setId(int id) {
-        this.id = id;
-    }
 }

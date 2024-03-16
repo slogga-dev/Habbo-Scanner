@@ -95,7 +95,7 @@ public class HabboScanner extends Extension {
         final String crashMessage = configurator.getProperties().get("message")
                 .getProperty("bot.room.manager.crash.message");
 
-        long lastRoomAccess = configurator.getRoomInfoHandlers().getLastRoomAccess();
+        long lastRoomAccess = configurator.getRoomEntryHandler().getLastRoomAccess();
         StartConsoleCommand startConsoleCommand = (StartConsoleCommand) configurator
                 .getConsoleHandlers().getCommands().get(CommandKeys.START.getKey());
 

@@ -44,7 +44,7 @@ public class StartConsoleCommand implements IConsoleCommand {
         isBotRunning = true;
         hasExecuted = true;
 
-        HabboScanner.getInstance().getConfigurator().getRoomInfoHandlers().refreshLastRoomAccess();
+        HabboScanner.getInstance().getConfigurator().getRoomEntryHandler().refreshLastRoomAccess();
 
         boolean isEnergySavingModeEnabled = Boolean.parseBoolean(HabboScanner.getInstance()
                 .getConfigurator().getProperties().get("bot").getProperty("bot.energy.saving.mode.enabled"));

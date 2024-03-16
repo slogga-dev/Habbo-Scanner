@@ -8,6 +8,7 @@ import gearth.protocol.HMessage;
 
 import org.slogga.habboscanner.HabboScanner;
 
+import org.slogga.habboscanner.handlers.room.RoomEntryHandler;
 import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.console.commands.follow.FollowConsoleCommand;
 
@@ -63,11 +64,11 @@ public class ErrorHandlers {
         int unknownVariable = message.getPacket().readInteger();
         int errorId = message.getPacket().readInteger();
 
-        RoomInfoHandlers roomInfoHandlers = HabboScanner.getInstance().getConfigurator().getRoomInfoHandlers();
+        RoomEntryHandler roomEntryHandler = HabboScanner.getInstance().getConfigurator().getRoomEntryHandler();
 
-        int roomId = roomInfoHandlers.getRoomId();
+        int roomId = roomEntryHandler.getRoomId();
 
-        roomInfoHandlers.refreshLastRoomAccess();
+        roomEntryHandler.refreshLastRoomAccess();
 
         String serverErrorMessage = HabboScanner.getInstance()
                 .getConfigurator()

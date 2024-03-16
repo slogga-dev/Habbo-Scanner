@@ -22,7 +22,7 @@ public class UserHandlers {
                 .getProperties()
                 .get("bot").getProperty("user.active"));
 
-        int roomId = HabboScanner.getInstance().getConfigurator().getRoomInfoHandlers().getRoomId();
+        int roomId = HabboScanner.getInstance().getConfigurator().getRoomEntryHandler().getRoomId();
 
         if (!isUserScannerActive || roomId == 0) return;
 

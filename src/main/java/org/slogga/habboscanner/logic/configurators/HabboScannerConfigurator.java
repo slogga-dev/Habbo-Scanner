@@ -9,14 +9,20 @@ import lombok.Data;
 
 import org.slogga.habboscanner.HabboScanner;
 import org.slogga.habboscanner.handlers.*;
+import org.slogga.habboscanner.handlers.item.ItemAdditionHandlers;
+import org.slogga.habboscanner.handlers.item.ItemPlacementHandlers;
+import org.slogga.habboscanner.handlers.room.RoomDetailsHandlers;
+import org.slogga.habboscanner.handlers.room.RoomEntryHandler;
 import org.slogga.habboscanner.logic.DefaultValues;
 
 @Data
 public class HabboScannerConfigurator implements IConfigurator {
     private Map<String, Properties> properties = new HashMap<>();
 
-    private RoomInfoHandlers roomInfoHandlers;
-    private ItemProcessingHandlers itemProcessingHandlers;
+    private RoomEntryHandler roomEntryHandler;
+    private RoomDetailsHandlers roomDetailsHandlers;
+    private ItemPlacementHandlers itemPlacementHandlers;
+    private ItemAdditionHandlers itemAdditionHandlers;
     private FurniMovementHandlers furniMovementHandlers;
     private NavigatorHandlers navigatorHandlers;
     private ConsoleHandlers consoleHandlers;
@@ -53,8 +59,10 @@ public class HabboScannerConfigurator implements IConfigurator {
     }
 
     private void setupHandlers() {
-        roomInfoHandlers = new RoomInfoHandlers();
-        itemProcessingHandlers = new ItemProcessingHandlers();
+        roomEntryHandler = new RoomEntryHandler();
+        roomDetailsHandlers = new RoomDetailsHandlers();
+        itemAdditionHandlers = new ItemAdditionHandlers();
+        itemPlacementHandlers = new ItemPlacementHandlers();
         furniMovementHandlers = new FurniMovementHandlers();
         navigatorHandlers = new NavigatorHandlers();
         consoleHandlers = new ConsoleHandlers();
@@ -65,20 +73,20 @@ public class HabboScannerConfigurator implements IConfigurator {
 
     private void registerHandlers() {
         HabboScanner.getInstance().intercept(HMessage.Direction.TOCLIENT,
-                "RoomReady", roomInfoHandlers::onRoomReady);
+                "RoomReady", roomEntryHandler::onRoomReady);
         HabboScanner.getInstance().intercept(HMessage.Direction.TOCLIENT,
-                "GetGuestRoomResult", roomInfoHandlers::onGetGuestRoomResult);
+                "GetGuestRoomResult", roomDetailsHandlers::onGetGuestRoomResult);
         HabboScanner.getInstance().intercept(HMessage.Direction.TOCLIENT,
-                "RoomVisualizationSettings", roomInfoHandlers::onRoomVisualizationSettings);
+                "RoomVisualizationSettings", roomDetailsHandlers::onRoomVisualizationSettings);
 
         HabboScanner.getInstance().intercept(HMessage.Direction.TOCLIENT,
-                "Objects", itemProcessingHandlers::onFloorItems);
+                "Objects", itemPlacementHandlers::onFloorItems);
         HabboScanner.getInstance().intercept(HMessage.Direction.TOCLIENT,
-                "Items", itemProcessingHandlers::onWallItems);
+                "Items", itemPlacementHandlers::onWallItems);
         HabboScanner.getInstance().intercept(HMessage.Direction.TOCLIENT,
-                "ObjectAdd", itemProcessingHandlers::onObjectAdd);
+                "ObjectAdd", itemAdditionHandlers::onObjectAdd);
         HabboScanner.getInstance().intercept(HMessage.Direction.TOCLIENT,
-                "ItemAdd", itemProcessingHandlers::onItemAdd);
+                "ItemAdd", itemAdditionHandlers::onItemAdd);
 
         HabboScanner.getInstance().intercept(HMessage.Direction.TOSERVER,
                 "MoveObject", furniMovementHandlers::onMoveFurni);

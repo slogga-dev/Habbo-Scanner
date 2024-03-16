@@ -1,6 +1,9 @@
 package org.slogga.habboscanner.logic.game.console.commands.follow;
 
 import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import gearth.protocol.*;
 
@@ -43,7 +46,7 @@ public class FollowConsoleCommand implements IConsoleCommand {
 
         if (!startConsoleCommand.isBotRunning() || isFollowing) return;
 
-        // Set :start command to false, so it cannot be called by another user
+        // Set :start command to false, so it cannot be called by another user.
         startConsoleCommand.setBotRunning(false);
 
         sourceType = SourceType.HABBO;
@@ -56,9 +59,11 @@ public class FollowConsoleCommand implements IConsoleCommand {
 
         followingAction = FollowingAction.fromValue(followingActionString.orElse(FollowingAction.DEFAULT.getAction()));
 
-        HabboActions.followUser(userId);
-
         isFollowing = true;
+
+        ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+
+        scheduledExecutorService.schedule(() -> HabboActions.followUser(userId), 1, TimeUnit.SECONDS);
     }
 
     @Override
@@ -89,7 +94,7 @@ public class FollowConsoleCommand implements IConsoleCommand {
 
         HabboScanner.getInstance()
                 .getConfigurator()
-                .getRoomInfoHandlers().refreshLastRoomAccess();
+                .getRoomEntryHandler().refreshLastRoomAccess();
     }
 
     private void sendEmptyRoomMessage() {

@@ -27,7 +27,7 @@ public class FurniMovementHandlers {
 
     private long lastMovedTime = 0;
 
-    private static final int MOVE_DELAY_IN_MILLISECONDS = 1000; // 1 second.
+    private static final int MOVE_DELAY_IN_MILLISECONDS = 1000;
 
     public void onMoveWallItem(HMessage message) {
         handleMoveItem(message, FurnitypeEnum.WALL);
@@ -63,9 +63,9 @@ public class FurniMovementHandlers {
 
         Date estimatedDate = DateUtils.getLinearInterpolatedDate(closestEntries);
 
-        if (String.valueOf(estimatedDate).equals("1970-01-01")) {
-            int consoleUserId = HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getUserId();
+        int consoleUserId = HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getUserId();
 
+        if (String.valueOf(estimatedDate).equals("1970-01-01")) {
             String furniDateCalculationErrorMessage = HabboScanner.getInstance()
                     .getConfigurator()
                     .getProperties()
@@ -81,8 +81,6 @@ public class FurniMovementHandlers {
 
         Timestamp timestamp = new Timestamp(estimatedDate.getTime());
         String formattedDate = DateUtils.formatTimestampToDate(timestamp);
-
-        int consoleUserId = HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getUserId();
 
         furniHistoricalInfoBroadcaster.broadcastFurniHistoryDetails(id, type, formattedDate, consoleUserId);
     }
