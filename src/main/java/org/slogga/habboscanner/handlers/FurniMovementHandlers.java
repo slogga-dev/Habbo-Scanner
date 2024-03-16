@@ -12,7 +12,7 @@ import org.slogga.habboscanner.dao.mysql.items.ItemsTimelineDAO;
 
 import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.console.commands.follow.FollowConsoleCommand;
-import org.slogga.habboscanner.logic.game.furni.info.FurniInfoProvider;
+import org.slogga.habboscanner.logic.game.furni.FurniHistoricalInfoBroadcaster;
 
 import org.slogga.habboscanner.models.*;
 import org.slogga.habboscanner.models.furnitype.FurnitypeEnum;
@@ -23,7 +23,7 @@ import org.slogga.habboscanner.utils.DateUtils;
 
 public class FurniMovementHandlers {
     @Getter
-    private final FurniInfoProvider furniInfoProvider = new FurniInfoProvider();
+    private final FurniHistoricalInfoBroadcaster furniHistoricalInfoBroadcaster = new FurniHistoricalInfoBroadcaster();
 
     private long lastMovedTime = 0;
 
@@ -84,7 +84,7 @@ public class FurniMovementHandlers {
 
         int consoleUserId = HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getUserId();
 
-        furniInfoProvider.provideFurniInfo(id, type, formattedDate, consoleUserId);
+        furniHistoricalInfoBroadcaster.broadcastFurniHistoryDetails(id, type, formattedDate, consoleUserId);
     }
 }
 

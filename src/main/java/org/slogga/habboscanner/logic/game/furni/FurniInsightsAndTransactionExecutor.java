@@ -19,30 +19,30 @@ import org.slogga.habboscanner.HabboScanner;
 
 import org.slogga.habboscanner.utils.DateUtils;
 
-public class FurniTracker {
+public class FurniInsightsAndTransactionExecutor {
     private final ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 
     private List<String> transactions;
 
-    public void manageFurniTracking(Date estimatedDate) {
+    public void executeTransactionsAndProvideFurniInsights(Date estimatedDate) {
         if (estimatedDate == null) return;
 
         ItemProcessor itemProcessor = HabboScanner.getInstance()
                 .getConfigurator().getRoomInfoHandlers().getItemProcessor();
         Furni oldestFurni = itemProcessor.getOldestFurni();
 
-        String oldestFurniInRoomMessage = prepareOldestFurniMessage(oldestFurni, estimatedDate);
-        String rarestFurniInRoomMessage = prepareRarestFurniMessage(itemProcessor);
+        String oldestFurniInRoomMessage = generateOldestFurniInsight(oldestFurni, estimatedDate);
+        String rarestFurniInRoomMessage = generateRarestFurniInsight(itemProcessor);
 
         int consoleUserId = HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getUserId();
 
         HabboActions.sendPrivateMessage(consoleUserId, oldestFurniInRoomMessage);
         HabboActions.sendPrivateMessage(consoleUserId, rarestFurniInRoomMessage);
 
-        this.processTransactionsAndTerminate();
+        this.executeTransactionsAndTerminateSession();
     }
 
-    private String prepareOldestFurniMessage(Furni oldestFurni, Date estimatedDate) {
+    private String generateOldestFurniInsight(Furni oldestFurni, Date estimatedDate) {
         String name = oldestFurni.getName();
         String classname = oldestFurni.getClassname();
 
@@ -59,7 +59,7 @@ public class FurniTracker {
                 .replace("%date%", formattedDate);
     }
 
-    private String prepareRarestFurniMessage(ItemProcessor itemProcessor) {
+    private String generateRarestFurniInsight(ItemProcessor itemProcessor) {
         String rarestFurniName = itemProcessor.getRarestFurniName();
         int highestSeenPieces = itemProcessor.getHighestSeenPieces();
 
@@ -72,18 +72,18 @@ public class FurniTracker {
                 .replace("%highestSeenPieces%", Integer.toString(highestSeenPieces));
     }
 
-    private void processTransactionsAndTerminate() {
+    private void executeTransactionsAndTerminateSession() {
         try {
-            processTransactions();
+            performFurniTransactions();
         } catch (SQLException exception) {
             throw new RuntimeException(exception);
         }
 
-        // Schedule the sayGoodbye method to run after all transactions have been processed
-        scheduledExecutorService.schedule(this::sayGoodbye, 2L * transactions.size() + 1, TimeUnit.SECONDS);
+        // Schedule the dispatchGoodbyeMessageAndUpdateAccess method to run after all transactions have been processed.
+        scheduledExecutorService.schedule(this::dispatchGoodbyeMessageAndUpdateAccess, 2L * transactions.size() + 1, TimeUnit.SECONDS);
     }
 
-    private void processTransactions() throws SQLException {
+    private void performFurniTransactions() throws SQLException {
         RoomInfoHandlers roomInfoHandlers = HabboScanner.getInstance().getConfigurator().getRoomInfoHandlers();
         String currentOwnerName = roomInfoHandlers.getCurrentOwnerName();
         int roomId = roomInfoHandlers.getRoomId();
@@ -110,7 +110,7 @@ public class FurniTracker {
                 sendPrivateMessage(consoleUserId, transaction), 2, TimeUnit.SECONDS));
     }
 
-    private void sayGoodbye() {
+    private void dispatchGoodbyeMessageAndUpdateAccess() {
         String botGoodbyeMessage = HabboScanner.getInstance()
                 .getConfigurator().getProperties().get("message").getProperty("bot.goodbye.message");
         String[] botGoodbyeMessageArray = botGoodbyeMessage.split("---");

@@ -8,6 +8,7 @@ import java.nio.charset.StandardCharsets;
 import gearth.extensions.parsers.*;
 
 import lombok.Getter;
+
 import org.slogga.habboscanner.models.furnidata.Furnidata;
 
 import org.slogga.habboscanner.models.Furni;
@@ -76,7 +77,7 @@ public class ItemProcessor {
         FurniService.insertFurni(item, type, roomId, extradata);
     }
 
-    public void handleFurniAddition(int id, int typeId, int ownerId, String ownerName, String extradata) {
+    public void processFurniAddition(int id, int typeId, int ownerId, String ownerName, String extradata) {
         IFurni furni = new IFurni() {
             @Override
             public int getId() {
@@ -110,5 +111,4 @@ public class ItemProcessor {
 
         FurniService.insertFurni(furni, lastFurniPlacedType, roomId, extradata);
     }
-
 }

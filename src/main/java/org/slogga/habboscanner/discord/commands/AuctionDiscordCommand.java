@@ -72,8 +72,8 @@ public class AuctionDiscordCommand implements IDiscordCommand {
 
         int habboUserId = discordBot.getHabboIdFromDiscordId(discordUserId);
 
-        HabboScanner.getInstance().getConfigurator().getFurniMovementHandlers().getFurniInfoProvider()
-                .provideFurniInfo(id, type, formattedDate, habboUserId);
+        HabboScanner.getInstance().getConfigurator().getFurniMovementHandlers().getFurniHistoricalInfoBroadcaster()
+                .broadcastFurniHistoryDetails(id, type, formattedDate, habboUserId);
 
         String newFurniMessageSent = messageProperties.getProperty("new.furni.message.sent");
 

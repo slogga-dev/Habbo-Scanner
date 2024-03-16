@@ -1,4 +1,4 @@
-package org.slogga.habboscanner.logic.game.furni.info;
+package org.slogga.habboscanner.logic.game.furni;
 
 import java.io.IOException;
 import java.sql.*;
@@ -10,8 +10,8 @@ import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.models.furnitype.FurnitypeEnum;
 import org.slogga.habboscanner.utils.DateUtils;
 
-public class FurniInfoHandler {
-    public void handleUserWithMorePieces(Map<String, String> itemDefinition, String classname) {
+public class FurniOwnershipTracker {
+    public void trackTopFurniOwners(Map<String, String> itemDefinition, String classname) {
         int seenPieces = Integer.parseInt(itemDefinition.get("seen_pieces"));
 
         ArrayList<HashMap<String, Object>> topOwnersByFurniType;
@@ -64,7 +64,7 @@ public class FurniInfoHandler {
         HabboActions.sendPrivateMessage(consoleUserId, message);
     }
 
-    public void handleFurniHistory(int id, int userId) {
+    public void manageFurniOwnershipHistory(int id, int userId) {
         ArrayList<HashMap<String, Object>> furniHistory;
 
         try {
@@ -92,14 +92,14 @@ public class FurniInfoHandler {
 
         finalMessage.append(furniHistoryMessage);
 
-        StringJoiner joiner = getFurniHistoryStringJoiner(furniHistory);
+        StringJoiner joiner = generateFurniHistoryReport(furniHistory);
 
         finalMessage.append(joiner);
 
         HabboActions.sendPrivateMessage(userId, finalMessage.toString());
     }
 
-    private StringJoiner getFurniHistoryStringJoiner(ArrayList<HashMap<String, Object>> furniHistory) {
+    private StringJoiner generateFurniHistoryReport(ArrayList<HashMap<String, Object>> furniHistory) {
         StringJoiner joiner = new StringJoiner(", ");
 
         for (int index = furniHistory.size() - 1; index >= 0; index--) {

@@ -86,8 +86,8 @@ public class InfoFromIdDiscordCommand implements IDiscordCommand {
 
         int habboUserId = discordBot.getHabboIdFromDiscordId(discordUserId);
 
-        HabboScanner.getInstance().getConfigurator().getFurniMovementHandlers().getFurniInfoProvider()
-                .provideFurniInfo(id, furnitypeEnum, formattedDate, habboUserId);
+        HabboScanner.getInstance().getConfigurator().getFurniMovementHandlers().getFurniHistoricalInfoBroadcaster()
+                .broadcastFurniHistoryDetails(id, furnitypeEnum, formattedDate, habboUserId);
 
         String furniInfoMessageSent = messageProperties.getProperty("furni.info.message.sent");
 

@@ -24,7 +24,7 @@ import org.slogga.habboscanner.dao.mysql.items.ItemsTimelineDAO;
 
 import org.slogga.habboscanner.logic.game.ItemProcessor;
 import org.slogga.habboscanner.logic.game.console.commands.follow.*;
-import org.slogga.habboscanner.logic.game.furni.FurniTracker;
+import org.slogga.habboscanner.logic.game.furni.FurniInsightsAndTransactionExecutor;
 
 import org.slogga.habboscanner.models.*;
 import org.slogga.habboscanner.models.furnitype.FurnitypeEnum;
@@ -33,7 +33,7 @@ import org.slogga.habboscanner.utils.DateUtils;
 
 @Data
 public class ItemProcessingHandlers {
-    private final FurniTracker furniTracker = new FurniTracker();
+    private final FurniInsightsAndTransactionExecutor furniInsightsAndTransactionExecutor = new FurniInsightsAndTransactionExecutor();
 
     @Getter
     private int lastFurniPlacedId;
@@ -79,7 +79,7 @@ public class ItemProcessingHandlers {
 
         if (followConsoleCommand.getFollowingAction() != FollowingAction.DEFAULT) return;
 
-        furniTracker.manageFurniTracking(estimatedDate);
+        furniInsightsAndTransactionExecutor.executeTransactionsAndProvideFurniInsights(estimatedDate);
     }
 
     public void onWallItems(HMessage message) {
@@ -129,7 +129,7 @@ public class ItemProcessingHandlers {
         extradata = new String(bytes, StandardCharsets.UTF_8);
 
         HabboScanner.getInstance().getConfigurator().getRoomInfoHandlers().getItemProcessor()
-                .handleFurniAddition(id, typeId, ownerId, ownerName, extradata);
+                .processFurniAddition(id, typeId, ownerId, ownerName, extradata);
     }
 
     public void onItemAdd(HMessage message) {
@@ -159,6 +159,6 @@ public class ItemProcessingHandlers {
         extradata = new String(bytes, StandardCharsets.UTF_8);
 
         HabboScanner.getInstance().getConfigurator().getRoomInfoHandlers()
-                .getItemProcessor().handleFurniAddition(id, typeId, ownerId, ownerName, extradata);
+                .getItemProcessor().processFurniAddition(id, typeId, ownerId, ownerName, extradata);
     }
 }

@@ -1,4 +1,4 @@
-package org.slogga.habboscanner.logic.game.furni.info;
+package org.slogga.habboscanner.logic.game.furni;
 
 import java.sql.*;
 
@@ -13,14 +13,14 @@ import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.models.furnitype.FurnitypeEnum;
 
 
-public class FurniInfoProvider {
-    private final FurniInfoHandler furniInfoHandler;
+public class FurniHistoricalInfoBroadcaster {
+    private final FurniOwnershipTracker furniOwnershipTracker;
 
-    public FurniInfoProvider() {
-        furniInfoHandler = new FurniInfoHandler();
+    public FurniHistoricalInfoBroadcaster() {
+        furniOwnershipTracker = new FurniOwnershipTracker();
     }
 
-    public void provideFurniInfo(int id, FurnitypeEnum type, String formattedDate, int userId) {
+    public void broadcastFurniHistoryDetails(int id, FurnitypeEnum type, String formattedDate, int userId) {
         ArrayList<HashMap<String, Object>> roomFurni;
 
         try {
@@ -30,15 +30,15 @@ public class FurniInfoProvider {
         }
 
         if (roomFurni.isEmpty()) {
-            notifyUserAboutEmptyRoom(formattedDate, userId);
+            notifyUserOfEmptyRoom(formattedDate, userId);
 
             return;
         }
 
-        processRoomWithFurni(roomFurni, formattedDate, id, userId);
+        processFurniInRoom(roomFurni, formattedDate, id, userId);
     }
 
-    private void notifyUserAboutEmptyRoom(String formattedDate, int userId) {
+    private void notifyUserOfEmptyRoom(String formattedDate, int userId) {
         String dateNotification = HabboScanner
                 .getInstance()
                 .getConfigurator()
@@ -64,8 +64,8 @@ public class FurniInfoProvider {
         scheduledExecutorService.shutdown();
     }
 
-    private void processRoomWithFurni(ArrayList<HashMap<String, Object>> roomFurni,
-                                      String formattedDate, int id, int userId) {
+    private void processFurniInRoom(ArrayList<HashMap<String, Object>> roomFurni,
+                                    String formattedDate, int id, int userId) {
         HashMap<String, Object> row = roomFurni.get(0);
 
         String name = (String) row.get("name");
@@ -74,12 +74,13 @@ public class FurniInfoProvider {
         Map<String, String> itemDefinition = HabboScanner.getInstance()
                 .getFurnidataConfigurator().getItems().get(classname);
 
-        sendFurniDetailsToUser(itemDefinition, name, formattedDate, classname, userId);
-        furniInfoHandler.handleFurniHistory(id, userId);
+        broadcastDetailedFurniInfo(itemDefinition, name, formattedDate, classname, userId);
+
+        furniOwnershipTracker.manageFurniOwnershipHistory(id, userId);
     }
 
-    private void sendFurniDetailsToUser(Map<String, String> itemDefinition, String name,
-                                        String formattedDate, String classname, int userId) {
+    private void broadcastDetailedFurniInfo(Map<String, String> itemDefinition, String name,
+                                            String formattedDate, String classname, int userId) {
         String furniNameDateInfoMessage = HabboScanner.getInstance().getConfigurator().getProperties().get("message").
                 getProperty("furni.name.date.info.message");
 
@@ -99,6 +100,6 @@ public class FurniInfoProvider {
 
         assert itemDefinition != null;
 
-        furniInfoHandler.handleUserWithMorePieces(itemDefinition, classname);
+        furniOwnershipTracker.trackTopFurniOwners(itemDefinition, classname);
     }
 }
