@@ -11,7 +11,8 @@ import gearth.protocol.HMessage;
 import org.slogga.habboscanner.dao.mysql.items.ItemsTimelineDAO;
 
 import org.slogga.habboscanner.logic.game.HabboActions;
-import org.slogga.habboscanner.logic.game.console.commands.follow.FollowConsoleCommand;
+import org.slogga.habboscanner.logic.game.commands.CommandFactory;
+import org.slogga.habboscanner.logic.game.commands.Console.commands.follow.FollowConsoleCommand;
 import org.slogga.habboscanner.logic.game.furni.FurniHistoricalInfoBroadcaster;
 
 import org.slogga.habboscanner.models.*;
@@ -38,8 +39,7 @@ public class FurniMovementHandlers {
     }
 
     private void handleMoveItem(HMessage message, FurnitypeEnum type) {
-        FollowConsoleCommand followConsoleCommand = (FollowConsoleCommand) HabboScanner.getInstance()
-                .getConfigurator().getConsoleHandlers().getCommands().get(CommandKeys.FOLLOW.getKey());
+        FollowConsoleCommand followConsoleCommand = (FollowConsoleCommand) CommandFactory.commandExecutorInstance.getCommands().get(CommandKeys.FOLLOW.getKey());
 
         if (followConsoleCommand.getFollowingAction() != FollowingAction.FURNI_INFO) return;
 

@@ -11,8 +11,10 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import org.slogga.habboscanner.discord.IDiscordCommand;
 
 import org.slogga.habboscanner.logic.game.HabboActions;
-import org.slogga.habboscanner.logic.game.console.commands.follow.*;
-import org.slogga.habboscanner.logic.game.console.commands.start.StartConsoleCommand;
+import org.slogga.habboscanner.logic.game.commands.CommandFactory;
+import org.slogga.habboscanner.logic.game.commands.Console.commands.follow.FollowConsoleCommand;
+import org.slogga.habboscanner.logic.game.commands.Console.commands.follow.FollowingActionMode;
+import org.slogga.habboscanner.logic.game.commands.Console.commands.start.StartConsoleCommand;
 
 import org.slogga.habboscanner.models.*;
 
@@ -33,9 +35,8 @@ public class FollowDiscordCommand implements IDiscordCommand {
             return;
         }
 
-        StartConsoleCommand startConsoleCommand = (StartConsoleCommand) HabboScanner.getInstance()
-                .getConfigurator()
-                .getConsoleHandlers().getCommands().get(CommandKeys.START.getKey());
+        StartConsoleCommand startConsoleCommand = (StartConsoleCommand) CommandFactory.commandExecutorInstance.
+                getCommands().get(CommandKeys.START.getKey());
 
         if (!startConsoleCommand.isBotRunning()) {
             String botNotActiveMessage = messageProperties.getProperty("bot.not.active.message");
@@ -47,8 +48,7 @@ public class FollowDiscordCommand implements IDiscordCommand {
 
         startConsoleCommand.setBotRunning(false);
 
-        FollowConsoleCommand followConsoleCommand = (FollowConsoleCommand) HabboScanner.getInstance()
-                .getConfigurator().getConsoleHandlers().getCommands().get(CommandKeys.FOLLOW.getKey());
+        FollowConsoleCommand followConsoleCommand = (FollowConsoleCommand) CommandFactory.commandExecutorInstance.getCommands().get(CommandKeys.FOLLOW.getKey());
 
         followConsoleCommand.setSourceType(SourceType.DISCORD);
 

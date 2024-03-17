@@ -4,7 +4,8 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 
 import org.slogga.habboscanner.discord.IDiscordCommand;
 
-import org.slogga.habboscanner.logic.game.console.commands.EnergySavingConsoleCommand;
+import org.slogga.habboscanner.logic.game.commands.CommandFactory;
+import org.slogga.habboscanner.logic.game.commands.Console.commands.EnergySavingConsoleCommand;
 
 import org.slogga.habboscanner.HabboScanner;
 import org.slogga.habboscanner.models.CommandKeys;
@@ -15,7 +16,7 @@ public class EnergySavingDiscordCommand implements IDiscordCommand {
     @Override
     public void execute(SlashCommandInteractionEvent event) {
         EnergySavingConsoleCommand energySavingConsoleCommand = (EnergySavingConsoleCommand)
-                HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getCommands()
+                CommandFactory.commandExecutorInstance.getCommands()
                         .get(CommandKeys.ENERGY_SAVING.getKey());
 
         boolean energySavingMode = energySavingConsoleCommand.getEnergySavingMode();

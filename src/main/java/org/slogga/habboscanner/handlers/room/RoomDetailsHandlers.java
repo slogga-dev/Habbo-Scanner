@@ -5,8 +5,9 @@ import lombok.Getter;
 import org.slogga.habboscanner.HabboScanner;
 import org.slogga.habboscanner.dao.mysql.RoomsDAO;
 import org.slogga.habboscanner.logic.game.HabboActions;
-import org.slogga.habboscanner.logic.game.console.commands.follow.FollowConsoleCommand;
-import org.slogga.habboscanner.logic.game.console.commands.start.StartConsoleCommand;
+import org.slogga.habboscanner.logic.game.commands.CommandFactory;
+import org.slogga.habboscanner.logic.game.commands.Console.commands.follow.FollowConsoleCommand;
+import org.slogga.habboscanner.logic.game.commands.Console.commands.start.StartConsoleCommand;
 import org.slogga.habboscanner.models.CommandKeys;
 import org.slogga.habboscanner.models.RoomAccessMode;
 
@@ -44,8 +45,7 @@ public class RoomDetailsHandlers {
 
         roomAccessMode = RoomAccessMode.fromValue(message.getPacket().readInteger());
 
-        FollowConsoleCommand followConsoleCommand = (FollowConsoleCommand) HabboScanner.getInstance()
-                .getConfigurator().getConsoleHandlers().getCommands().get(CommandKeys.FOLLOW.getKey());
+        FollowConsoleCommand followConsoleCommand = (FollowConsoleCommand) CommandFactory.commandExecutorInstance.getCommands().get(CommandKeys.FOLLOW.getKey());
 
         if (!followConsoleCommand.isFollowing()) return;
 
@@ -77,10 +77,7 @@ public class RoomDetailsHandlers {
     }
 
     public void onRoomVisualizationSettings(HMessage message) {
-        StartConsoleCommand startConsoleCommand = (StartConsoleCommand) HabboScanner
-                .getInstance()
-                .getConfigurator()
-                .getConsoleHandlers().getCommands().get(CommandKeys.START.getKey());
+        StartConsoleCommand startConsoleCommand = (StartConsoleCommand) CommandFactory.commandExecutorInstance.getCommands().get(CommandKeys.START.getKey());
 
         boolean isBotRunning = startConsoleCommand.isBotRunning();
 

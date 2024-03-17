@@ -5,7 +5,9 @@ import java.util.Properties;
 
 import org.slogga.habboscanner.discord.DiscordBot;
 
-import org.slogga.habboscanner.logic.game.console.commands.convert.*;
+import org.slogga.habboscanner.logic.game.commands.CommandFactory;
+import org.slogga.habboscanner.logic.game.commands.Console.commands.convert.ConvertConsoleCommand;
+import org.slogga.habboscanner.logic.game.commands.Console.commands.convert.ConvertFile;
 
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
@@ -31,9 +33,7 @@ public class ConvertDiscordCommand implements IDiscordCommand {
             return;
         }
 
-        ConvertConsoleCommand convertConsoleCommand = (ConvertConsoleCommand)
-                HabboScanner.getInstance().getConfigurator().getConsoleHandlers()
-                .getCommands().get(CommandKeys.CONVERT.getKey());
+        ConvertConsoleCommand convertConsoleCommand = (ConvertConsoleCommand)CommandFactory.commandExecutorInstance.getCommands().get(CommandKeys.CONVERT.getKey());
 
         ConvertFile convertFile = convertConsoleCommand.getConvertFiles().get(file);
 

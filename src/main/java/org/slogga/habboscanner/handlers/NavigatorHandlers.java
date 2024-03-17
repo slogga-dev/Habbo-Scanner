@@ -6,8 +6,9 @@ import java.util.*;
 import java.util.concurrent.*;
 
 import org.slogga.habboscanner.logic.game.HabboActions;
-import org.slogga.habboscanner.logic.game.console.commands.start.StartConsoleCommand;
-import org.slogga.habboscanner.logic.game.console.commands.start.modes.StartBotInActiveRoomsMode;
+import org.slogga.habboscanner.logic.game.commands.CommandFactory;
+import org.slogga.habboscanner.logic.game.commands.Console.commands.start.StartConsoleCommand;
+import org.slogga.habboscanner.logic.game.commands.Console.commands.start.modes.StartBotInActiveRoomsMode;
 
 import gearth.protocol.*;
 
@@ -25,8 +26,7 @@ public class NavigatorHandlers {
 
     public void onNavigatorSearchResultBlocks(HMessage message) {
         CompletableFuture.runAsync(() -> {
-            StartConsoleCommand startConsoleCommand = (StartConsoleCommand) HabboScanner
-                    .getInstance().getConfigurator().getConsoleHandlers().getCommands().get(CommandKeys.START.getKey());
+            StartConsoleCommand startConsoleCommand = (StartConsoleCommand) CommandFactory.commandExecutorInstance.getCommands().get(CommandKeys.START.getKey());
             boolean isBotRunning = startConsoleCommand.isBotRunning();
 
             if (!isBotRunning) return;
@@ -38,9 +38,7 @@ public class NavigatorHandlers {
 
             int openState = packet.readInteger();
 
-            StartConsoleCommand startCommand = (StartConsoleCommand) HabboScanner.getInstance()
-                    .getConfigurator()
-                    .getConsoleHandlers().getCommands().get(CommandKeys.START.getKey());
+            StartConsoleCommand startCommand = (StartConsoleCommand) CommandFactory.commandExecutorInstance.getCommands().get(CommandKeys.START.getKey());
 
             StartBotInActiveRoomsMode startBotInActiveRoomsMode = (StartBotInActiveRoomsMode)
                     startCommand.getStartModes().get("bot.in.active.rooms");

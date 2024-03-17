@@ -10,7 +10,8 @@ import gearth.protocol.*;
 
 import org.slogga.habboscanner.discord.DiscordBot;
 
-import org.slogga.habboscanner.logic.game.console.commands.start.StartConsoleCommand;
+import org.slogga.habboscanner.logic.game.commands.CommandFactory;
+import org.slogga.habboscanner.logic.game.commands.Console.commands.start.StartConsoleCommand;
 
 import org.slogga.habboscanner.models.CommandKeys;
 
@@ -42,10 +43,7 @@ public class RoomEntryHandler {
 
         boolean criticalAirCrashWarning = HabboScanner.getInstance().isCriticalAirCrashWarning();
 
-        StartConsoleCommand startConsoleCommand = (StartConsoleCommand) HabboScanner.getInstance()
-                .getConfigurator()
-                .getConsoleHandlers()
-                .getCommands()
+        StartConsoleCommand startConsoleCommand = (StartConsoleCommand) CommandFactory.commandExecutorInstance.getCommands()
                 .get(CommandKeys.START.getKey());
         boolean isBotRunning = startConsoleCommand.isBotRunning();
 

@@ -10,7 +10,8 @@ import org.slogga.habboscanner.HabboScanner;
 
 import org.slogga.habboscanner.handlers.room.RoomEntryHandler;
 import org.slogga.habboscanner.logic.game.HabboActions;
-import org.slogga.habboscanner.logic.game.console.commands.follow.FollowConsoleCommand;
+import org.slogga.habboscanner.logic.game.commands.CommandFactory;
+import org.slogga.habboscanner.logic.game.commands.Console.commands.follow.FollowConsoleCommand;
 
 import org.slogga.habboscanner.dao.mysql.LogsDAO;
 
@@ -41,7 +42,7 @@ public class ErrorHandlers {
         int consoleUserId = consoleHandlers.getUserId();
 
         FollowConsoleCommand followConsoleCommand = (FollowConsoleCommand)
-                consoleHandlers.getCommands().get(CommandKeys.FOLLOW.getKey());
+                CommandFactory.commandExecutorInstance.getCommands().get(CommandKeys.FOLLOW.getKey());
 
         SourceType sourceType = followConsoleCommand.getSourceType();
 

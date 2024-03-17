@@ -1,6 +1,7 @@
 package org.slogga.habboscanner.discord.commands;
 
-import org.slogga.habboscanner.logic.game.console.commands.start.StartConsoleCommand;
+import org.slogga.habboscanner.logic.game.commands.CommandFactory;
+import org.slogga.habboscanner.logic.game.commands.Console.commands.start.StartConsoleCommand;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
 import org.slogga.habboscanner.discord.IDiscordCommand;
@@ -11,10 +12,7 @@ import org.slogga.habboscanner.models.CommandKeys;
 public class PauseDiscordCommand implements IDiscordCommand {
     @Override
     public void execute(SlashCommandInteractionEvent event) {
-        StartConsoleCommand startConsoleCommand = (StartConsoleCommand) HabboScanner.getInstance()
-                .getConfigurator()
-                .getConsoleHandlers()
-                .getCommands().get(CommandKeys.START.getKey());
+        StartConsoleCommand startConsoleCommand = (StartConsoleCommand) CommandFactory.commandExecutorInstance.getCommands().get(CommandKeys.START.getKey());
         startConsoleCommand.setBotRunning(false);
 
         String relaxMomentMessage = HabboScanner.getInstance()

@@ -14,8 +14,9 @@ import org.slogga.habboscanner.HabboScanner;
 import org.slogga.habboscanner.dao.mysql.items.ItemsTimelineDAO;
 import org.slogga.habboscanner.handlers.room.RoomEntryHandler;
 import org.slogga.habboscanner.logic.game.ItemProcessor;
-import org.slogga.habboscanner.logic.game.console.commands.follow.FollowConsoleCommand;
-import org.slogga.habboscanner.logic.game.console.commands.follow.FollowingActionMode;
+import org.slogga.habboscanner.logic.game.commands.CommandFactory;
+import org.slogga.habboscanner.logic.game.commands.Console.commands.follow.FollowConsoleCommand;
+import org.slogga.habboscanner.logic.game.commands.Console.commands.follow.FollowingActionMode;
 import org.slogga.habboscanner.logic.game.furni.FurniInsightsAndTransactionExecutor;
 import org.slogga.habboscanner.models.*;
 import org.slogga.habboscanner.models.furnitype.*;
@@ -38,8 +39,7 @@ public class ItemPlacementHandlers {
 
         Furni oldestFurni = itemProcessor.getOldestFurni();
 
-        FollowConsoleCommand followConsoleCommand = (FollowConsoleCommand) HabboScanner.getInstance()
-                .getConfigurator().getConsoleHandlers().getCommands().get(CommandKeys.FOLLOW.getKey());
+        FollowConsoleCommand followConsoleCommand = (FollowConsoleCommand) CommandFactory.commandExecutorInstance.getCommands().get(CommandKeys.FOLLOW.getKey());
 
         if (!followConsoleCommand.isFollowing()) return;
 

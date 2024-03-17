@@ -19,5 +19,4 @@ public class HabboUsersHistoryDAO {
             statement.execute();
         }
     }
-
 }

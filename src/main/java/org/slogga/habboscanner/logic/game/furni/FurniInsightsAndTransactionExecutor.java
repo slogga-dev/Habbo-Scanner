@@ -8,7 +8,8 @@ import java.util.concurrent.*;
 import org.slogga.habboscanner.dao.mysql.data.DataDAO;
 
 import org.slogga.habboscanner.logic.game.*;
-import org.slogga.habboscanner.logic.game.console.commands.follow.FollowConsoleCommand;
+import org.slogga.habboscanner.logic.game.commands.CommandFactory;
+import org.slogga.habboscanner.logic.game.commands.Console.commands.follow.FollowConsoleCommand;
 
 import org.slogga.habboscanner.models.*;
 
@@ -119,8 +120,7 @@ public class FurniInsightsAndTransactionExecutor {
 
         HabboActions.sendPrivateMessage(userId, finalMessage);
 
-        FollowConsoleCommand followConsoleCommand = (FollowConsoleCommand) HabboScanner.getInstance().getConfigurator()
-                .getConsoleHandlers().getCommands().get(CommandKeys.FOLLOW.getKey());
+        FollowConsoleCommand followConsoleCommand = (FollowConsoleCommand) CommandFactory.commandExecutorInstance.getCommands().get(CommandKeys.FOLLOW.getKey());
 
         followConsoleCommand.initiateBotAndRefreshRoomAccess();
     }
