@@ -6,7 +6,7 @@ Please note that Habbo Scanner is intended for educational purposes only. Any mi
 
 ## What is Habbo Scanner? 🕵️‍♂️
 
-Habbo Scanner is a tool that extracts data from Habbo and saves it to a MySQL DAO. It archives details about furni, users, pets, and bots seen in Habbo rooms, creating a rich dataset for analysis and insight.
+Habbo Scanner is a tool that extracts data from Habbo and saves it to a MySQL database. It archives details about furni, users, pets, and bots seen in Habbo rooms, creating a rich dataset for analysis and insight.
 
 ## Key Features 🚀
 
