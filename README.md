@@ -10,7 +10,7 @@ Habbo Scanner is a tool that extracts data from Habbo and saves it to a MySQL da
 
 ## Key Features 🚀
 
-- **Data Extraction and Storage**: Catalogs every piece of furni, bots, and pets in rooms and stores the information in a MySQL dao.
+- **Data Extraction and Storage**: Catalogs every piece of furni, bots, and pets in rooms and stores the information in a MySQL database.
 - **Bot Mode**: The bot mode allows the character to automatically rotate rooms in various modes, collecting data as it goes.
 - **Command System**: Users can control the extension's behavior directly from the logic.game.
 - **Discord Integration**: Habbo Scanner allows remote command execution via Discord.
