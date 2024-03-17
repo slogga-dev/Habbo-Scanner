@@ -1,12 +1,12 @@
 # Habbo Scanner: A Brief Overview 🎮
 
-Welcome to Habbo Scanner, a powerful data archiving tool for Habbo. This G-Earth extension is designed to extract and store a wealth of information from Habbo, providing a comprehensive dao for users. 
+Welcome to Habbo Scanner, a powerful data archiving tool for Habbo. This G-Earth extension is designed to extract and store a wealth of information from Habbo, providing a comprehensive database for users. 
 
 Please note that Habbo Scanner is intended for educational purposes only. Any misuse of this tool for illegal activities is strictly prohibited. By using this tool, you agree to abide by all applicable laws and regulations.
 
 ## What is Habbo Scanner? 🕵️‍♂️
 
-Habbo Scanner is a tool that extracts data from Habbo and saves it to a MySQL dao. It archives details about furniture (furni), users, pets, and bots seen in Habbo rooms, creating a rich dataset for analysis and insight.
+Habbo Scanner is a tool that extracts data from Habbo and saves it to a MySQL DAO. It archives details about furni, users, pets, and bots seen in Habbo rooms, creating a rich dataset for analysis and insight.
 
 ## Key Features 🚀
 
