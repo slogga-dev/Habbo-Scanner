@@ -5,14 +5,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 import gearth.protocol.HMessage;
+
 import lombok.Data;
 
 import org.slogga.habboscanner.HabboScanner;
 import org.slogga.habboscanner.handlers.*;
-import org.slogga.habboscanner.handlers.item.ItemAdditionHandlers;
-import org.slogga.habboscanner.handlers.item.ItemPlacementHandlers;
-import org.slogga.habboscanner.handlers.room.RoomDetailsHandlers;
-import org.slogga.habboscanner.handlers.room.RoomEntryHandler;
+import org.slogga.habboscanner.handlers.item.*;
+import org.slogga.habboscanner.handlers.room.*;
 import org.slogga.habboscanner.logic.DefaultValues;
 
 @Data

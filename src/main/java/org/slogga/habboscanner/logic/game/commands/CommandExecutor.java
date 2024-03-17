@@ -14,5 +14,4 @@ public abstract class CommandExecutor {
     public CommandExecutor(CommandExecutorProperties properties){
         this.properties = properties;
     }
-    public CommandExecutor(){}
 }

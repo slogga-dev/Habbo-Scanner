@@ -1,11 +1,8 @@
 package org.slogga.habboscanner.logic;
 
-import lombok.Data;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.slogga.habboscanner.HabboScanner;
-
 import java.util.*;
+
+import lombok.Data;
 
 @Data
 public class DefaultValues {
@@ -13,7 +10,6 @@ public class DefaultValues {
 
     private final List<String> propertyNames = Arrays.asList("bot", "message", "discord", "command_description");
     private final List<String> validDomains = Arrays.asList("s2", "it", "fi", "es", "de",
-
             "com.br", "com.tr", "com", "fr", "nl");
 
     public static DefaultValues getInstance() {

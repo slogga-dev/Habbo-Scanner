@@ -7,10 +7,9 @@ import gearth.protocol.HMessage;
 import lombok.Getter;
 import lombok.Setter;
 import org.slogga.habboscanner.logic.game.commands.*;
-import org.slogga.habboscanner.logic.game.commands.Console.commands.follow.FollowConsoleCommand;
+import org.slogga.habboscanner.logic.game.commands.console.commands.follow.FollowConsoleCommand;
 
-import org.slogga.habboscanner.logic.game.commands.Console.IConsoleCommand;
-import org.slogga.habboscanner.logic.game.commands.Console.commands.follow.actions.FurniInfoFollowingActionMode;
+import org.slogga.habboscanner.logic.game.commands.console.commands.follow.actions.FurniInfoFollowingActionMode;
 
 import org.slogga.habboscanner.HabboScanner;
 import org.slogga.habboscanner.models.CommandKeys;
@@ -31,7 +30,8 @@ public class ConsoleHandlers {
 
         setCommandExecutorProperties(message, messageText);
 
-        FollowConsoleCommand followConsoleCommand = (FollowConsoleCommand) CommandFactory.commandExecutorInstance.getCommands().get(CommandKeys.FOLLOW.getKey());
+        FollowConsoleCommand followConsoleCommand = (FollowConsoleCommand) CommandFactory.commandExecutorInstance
+                .getCommands().get(CommandKeys.FOLLOW.getKey());
         FurniInfoFollowingActionMode furniInfoFollowingActionMode = (FurniInfoFollowingActionMode)
                 followConsoleCommand.getActionModes().get(FollowingAction.FURNI_INFO);
 
@@ -49,6 +49,7 @@ public class ConsoleHandlers {
         commandExecutorProperties.setMessage(message);
         commandExecutorProperties.setMessageText(messageText);
         commandExecutorProperties.setUserId(userId);
-        CommandFactory.getCommandExecutor(CommandExecutorType.CONSOLE, commandExecutorProperties, true);
+
+        CommandFactory.getCommandExecutor(CommandExecutorType.CONSOLE, commandExecutorProperties);
     }
 }

@@ -19,7 +19,7 @@ public class DataActiveDAO {
             statement.setString(3, furni.getName());
             statement.setString(4, furni.getOwner());
             statement.setString(5, furni.getType().getType());
-            statement.setInt(6, furni.getRoomID());
+            statement.setInt(6, furni.getRoomId());
             statement.setString(7, furni.getExtraData());
             statement.setTimestamp(8, furni.getTimestamp());
 

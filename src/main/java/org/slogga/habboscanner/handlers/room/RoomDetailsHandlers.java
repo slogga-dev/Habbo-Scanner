@@ -6,8 +6,8 @@ import org.slogga.habboscanner.HabboScanner;
 import org.slogga.habboscanner.dao.mysql.RoomsDAO;
 import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.commands.CommandFactory;
-import org.slogga.habboscanner.logic.game.commands.Console.commands.follow.FollowConsoleCommand;
-import org.slogga.habboscanner.logic.game.commands.Console.commands.start.StartConsoleCommand;
+import org.slogga.habboscanner.logic.game.commands.console.commands.follow.FollowConsoleCommand;
+import org.slogga.habboscanner.logic.game.commands.console.commands.start.StartConsoleCommand;
 import org.slogga.habboscanner.models.CommandKeys;
 import org.slogga.habboscanner.models.RoomAccessMode;
 

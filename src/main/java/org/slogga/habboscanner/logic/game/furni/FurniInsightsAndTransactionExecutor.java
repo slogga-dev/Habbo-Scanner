@@ -9,7 +9,7 @@ import org.slogga.habboscanner.dao.mysql.data.DataDAO;
 
 import org.slogga.habboscanner.logic.game.*;
 import org.slogga.habboscanner.logic.game.commands.CommandFactory;
-import org.slogga.habboscanner.logic.game.commands.Console.commands.follow.FollowConsoleCommand;
+import org.slogga.habboscanner.logic.game.commands.console.commands.follow.FollowConsoleCommand;
 
 import org.slogga.habboscanner.models.*;
 

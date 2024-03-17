@@ -5,7 +5,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import org.slogga.habboscanner.discord.IDiscordCommand;
 
 import org.slogga.habboscanner.logic.game.commands.CommandFactory;
-import org.slogga.habboscanner.logic.game.commands.Console.commands.EnergySavingConsoleCommand;
+import org.slogga.habboscanner.logic.game.commands.console.commands.EnergySavingConsoleCommand;
 
 import org.slogga.habboscanner.HabboScanner;
 import org.slogga.habboscanner.models.CommandKeys;

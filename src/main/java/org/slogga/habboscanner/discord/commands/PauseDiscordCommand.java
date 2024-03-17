@@ -1,7 +1,7 @@
 package org.slogga.habboscanner.discord.commands;
 
 import org.slogga.habboscanner.logic.game.commands.CommandFactory;
-import org.slogga.habboscanner.logic.game.commands.Console.commands.start.StartConsoleCommand;
+import org.slogga.habboscanner.logic.game.commands.console.commands.start.StartConsoleCommand;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
 import org.slogga.habboscanner.discord.IDiscordCommand;

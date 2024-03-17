@@ -12,9 +12,9 @@ import org.slogga.habboscanner.discord.IDiscordCommand;
 
 import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.commands.CommandFactory;
-import org.slogga.habboscanner.logic.game.commands.Console.commands.follow.FollowConsoleCommand;
-import org.slogga.habboscanner.logic.game.commands.Console.commands.follow.FollowingActionMode;
-import org.slogga.habboscanner.logic.game.commands.Console.commands.start.StartConsoleCommand;
+import org.slogga.habboscanner.logic.game.commands.console.commands.follow.FollowConsoleCommand;
+import org.slogga.habboscanner.logic.game.commands.console.commands.follow.FollowingActionMode;
+import org.slogga.habboscanner.logic.game.commands.console.commands.start.StartConsoleCommand;
 
 import org.slogga.habboscanner.models.*;
 

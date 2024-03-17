@@ -9,8 +9,8 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import org.slogga.habboscanner.discord.IDiscordCommand;
 
 import org.slogga.habboscanner.logic.game.commands.CommandFactory;
-import org.slogga.habboscanner.logic.game.commands.Console.commands.start.StartConsoleCommand;
-import org.slogga.habboscanner.logic.game.commands.Console.commands.start.StartMode;
+import org.slogga.habboscanner.logic.game.commands.console.commands.start.StartConsoleCommand;
+import org.slogga.habboscanner.logic.game.commands.console.commands.start.StartMode;
 
 import org.slogga.habboscanner.discord.DiscordBot;
 

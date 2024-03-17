@@ -1,10 +1,8 @@
 package org.slogga.habboscanner.logic.game;
 
 import gearth.extensions.parsers.HEntity;
-import org.slogga.habboscanner.models.entities.BaseEntity;
-import org.slogga.habboscanner.models.entities.BotEntity;
-import org.slogga.habboscanner.models.entities.HabboEntity;
-import org.slogga.habboscanner.models.entities.PetEntity;
+
+import org.slogga.habboscanner.models.entities.*;
 
 public class BaseEntityFactory {
     public static BaseEntity createEntity(HEntity entity, int roomId) {

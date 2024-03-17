@@ -7,8 +7,8 @@ import java.util.concurrent.*;
 
 import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.commands.CommandFactory;
-import org.slogga.habboscanner.logic.game.commands.Console.commands.start.StartConsoleCommand;
-import org.slogga.habboscanner.logic.game.commands.Console.commands.start.modes.StartBotInActiveRoomsMode;
+import org.slogga.habboscanner.logic.game.commands.console.commands.start.StartConsoleCommand;
+import org.slogga.habboscanner.logic.game.commands.console.commands.start.modes.StartBotInActiveRoomsMode;
 
 import gearth.protocol.*;
 

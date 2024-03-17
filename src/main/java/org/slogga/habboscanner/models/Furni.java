@@ -21,22 +21,23 @@ public class Furni {
 
     private  FurnitypeEnum type;
 
-    private int roomID;
+    private int roomId;
 
     private String extraData;
 
     private Timestamp timestamp;
 
     public Furni(Integer id, String classname, String name, String owner,
-                 FurnitypeEnum type, int roomID, String extradata, Timestamp timestamp) {
+                 FurnitypeEnum type, int roomId, String extradata, Timestamp timestamp) {
         this.id = id;
         this.classname = classname;
         this.name = name;
         this.owner = owner;
         this.type = type;
-        this.roomID = roomID;
+        this.roomId = roomId;
         this.extraData = extradata;
         this.timestamp = timestamp;
     }
+
     public Furni(){}
 }

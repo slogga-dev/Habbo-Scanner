@@ -12,7 +12,7 @@ import org.slogga.habboscanner.dao.mysql.items.ItemsTimelineDAO;
 
 import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.commands.CommandFactory;
-import org.slogga.habboscanner.logic.game.commands.Console.commands.follow.FollowConsoleCommand;
+import org.slogga.habboscanner.logic.game.commands.console.commands.follow.FollowConsoleCommand;
 import org.slogga.habboscanner.logic.game.furni.FurniHistoricalInfoBroadcaster;
 
 import org.slogga.habboscanner.models.*;

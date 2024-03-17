@@ -1,11 +1,9 @@
 package org.slogga.habboscanner.handlers;
 
 import gearth.protocol.HMessage;
-import org.slogga.habboscanner.HabboScanner;
 import org.slogga.habboscanner.logic.game.commands.CommandFactory;
-import org.slogga.habboscanner.logic.game.commands.Console.IConsoleCommand;
-import org.slogga.habboscanner.logic.game.commands.Console.commands.EnergySavingConsoleCommand;
-import org.slogga.habboscanner.logic.game.commands.Console.commands.start.StartConsoleCommand;
+import org.slogga.habboscanner.logic.game.commands.console.commands.EnergySavingConsoleCommand;
+import org.slogga.habboscanner.logic.game.commands.console.commands.start.StartConsoleCommand;
 import org.slogga.habboscanner.logic.game.commands.IExecuteCommand;
 import org.slogga.habboscanner.models.CommandKeys;
 
