@@ -19,6 +19,10 @@ import org.slogga.habboscanner.models.CommandKeys;
 import org.slogga.habboscanner.utils.DateUtils;
 
 public class NavigatorHandlers {
+    private static final int ROOM_VISIT_INTERVAL_MILLISECONDS = 15 * 60 * 1000;
+
+    private final Map<Integer, Long> roomTimestamps = new HashMap<>();
+
     public void onNavigatorSearchResultBlocks(HMessage message) {
         CompletableFuture.runAsync(() -> {
             StartConsoleCommand startConsoleCommand = (StartConsoleCommand) HabboScanner
@@ -115,17 +119,13 @@ public class NavigatorHandlers {
                     int roomAdExpiresInMin = message.getPacket().readInteger();
                 }
 
-                if (accessMode == 0) {
+                long currentTime = System.currentTimeMillis();
+                long lastRoomTime = roomTimestamps.getOrDefault(roomId, 0L);
+
+                if (accessMode == 0 || currentTime - lastRoomTime > ROOM_VISIT_INTERVAL_MILLISECONDS) {
+                    roomTimestamps.put(roomId, currentTime);
+
                     HabboActions.moveToRoom(roomId);
-
-                    ScheduledFuture<?> future = executorService.schedule(() ->
-                            HabboActions.moveToRoom(roomId), 2, TimeUnit.SECONDS);
-
-                    try {
-                        future.get();
-                    } catch (InterruptedException | ExecutionException exception) {
-                        throw new RuntimeException(exception);
-                    }
                 }
 
                 String room = roomId + "<|~|>" + roomName + "<|~|>" + roomDescription +
