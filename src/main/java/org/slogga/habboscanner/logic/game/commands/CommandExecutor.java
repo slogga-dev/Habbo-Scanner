@@ -9,7 +9,7 @@ public abstract class CommandExecutor {
     protected Map<String, IExecuteCommand> commands = new HashMap<>();
     protected CommandExecutorProperties properties;
 
-    public abstract void setCommands();
+    public abstract void setupCommands();
 
     public CommandExecutor(CommandExecutorProperties properties){
         this.properties = properties;

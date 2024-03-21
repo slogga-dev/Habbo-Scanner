@@ -8,25 +8,36 @@ import org.slogga.habboscanner.logic.game.commands.console.commands.start.StartC
 
 import org.slogga.habboscanner.models.CommandKeys;
 
+import java.util.Arrays;
+
 public class ConsoleCommandExecutor extends CommandExecutor {
     public ConsoleCommandExecutor(CommandExecutorProperties properties) {
         super(properties);
 
-        setCommands();
+        setupCommands();
     }
 
     @Override
-    public void setCommands() {
-        commands.put(CommandKeys.START.getKey(), new StartConsoleCommand());
-        commands.put(CommandKeys.PAUSE.getKey(), new PauseConsoleCommand());
-        commands.put(CommandKeys.RESUME.getKey(), new ResumeConsoleCommand());
-        commands.put(CommandKeys.FOLLOW.getKey(), new FollowConsoleCommand());
-        commands.put(CommandKeys.INFO.getKey(), new InfoConsoleCommand());
-        commands.put(CommandKeys.CONVERT.getKey(), new ConvertConsoleCommand());
-        commands.put(CommandKeys.UPDATE.getKey(), new UpdateConsoleCommand());
-        commands.put(CommandKeys.MAKESAY.getKey(), new MakeSayCommand());
-        commands.put(CommandKeys.LOGOUT.getKey(), new LogoutConsoleCommand());
-        commands.put(CommandKeys.ENERGY_SAVING.getKey(), new EnergySavingConsoleCommand());
-        commands.put(CommandKeys.COMMANDS.getKey(), new CommandsConsoleCommand());
+    public void setupCommands() {
+        Arrays.stream(CommandKeys.values()).forEach(key ->
+                commands.put(":" + key.getKey(), createCommand(key))
+        );
+    }
+
+    private IExecuteCommand createCommand(CommandKeys key) {
+        switch (key) {
+            case START: return new StartConsoleCommand();
+            case PAUSE: return new PauseConsoleCommand();
+            case RESUME: return new ResumeConsoleCommand();
+            case FOLLOW: return new FollowConsoleCommand();
+            case INFO: return new InfoConsoleCommand();
+            case CONVERT: return new ConvertConsoleCommand();
+            case UPDATE: return new UpdateConsoleCommand();
+            case MAKESAY: return new MakeSayCommand();
+            case LOGOUT: return new LogoutConsoleCommand();
+            case ENERGY_SAVING: return new EnergySavingConsoleCommand();
+            case COMMANDS: return new CommandsConsoleCommand();
+            default: return null;
+        }
     }
 }

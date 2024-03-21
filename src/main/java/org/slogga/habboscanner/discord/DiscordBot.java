@@ -3,6 +3,7 @@ package org.slogga.habboscanner.discord;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import lombok.Getter;
 import net.dv8tion.jda.api.*;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
@@ -19,6 +20,7 @@ import org.slogga.habboscanner.logic.game.commands.CommandExecutorType;
 import org.slogga.habboscanner.logic.game.commands.CommandFactory;
 
 public class DiscordBot extends ListenerAdapter {
+    @Getter
     private JDA discordAPI;
 
     private final Map<String, IDiscordCommand> commands = new HashMap<>();
@@ -28,7 +30,6 @@ public class DiscordBot extends ListenerAdapter {
     public DiscordBot()  {
         refreshAuthorizedUserList();
         initializeDiscordAPI();
-        setupBotCommands();
     }
 
     @Override
