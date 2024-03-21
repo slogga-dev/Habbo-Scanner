@@ -4,11 +4,11 @@ import java.io.*;
 import java.util.Properties;
 
 import org.slogga.habboscanner.logic.game.HabboActions;
-import org.slogga.habboscanner.logic.game.commands.console.commands.convert.ConvertFile;
+import org.slogga.habboscanner.logic.game.commands.console.commands.convert.IConvertFile;
 
 import org.slogga.habboscanner.HabboScanner;
 
-public class ConvertItemsFile implements ConvertFile {
+public class IConvertItemsFile implements IConvertFile {
     @Override
     public void handle(int userId) {
         Properties messageProperties = HabboScanner.getInstance()

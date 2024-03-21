@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public abstract class CommandExecutor {
-    protected Map<String, IExecuteCommand> commands = new HashMap<>();
+    protected Map<String, Command> commands = new HashMap<>();
     protected CommandExecutorProperties properties;
 
     public abstract void setupCommands();

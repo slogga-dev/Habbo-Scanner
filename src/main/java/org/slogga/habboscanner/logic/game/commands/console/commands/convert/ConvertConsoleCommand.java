@@ -12,11 +12,11 @@ import org.slogga.habboscanner.logic.game.commands.IExecuteCommand;
 
 @Getter
 public class ConvertConsoleCommand implements IExecuteCommand {
-    private final Map<String, ConvertFile> convertFiles = new HashMap<>();
+    private final Map<String, IConvertFile> convertFiles = new HashMap<>();
 
     public ConvertConsoleCommand() {
-        convertFiles.put("items", new ConvertItemsFile());
-        convertFiles.put("timeline", new ConvertTimelineFile());
+        convertFiles.put("items", new IConvertItemsFile());
+        convertFiles.put("timeline", new IConvertTimelineFile());
     }
 
     @Override
@@ -35,9 +35,9 @@ public class ConvertConsoleCommand implements IExecuteCommand {
         }
 
         String file = arguments[1];
-        ConvertFile convertFile = convertFiles.get(file);
+        IConvertFile IConvertFile = convertFiles.get(file);
 
-        if (convertFile == null) {
+        if (IConvertFile == null) {
             String invalidParameterMessage = HabboScanner.getInstance().getConfigurator().getProperties().get("command_description")
                     .getProperty("convert.command.invalid.parameter.message");
 
@@ -46,7 +46,7 @@ public class ConvertConsoleCommand implements IExecuteCommand {
             return;
         }
 
-        convertFile.handle(properties.getUserId());
+        IConvertFile.handle(properties.getUserId());
     }
 
     @Override

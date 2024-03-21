@@ -1,14 +1,14 @@
-package org.slogga.habboscanner.logic.game.console.commands.convert.files;
+package org.slogga.habboscanner.logic.game.commands.console.commands.convert.files;
 
 import java.io.*;
 import java.util.Properties;
 
 import org.slogga.habboscanner.logic.game.HabboActions;
-import org.slogga.habboscanner.logic.game.console.commands.convert.ConvertFile;
+import org.slogga.habboscanner.logic.game.commands.console.commands.convert.IConvertFile;
 
 import org.slogga.habboscanner.HabboScanner;
 
-public class ConvertTimelineFile implements ConvertFile {
+public class IConvertTimelineFile implements IConvertFile {
     @Override
     public void handle(int userId) {
         Properties messageProperties = HabboScanner.getInstance()
@@ -38,14 +38,8 @@ public class ConvertTimelineFile implements ConvertFile {
     private void convertCSVToSQL() throws IOException {
         String cvsSplitBy = ",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)";
 
-        File file = new File("dao/items_timeline.sql");
-        if (!file.exists()) {
-            file.getParentFile().mkdirs();
-            file.createNewFile();
-        }
-
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader("timeline.csv"));
-             PrintWriter printWriter = new PrintWriter(new FileWriter(file, false))) {
+             PrintWriter printWriter = new PrintWriter(new FileWriter("dao/items_timeline.sql", false))) {
 
             printWriter.println("DELETE FROM items_timeline;");
 
@@ -57,7 +51,6 @@ public class ConvertTimelineFile implements ConvertFile {
                 processLine(line, cvsSplitBy, printWriter);
         }
     }
-
 
     private void processLine(String line, String cvsSplitBy, PrintWriter printWriter) {
         String[] timeLine = line.split(cvsSplitBy, -1);

@@ -1,6 +1,7 @@
 package org.slogga.habboscanner.logic.game.commands.console;
 
 import org.slogga.habboscanner.logic.game.commands.*;
+import org.slogga.habboscanner.logic.game.commands.common.LogoutCommand;
 import org.slogga.habboscanner.logic.game.commands.console.commands.*;
 import org.slogga.habboscanner.logic.game.commands.console.commands.convert.ConvertConsoleCommand;
 import org.slogga.habboscanner.logic.game.commands.console.commands.follow.FollowConsoleCommand;
@@ -24,19 +25,19 @@ public class ConsoleCommandExecutor extends CommandExecutor {
         );
     }
 
-    private IExecuteCommand createCommand(CommandKeys key) {
+    private Command createCommand(CommandKeys key) {
         switch (key) {
-            case START: return new StartConsoleCommand();
-            case PAUSE: return new PauseConsoleCommand();
-            case RESUME: return new ResumeConsoleCommand();
-            case FOLLOW: return new FollowConsoleCommand();
-            case INFO: return new InfoConsoleCommand();
-            case CONVERT: return new ConvertConsoleCommand();
-            case UPDATE: return new UpdateConsoleCommand();
-            case MAKESAY: return new MakeSayCommand();
-            case LOGOUT: return new LogoutConsoleCommand();
-            case ENERGY_SAVING: return new EnergySavingConsoleCommand();
-            case COMMANDS: return new CommandsConsoleCommand();
+//            case START: return new StartConsoleCommand();
+//            case PAUSE: return new PauseConsoleCommand();
+//            case RESUME: return new ResumeConsoleCommand();
+//            case FOLLOW: return new FollowConsoleCommand();
+//            case INFO: return new InfoConsoleCommand();
+//            case CONVERT: return new ConvertConsoleCommand();
+//            case UPDATE: return new UpdateConsoleCommand();
+//            case MAKESAY: return new MakeSayCommand();
+            case LOGOUT: return new LogoutCommand() ;
+//            case ENERGY_SAVING: return new EnergySavingConsoleCommand();
+//            case COMMANDS: return new CommandsConsoleCommand();
             default: return null;
         }
     }

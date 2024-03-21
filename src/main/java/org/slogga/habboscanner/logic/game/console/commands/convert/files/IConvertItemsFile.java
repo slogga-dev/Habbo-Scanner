@@ -8,7 +8,7 @@ import org.slogga.habboscanner.logic.game.console.commands.convert.ConvertFile;
 
 import org.slogga.habboscanner.HabboScanner;
 
-public class ConvertItemsFile implements ConvertFile {
+public class IConvertItemsFile implements ConvertFile {
     @Override
     public void handle(int userId) {
         Properties messageProperties = HabboScanner.getInstance()
