@@ -1,10 +1,10 @@
 package org.slogga.habboscanner.logic.game.commands;
 
+import lombok.Data;
+
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
 import gearth.protocol.HMessage;
-
-import lombok.Data;
 
 @Data
 public class CommandExecutorProperties {

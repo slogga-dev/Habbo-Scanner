@@ -3,7 +3,6 @@ package org.slogga.habboscanner.logic.game.commands.console.commands;
 import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.commands.CommandExecutorProperties;
 import org.slogga.habboscanner.logic.game.commands.CommandFactory;
-import org.slogga.habboscanner.logic.game.commands.console.commands.start.StartConsoleCommand;
 
 import org.slogga.habboscanner.HabboScanner;
 import org.slogga.habboscanner.logic.game.commands.IExecuteCommand;

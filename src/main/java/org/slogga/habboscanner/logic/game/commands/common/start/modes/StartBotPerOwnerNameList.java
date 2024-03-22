@@ -1,19 +1,19 @@
-package org.slogga.habboscanner.logic.game.commands.console.commands.start.modes;
+package org.slogga.habboscanner.logic.game.commands.common.start.modes;
 
-import org.slogga.habboscanner.logic.game.HabboActions;
-import org.slogga.habboscanner.logic.game.commands.CommandFactory;
-import org.slogga.habboscanner.logic.game.commands.console.commands.start.StartConsoleCommand;
-import org.slogga.habboscanner.logic.game.commands.console.commands.start.StartMode;
-
-import org.slogga.habboscanner.HabboScanner;
-import org.slogga.habboscanner.models.CommandKeys;
 
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class StartBotPerOwnerNameListMode implements StartMode {
+import org.slogga.habboscanner.logic.game.HabboActions;
+import org.slogga.habboscanner.logic.game.commands.*;
+import org.slogga.habboscanner.logic.game.commands.common.start.*;
+
+import org.slogga.habboscanner.HabboScanner;
+import org.slogga.habboscanner.models.CommandKeys;
+
+public class StartBotPerOwnerNameList implements IStarter {
     @Override
-    public void handle(int userId) {
+    public void execute(CommandExecutorProperties properties) {
         String botOwnerNameList = HabboScanner.getInstance().getConfigurator()
                 .getProperties().get("bot").getProperty("bot.owner.name.list");
         String[] namesToScan = botOwnerNameList.split(" ");
@@ -22,7 +22,7 @@ public class StartBotPerOwnerNameListMode implements StartMode {
         AtomicInteger currentIndex = new AtomicInteger(0);
 
         executorService.scheduleAtFixedRate(() -> {
-            StartConsoleCommand startConsoleCommand = (StartConsoleCommand) CommandFactory.commandExecutorInstance.getCommands().get(CommandKeys.START.getKey());
+            StartCommand startConsoleCommand = (StartCommand) CommandFactory.commandExecutorInstance.getCommands().get(CommandKeys.START.getKey());
             boolean isBotRunning = startConsoleCommand.isBotRunning();
 
             if (!isBotRunning || currentIndex.get() >= namesToScan.length)

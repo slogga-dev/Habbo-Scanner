@@ -1,4 +1,4 @@
-package org.slogga.habboscanner.logic.game.commands.console.commands.follow.actions;
+package org.slogga.habboscanner.logic.game.commands.common.follow.actions;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -7,13 +7,13 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.slogga.habboscanner.logic.game.HabboActions;
-import org.slogga.habboscanner.logic.game.commands.console.commands.follow.FollowingActionMode;
+import org.slogga.habboscanner.logic.game.commands.common.follow.IFollower;
 
 import org.slogga.habboscanner.HabboScanner;
 
-public class AuctionFollowingActionMode implements FollowingActionMode {
+public class AuctionFollowingAction implements IFollower {
     @Override
-    public void handle() {
+    public void execute() {
         int consoleUserId = HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getUserId();
 
         String followingAuctionMessage = HabboScanner.getInstance().getConfigurator()

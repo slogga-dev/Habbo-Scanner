@@ -1,19 +1,18 @@
-package org.slogga.habboscanner.logic.game.commands.console.commands.start.modes;
-
-import org.slogga.habboscanner.logic.game.HabboActions;
-import org.slogga.habboscanner.logic.game.commands.CommandFactory;
-import org.slogga.habboscanner.logic.game.commands.console.commands.start.StartConsoleCommand;
-import org.slogga.habboscanner.logic.game.commands.console.commands.start.StartMode;
-
-import org.slogga.habboscanner.HabboScanner;
-import org.slogga.habboscanner.models.CommandKeys;
+package org.slogga.habboscanner.logic.game.commands.common.start.modes;
 
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class StartBotPerRoomIdListMode implements StartMode {
+import org.slogga.habboscanner.logic.game.HabboActions;
+import org.slogga.habboscanner.logic.game.commands.*;
+import org.slogga.habboscanner.logic.game.commands.common.start.*;
+
+import org.slogga.habboscanner.HabboScanner;
+import org.slogga.habboscanner.models.CommandKeys;
+
+public class StartBotPerRoomIdList implements IStarter {
     @Override
-    public void handle(int userId) {
+    public void execute(CommandExecutorProperties properties) {
         String botRoomIdList = HabboScanner.getInstance().getConfigurator()
                 .getProperties().get("bot").getProperty("bot.room.id.list");
         String[] roomIds = botRoomIdList.split(" ");
@@ -22,7 +21,7 @@ public class StartBotPerRoomIdListMode implements StartMode {
         AtomicInteger currentIndex = new AtomicInteger(0);
 
         executorService.scheduleAtFixedRate(() -> {
-            StartConsoleCommand startConsoleCommand = (StartConsoleCommand) CommandFactory.
+            StartCommand startConsoleCommand = (StartCommand) CommandFactory.
                     commandExecutorInstance.getCommands().get(CommandKeys.START.getKey());
             boolean isBotRunning = startConsoleCommand.isBotRunning();
 

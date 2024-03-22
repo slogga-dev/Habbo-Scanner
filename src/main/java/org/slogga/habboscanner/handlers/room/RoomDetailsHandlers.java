@@ -1,15 +1,19 @@
 package org.slogga.habboscanner.handlers.room;
 
 import gearth.protocol.HMessage;
+
 import lombok.Getter;
+
 import org.slogga.habboscanner.HabboScanner;
 import org.slogga.habboscanner.dao.mysql.RoomsDAO;
+
 import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.commands.CommandFactory;
-import org.slogga.habboscanner.logic.game.commands.console.commands.follow.FollowConsoleCommand;
-import org.slogga.habboscanner.logic.game.commands.console.commands.start.StartConsoleCommand;
-import org.slogga.habboscanner.models.CommandKeys;
-import org.slogga.habboscanner.models.RoomAccessMode;
+import org.slogga.habboscanner.logic.game.commands.common.follow.FollowCommand;
+import org.slogga.habboscanner.logic.game.commands.common.start.StartCommand;
+
+import org.slogga.habboscanner.logic.game.commands.console.commands.FollowConsoleCommand;
+import org.slogga.habboscanner.models.*;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -45,7 +49,8 @@ public class RoomDetailsHandlers {
 
         roomAccessMode = RoomAccessMode.fromValue(message.getPacket().readInteger());
 
-        FollowConsoleCommand followConsoleCommand = (FollowConsoleCommand) CommandFactory.commandExecutorInstance.getCommands().get(CommandKeys.FOLLOW.getKey());
+        FollowConsoleCommand followConsoleCommand = (FollowConsoleCommand) CommandFactory.commandExecutorInstance
+                .getCommands().get(CommandKeys.FOLLOW.getKey());
 
         if (!followConsoleCommand.isFollowing()) return;
 
@@ -77,7 +82,8 @@ public class RoomDetailsHandlers {
     }
 
     public void onRoomVisualizationSettings(HMessage message) {
-        StartConsoleCommand startConsoleCommand = (StartConsoleCommand) CommandFactory.commandExecutorInstance.getCommands().get(CommandKeys.START.getKey());
+        StartCommand startConsoleCommand = (StartCommand) CommandFactory.commandExecutorInstance
+                .getCommands().get(CommandKeys.START.getKey());
 
         boolean isBotRunning = startConsoleCommand.isBotRunning();
 

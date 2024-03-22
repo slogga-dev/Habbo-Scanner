@@ -1,25 +1,26 @@
-package org.slogga.habboscanner.logic.game.commands.console.commands.start.modes;
+package org.slogga.habboscanner.logic.game.commands.common.start.modes;
 
 import lombok.Setter;
 import org.slogga.habboscanner.logic.game.HabboActions;
+import org.slogga.habboscanner.logic.game.commands.CommandExecutorProperties;
 import org.slogga.habboscanner.logic.game.commands.CommandFactory;
-import org.slogga.habboscanner.logic.game.commands.console.commands.start.StartConsoleCommand;
-import org.slogga.habboscanner.logic.game.commands.console.commands.start.StartMode;
+import org.slogga.habboscanner.logic.game.commands.common.start.IStarter;
 
+import org.slogga.habboscanner.logic.game.commands.common.start.StartCommand;
 import org.slogga.habboscanner.models.CommandKeys;
 
 import java.util.concurrent.*;
 
 @Setter
-public class StartBotInActiveRoomsMode implements StartMode {
+public class StartBotInActiveRooms implements IStarter {
     private boolean isProcessingActiveRooms;
 
     @Override
-    public void handle(int userId) {
+    public void execute(CommandExecutorProperties properties) {
         ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 
         executorService.scheduleAtFixedRate(() -> {
-            StartConsoleCommand startConsoleCommand = (StartConsoleCommand) CommandFactory.commandExecutorInstance.getCommands()
+            StartCommand startConsoleCommand = (StartCommand) CommandFactory.commandExecutorInstance.getCommands()
                     .get(CommandKeys.START.getKey());
             boolean isBotRunning = startConsoleCommand.isBotRunning();
 

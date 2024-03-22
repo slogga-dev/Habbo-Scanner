@@ -9,7 +9,7 @@ import org.slogga.habboscanner.dao.mysql.data.DataDAO;
 
 import org.slogga.habboscanner.logic.game.*;
 import org.slogga.habboscanner.logic.game.commands.CommandFactory;
-import org.slogga.habboscanner.logic.game.commands.console.commands.follow.FollowConsoleCommand;
+import org.slogga.habboscanner.logic.game.commands.console.commands.FollowConsoleCommand;
 
 import org.slogga.habboscanner.models.*;
 
@@ -29,10 +29,10 @@ public class FurniInsightsAndTransactionExecutor {
                 .getConfigurator().getRoomEntryHandler().getItemProcessor();
         Furni oldestFurni = itemProcessor.getOldestFurni();
 
+        int consoleUserId = HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getUserId();
+
         String oldestFurniInRoomMessage = generateOldestFurniInsight(oldestFurni, estimatedDate);
         String rarestFurniInRoomMessage = generateRarestFurniInsight(itemProcessor);
-
-        int consoleUserId = HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getUserId();
 
         HabboActions.sendPrivateMessage(consoleUserId, oldestFurniInRoomMessage);
         HabboActions.sendPrivateMessage(consoleUserId, rarestFurniInRoomMessage);
@@ -120,7 +120,8 @@ public class FurniInsightsAndTransactionExecutor {
 
         HabboActions.sendPrivateMessage(userId, finalMessage);
 
-        FollowConsoleCommand followConsoleCommand = (FollowConsoleCommand) CommandFactory.commandExecutorInstance.getCommands().get(CommandKeys.FOLLOW.getKey());
+        FollowConsoleCommand followConsoleCommand = (FollowConsoleCommand) CommandFactory.commandExecutorInstance
+                .getCommands().get(CommandKeys.FOLLOW.getKey());
 
         followConsoleCommand.initiateBotAndRefreshRoomAccess();
     }

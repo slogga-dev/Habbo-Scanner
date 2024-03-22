@@ -10,9 +10,8 @@ import org.slogga.habboscanner.HabboScanner;
 
 import org.slogga.habboscanner.logic.game.commands.CommandFactory;
 import org.slogga.habboscanner.logic.game.commands.console.commands.EnergySavingConsoleCommand;
-import org.slogga.habboscanner.logic.game.commands.console.commands.start.StartConsoleCommand;
-import org.slogga.habboscanner.logic.game.commands.console.commands.start.modes.StartBotInActiveRoomsMode;
-import org.slogga.habboscanner.logic.game.commands.IExecuteCommand;
+import org.slogga.habboscanner.logic.game.commands.common.start.modes.StartBotInActiveRooms;
+
 import org.slogga.habboscanner.models.CommandKeys;
 
 public class InfoDiscordCommand implements IDiscordCommand {
@@ -31,7 +30,7 @@ public class InfoDiscordCommand implements IDiscordCommand {
         StartConsoleCommand startConsoleCommand = (StartConsoleCommand) commands.get(CommandKeys.START.getKey());
         boolean isBotRunning = startConsoleCommand.isBotRunning();
 
-        StartBotInActiveRoomsMode startBotInActiveRoomsMode = (StartBotInActiveRoomsMode)
+        StartBotInActiveRooms startBotInActiveRoomsMode = (StartBotInActiveRooms)
                 startConsoleCommand.getStartModes().get("bot.in.active.rooms");
         boolean isProcessingActiveRooms = startBotInActiveRoomsMode.getIsProcessingActiveRooms();
 

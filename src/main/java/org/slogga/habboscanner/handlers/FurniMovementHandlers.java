@@ -1,10 +1,11 @@
 package org.slogga.habboscanner.handlers;
 
+import org.apache.commons.lang3.tuple.Triple;
+
 import java.io.IOException;
 import java.sql.*;
 
 import lombok.Getter;
-import org.apache.commons.lang3.tuple.Triple;
 
 import gearth.protocol.HMessage;
 
@@ -12,7 +13,7 @@ import org.slogga.habboscanner.dao.mysql.items.ItemsTimelineDAO;
 
 import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.commands.CommandFactory;
-import org.slogga.habboscanner.logic.game.commands.console.commands.follow.FollowConsoleCommand;
+import org.slogga.habboscanner.logic.game.commands.console.commands.FollowConsoleCommand;
 import org.slogga.habboscanner.logic.game.furni.FurniHistoricalInfoBroadcaster;
 
 import org.slogga.habboscanner.models.*;
@@ -26,7 +27,7 @@ public class FurniMovementHandlers {
     @Getter
     private final FurniHistoricalInfoBroadcaster furniHistoricalInfoBroadcaster = new FurniHistoricalInfoBroadcaster();
 
-    private long lastMovedTime = 0;
+    private Long lastMovedTime = null;
 
     private static final int MOVE_DELAY_IN_MILLISECONDS = 1000;
 
@@ -39,7 +40,8 @@ public class FurniMovementHandlers {
     }
 
     private void handleMoveItem(HMessage message, FurnitypeEnum type) {
-        FollowConsoleCommand followConsoleCommand = (FollowConsoleCommand) CommandFactory.commandExecutorInstance.getCommands().get(CommandKeys.FOLLOW.getKey());
+        FollowConsoleCommand followConsoleCommand = (FollowConsoleCommand) CommandFactory.commandExecutorInstance
+                .getCommands().get(CommandKeys.FOLLOW.getKey());
 
         if (followConsoleCommand.getFollowingAction() != FollowingAction.FURNI_INFO) return;
 

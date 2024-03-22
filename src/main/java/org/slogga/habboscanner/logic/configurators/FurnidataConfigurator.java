@@ -1,5 +1,9 @@
 package org.slogga.habboscanner.logic.configurators;
 
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.Map;
+
 import org.slf4j.*;
 
 import lombok.Data;
@@ -9,10 +13,6 @@ import org.slogga.habboscanner.dao.mysql.items.ItemsDAO;
 import org.slogga.habboscanner.logic.DefaultValues;
 import org.slogga.habboscanner.models.furnidata.Furnidata;
 import org.slogga.habboscanner.utils.JsonUtils;
-
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.Map;
 
 @Data
 public class FurnidataConfigurator implements IConfigurator {
@@ -27,12 +27,8 @@ public class FurnidataConfigurator implements IConfigurator {
     }
 
     private void setupFurnidata() throws RuntimeException{
-        String hotelDomain = HabboScanner
-                .getInstance()
-                .getConfigurator()
-                .getProperties()
-                .get("bot")
-                .getProperty("hotel.domain");
+        String hotelDomain = HabboScanner.getInstance()
+                .getConfigurator().getProperties().get("bot").getProperty("hotel.domain");
 
         if (!DefaultValues.getInstance().getValidDomains().contains(hotelDomain)) {
             logger.error("The hotel domain is incorrect.");
@@ -52,7 +48,7 @@ public class FurnidataConfigurator implements IConfigurator {
     }
 
     private void setupItems() {
-        try{
+        try {
             items = ItemsDAO.fetchItems();
         } catch (IOException | SQLException exception) {
             throw new RuntimeException(exception);

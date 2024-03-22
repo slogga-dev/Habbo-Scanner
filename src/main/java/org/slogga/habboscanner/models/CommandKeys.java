@@ -12,7 +12,7 @@ public enum CommandKeys {
     CONVERT("convert"),
     UPDATE("update"),
     MAKESAY("makesay"),
-    LOGOUT("logout"),
+    SHUTDOWN("shutdown"),
     ENERGY_SAVING("energy_saving"),
     COMMANDS("commands"),
     AUCTION("auction"),

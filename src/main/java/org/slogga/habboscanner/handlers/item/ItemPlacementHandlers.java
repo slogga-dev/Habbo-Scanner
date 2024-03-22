@@ -11,15 +11,20 @@ import gearth.extensions.parsers.*;
 import gearth.protocol.HMessage;
 
 import org.slogga.habboscanner.HabboScanner;
+
 import org.slogga.habboscanner.dao.mysql.items.ItemsTimelineDAO;
+
 import org.slogga.habboscanner.handlers.room.RoomEntryHandler;
+
 import org.slogga.habboscanner.logic.game.ItemProcessor;
 import org.slogga.habboscanner.logic.game.commands.CommandFactory;
-import org.slogga.habboscanner.logic.game.commands.console.commands.follow.FollowConsoleCommand;
-import org.slogga.habboscanner.logic.game.commands.console.commands.follow.FollowingActionMode;
+import org.slogga.habboscanner.logic.game.commands.common.follow.*;
+import org.slogga.habboscanner.logic.game.commands.console.commands.FollowConsoleCommand;
 import org.slogga.habboscanner.logic.game.furni.FurniInsightsAndTransactionExecutor;
+
 import org.slogga.habboscanner.models.*;
 import org.slogga.habboscanner.models.furnitype.*;
+
 import org.slogga.habboscanner.utils.DateUtils;
 
 public class ItemPlacementHandlers {
@@ -39,7 +44,8 @@ public class ItemPlacementHandlers {
 
         Furni oldestFurni = itemProcessor.getOldestFurni();
 
-        FollowConsoleCommand followConsoleCommand = (FollowConsoleCommand) CommandFactory.commandExecutorInstance.getCommands().get(CommandKeys.FOLLOW.getKey());
+        FollowConsoleCommand followConsoleCommand = (FollowConsoleCommand) CommandFactory.commandExecutorInstance
+                .getCommands().get(CommandKeys.FOLLOW.getKey());
 
         if (!followConsoleCommand.isFollowing()) return;
 
@@ -49,11 +55,10 @@ public class ItemPlacementHandlers {
             return;
         }
 
-        FollowingActionMode actionMode = followConsoleCommand.getActionModes()
-                .get(followConsoleCommand.getFollowingAction());
+        IFollower follower = FollowingActionModeFactory.getFollowingActionStrategy(followConsoleCommand.getFollowingAction());
 
-        if (actionMode != null)
-            actionMode.handle();
+        if (follower != null)
+            follower.execute();
 
         try {
             closestEntries = ItemsTimelineDAO.selectClosestEntries(type.getType(), oldestFurni.getId());

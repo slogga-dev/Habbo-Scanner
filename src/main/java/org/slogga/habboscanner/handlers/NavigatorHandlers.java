@@ -7,8 +7,7 @@ import java.util.concurrent.*;
 
 import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.commands.CommandFactory;
-import org.slogga.habboscanner.logic.game.commands.console.commands.start.StartConsoleCommand;
-import org.slogga.habboscanner.logic.game.commands.console.commands.start.modes.StartBotInActiveRoomsMode;
+import org.slogga.habboscanner.logic.game.commands.common.start.modes.StartBotInActiveRooms;
 
 import gearth.protocol.*;
 
@@ -40,7 +39,7 @@ public class NavigatorHandlers {
 
             StartConsoleCommand startCommand = (StartConsoleCommand) CommandFactory.commandExecutorInstance.getCommands().get(CommandKeys.START.getKey());
 
-            StartBotInActiveRoomsMode startBotInActiveRoomsMode = (StartBotInActiveRoomsMode)
+            StartBotInActiveRooms startBotInActiveRoomsMode = (StartBotInActiveRooms)
                     startCommand.getStartModes().get("bot.in.active.rooms");
 
             // Checks if the room is open.

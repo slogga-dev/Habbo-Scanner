@@ -2,7 +2,7 @@ package org.slogga.habboscanner.logic.game.commands.console.commands;
 
 import org.slogga.habboscanner.logic.game.commands.CommandExecutorProperties;
 import org.slogga.habboscanner.logic.game.commands.CommandFactory;
-import org.slogga.habboscanner.logic.game.commands.console.commands.follow.FollowConsoleCommand;
+import org.slogga.habboscanner.logic.game.commands.common.follow.FollowConsoleCommand;
 
 import org.slogga.habboscanner.HabboScanner;
 import org.slogga.habboscanner.logic.game.commands.IExecuteCommand;

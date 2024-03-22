@@ -2,26 +2,25 @@ package org.slogga.habboscanner.discord.commands;
 
 import java.util.*;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
-import org.slogga.habboscanner.discord.IDiscordCommand;
-
+import org.slogga.habboscanner.logic.game.commands.CommandExecutorProperties;
 import org.slogga.habboscanner.logic.game.commands.CommandFactory;
-import org.slogga.habboscanner.logic.game.commands.console.commands.start.StartConsoleCommand;
-import org.slogga.habboscanner.logic.game.commands.console.commands.start.StartMode;
-
-import org.slogga.habboscanner.discord.DiscordBot;
+import org.slogga.habboscanner.logic.game.commands.common.start.IStarter;
+import org.slogga.habboscanner.logic.game.commands.Command;
 
 import org.slogga.habboscanner.HabboScanner;
+import org.slogga.habboscanner.logic.game.commands.common.start.StartModeFactory;
 import org.slogga.habboscanner.models.CommandKeys;
 
-public class StartDiscordCommand implements IDiscordCommand {
+public class StartDiscordCommand extends Command{
     @Override
-    public void execute(SlashCommandInteractionEvent event) {
+    public void execute(CommandExecutorProperties properties) {
         StartConsoleCommand startConsoleCommand = (StartConsoleCommand) CommandFactory.commandExecutorInstance.getCommands().get(CommandKeys.START.getKey());
-
+        SlashCommandInteractionEvent event = properties.getEvent();
         Properties messageProperties = HabboScanner.getInstance().getConfigurator().getProperties().get("message");
 
         if (startConsoleCommand.isBotRunning()) {
@@ -34,33 +33,46 @@ public class StartDiscordCommand implements IDiscordCommand {
 
         startConsoleCommand.setBotRunning(true);
 
-        List<Map.Entry<String, StartMode>> enabledModes = startConsoleCommand.getStartModes().entrySet().stream()
-                .filter(entry -> Boolean.parseBoolean(HabboScanner.getInstance()
-                        .getConfigurator().getProperties().get("bot").getProperty(entry.getKey())))
-                .collect(Collectors.toList());
+        String enabledModeKey = getEnableModeKey(properties);
 
-        if (enabledModes.size() != 1) {
-            String impossibleStartBotMessage = HabboScanner.getInstance().getConfigurator().getProperties().get("message").getProperty("impossible.start.bot.message");
-
-            event.reply(impossibleStartBotMessage).queue();
-
+        if (enabledModeKey == null)
             return;
-        }
 
-        StartMode enabledMode = enabledModes.get(0).getValue();
+        IStarter starter = StartModeFactory.getStartModeStrategy(enabledModeKey);
 
-        DiscordBot discordBot = HabboScanner.getInstance().getDiscordBot();
-
-        if (discordBot == null) return;
-
-        String discordUserId = event.getUser().getId();
-
-        int habboUserId = discordBot.getHabboIdFromDiscordId(discordUserId);
-
-        enabledMode.handle(habboUserId);
+        CompletableFuture.runAsync(() -> starter.execute(properties));
 
         String botStartSearchingMessage = messageProperties.getProperty("bot.start.searching.message");
 
         event.reply(botStartSearchingMessage).queue();
+    }
+
+    private String getEnableModeKey(CommandExecutorProperties properties) {
+        List<String> enabledModeKeys = StartModeFactory.getStartModeKeys().stream()
+                .filter(modeKey -> Boolean.parseBoolean(HabboScanner.getInstance()
+                        .getConfigurator()
+                        .getProperties()
+                        .get("bot")
+                        .getProperty(modeKey)))
+                .collect(Collectors.toList());
+
+        if (enabledModeKeys.size() != 1) {
+            String impossibleStartBotMessage = HabboScanner.getInstance()
+                    .getConfigurator()
+                    .getProperties()
+                    .get("message")
+                    .getProperty("impossible.start.bot.message");
+
+            sendMessage(impossibleStartBotMessage, properties);
+
+            return null;
+        }
+
+        return enabledModeKeys.get(0);
+    }
+    @Override
+    public String getDescription() {
+        return HabboScanner.getInstance().getConfigurator().getProperties().get("command_description")
+                .getProperty("console.start.command.description");
     }
 }

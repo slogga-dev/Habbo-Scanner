@@ -5,11 +5,11 @@ import java.util.concurrent.*;
 import org.slogga.habboscanner.HabboScanner;
 import org.slogga.habboscanner.logic.game.commands.*;
 
-public class LogoutCommand extends Command {
+public class ShutdownCommand extends Command {
     @Override
     public void execute(CommandExecutorProperties properties) {
         String message = HabboScanner.getInstance().getConfigurator().getProperties().get("message")
-                .getProperty("bot.logout.message");
+                .getProperty("bot.shutdown.message");
 
         sendMessage(message, properties);
 
@@ -20,6 +20,6 @@ public class LogoutCommand extends Command {
     @Override
     public String getDescription() {
         return HabboScanner.getInstance().getConfigurator().getProperties().get("command_description")
-                .getProperty("console.logout.command.description");
+                .getProperty("shutdown.command.description");
     }
 }

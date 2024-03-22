@@ -1,7 +1,6 @@
 package org.slogga.habboscanner.handlers;
 
 import java.io.IOException;
-
 import java.sql.SQLException;
 
 import gearth.protocol.HMessage;
@@ -9,16 +8,16 @@ import gearth.protocol.HMessage;
 import org.slogga.habboscanner.HabboScanner;
 
 import org.slogga.habboscanner.handlers.room.RoomEntryHandler;
+
 import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.commands.CommandFactory;
-import org.slogga.habboscanner.logic.game.commands.console.commands.follow.FollowConsoleCommand;
 
 import org.slogga.habboscanner.dao.mysql.LogsDAO;
 
 import org.slogga.habboscanner.discord.DiscordBot;
 
-import org.slogga.habboscanner.models.CommandKeys;
-import org.slogga.habboscanner.models.SourceType;
+import org.slogga.habboscanner.logic.game.commands.console.commands.FollowConsoleCommand;
+import org.slogga.habboscanner.models.*;
 
 public class ErrorHandlers {
     public void onCantConnect(HMessage message) {

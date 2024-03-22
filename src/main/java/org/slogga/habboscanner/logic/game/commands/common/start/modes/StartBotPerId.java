@@ -1,20 +1,20 @@
-package org.slogga.habboscanner.logic.game.commands.console.commands.start.modes;
+package org.slogga.habboscanner.logic.game.commands.common.start.modes;
 
 import java.util.Properties;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.slogga.habboscanner.logic.game.HabboActions;
-import org.slogga.habboscanner.logic.game.commands.CommandFactory;
-import org.slogga.habboscanner.logic.game.commands.console.commands.start.StartConsoleCommand;
-import org.slogga.habboscanner.logic.game.commands.console.commands.start.StartMode;
+
+import org.slogga.habboscanner.logic.game.commands.*;
+import org.slogga.habboscanner.logic.game.commands.common.start.*;
 
 import org.slogga.habboscanner.HabboScanner;
 import org.slogga.habboscanner.models.CommandKeys;
 
-public class StartBotPerIdMode implements StartMode {
+public class StartBotPerId implements IStarter {
     @Override
-    public void handle(int userId) {
+    public void execute(CommandExecutorProperties properties) {
         Properties botProperties = HabboScanner.getInstance().getConfigurator().getProperties().get("bot");
 
         String botPerIdOrder = String.valueOf(botProperties.getProperty("bot.per.id.order"));
@@ -25,6 +25,7 @@ public class StartBotPerIdMode implements StartMode {
             String incorrectOrderMessage = HabboScanner.getInstance().
                     getConfigurator().getProperties().get("message").getProperty("incorrect.order.message");
 
+            int userId = properties.getUserId();
             HabboActions.sendPrivateMessage(userId, incorrectOrderMessage);
 
             return;
@@ -36,7 +37,7 @@ public class StartBotPerIdMode implements StartMode {
         ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 
         scheduledExecutorService.scheduleAtFixedRate(() -> {
-            StartConsoleCommand startConsoleCommand = (StartConsoleCommand) CommandFactory.commandExecutorInstance.getCommands().get(CommandKeys.START.getKey());
+            StartCommand startConsoleCommand = (StartCommand) CommandFactory.commandExecutorInstance.getCommands().get(CommandKeys.START.getKey());
             boolean isBotRunning = startConsoleCommand.isBotRunning();
 
             if (!isBotRunning) return;

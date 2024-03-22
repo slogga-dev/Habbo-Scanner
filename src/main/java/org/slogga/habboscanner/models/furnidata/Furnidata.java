@@ -7,6 +7,7 @@ import org.slogga.habboscanner.models.furnidata.itemtypes.*;
 
 public class Furnidata {
     private static Furnidata instance = null;
+
     private final RoomItemTypes roomitemtypes;
     private final WallItemTypes wallitemtypes;
 
@@ -44,6 +45,7 @@ public class Furnidata {
         return type == FurnitypeEnum.FLOOR ? floorFurnitype : wallFurnitype;
     }
 
+    @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
 
