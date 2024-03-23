@@ -15,5 +15,4 @@ public class ItemTimeline {
         this.date = date;
         this.type = type;
     }
-
 }

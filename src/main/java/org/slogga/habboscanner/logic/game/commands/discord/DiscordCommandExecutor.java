@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.*;
 
 import org.slogga.habboscanner.HabboScanner;
+import org.slogga.habboscanner.logic.game.commands.discord.commands.ConvertDiscordCommand;
 import org.slogga.habboscanner.logic.game.commands.*;
 import org.slogga.habboscanner.logic.game.commands.discord.commands.*;
 import org.slogga.habboscanner.models.CommandKeys;
@@ -19,16 +20,16 @@ public class DiscordCommandExecutor extends CommandExecutor {
 
     @Override
     public void setupCommands() {
-//        setupCommand(CommandKeys.START);
+        setupCommand(CommandKeys.START, StartDiscordCommand::new);
 //        setupCommand(CommandKeys.PAUSE);
-          setupCommand(CommandKeys.FOLLOW, FollowDiscordCommand::new, option("mode", OptionType.STRING));
+        setupCommand(CommandKeys.FOLLOW, FollowDiscordCommand::new, option("mode", OptionType.STRING));
 //        setupCommand(CommandKeys.RESUME);
 //        setupCommand(CommandKeys.INFO);
-//        setupCommand(CommandKeys.CONVERT, option("file", OptionType.STRING));
+        setupCommand(CommandKeys.CONVERT, ConvertDiscordCommand::new, option("file", OptionType.STRING));
 //        setupCommand(CommandKeys.UPDATE);
 //        setupCommand(CommandKeys.ENERGY_SAVING);
 //        setupCommand(CommandKeys.MAKESAY, option("text", OptionType.STRING));
-          setupCommand(CommandKeys.SHUTDOWN, ShutdownDiscordCommand::new);
+        setupCommand(CommandKeys.SHUTDOWN, ShutdownDiscordCommand::new);
 //        setupCommand(CommandKeys.AUCTION);
 //        setupCommand(CommandKeys.INFO_FROM_ID, option("id", OptionType.INTEGER),
 //                option("type", OptionType.STRING));
