@@ -7,7 +7,7 @@ import java.util.*;
 import org.slogga.habboscanner.HabboScanner;
 import org.slogga.habboscanner.dao.mysql.data.*;
 import org.slogga.habboscanner.logic.game.HabboActions;
-import org.slogga.habboscanner.models.furnitype.FurnitypeEnum;
+import org.slogga.habboscanner.models.enums.FurnitypeEnum;
 import org.slogga.habboscanner.utils.DateUtils;
 
 public class FurniOwnershipTracker {

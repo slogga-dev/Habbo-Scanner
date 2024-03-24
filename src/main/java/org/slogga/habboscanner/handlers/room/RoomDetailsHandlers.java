@@ -15,7 +15,9 @@ import org.slogga.habboscanner.logic.game.commands.CommandFactory;
 import org.slogga.habboscanner.logic.game.commands.common.start.StartCommand;
 
 import org.slogga.habboscanner.logic.game.commands.console.commands.FollowConsoleCommand;
-import org.slogga.habboscanner.models.*;
+import org.slogga.habboscanner.models.enums.CommandKeys;
+import org.slogga.habboscanner.models.enums.RoomAccessMode;
+import org.slogga.habboscanner.models.furni.RoomDetails;
 import org.slogga.habboscanner.utils.UTF8Utils;
 
 @Getter

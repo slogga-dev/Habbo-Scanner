@@ -11,7 +11,7 @@ import lombok.Data;
 import org.slogga.habboscanner.HabboScanner;
 import org.slogga.habboscanner.dao.mysql.items.ItemsDAO;
 import org.slogga.habboscanner.logic.DefaultValues;
-import org.slogga.habboscanner.models.furnidata.Furnidata;
+import org.slogga.habboscanner.models.furni.Furnidata;
 import org.slogga.habboscanner.utils.JsonUtils;
 
 @Data

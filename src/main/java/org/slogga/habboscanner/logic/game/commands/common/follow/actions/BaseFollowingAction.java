@@ -21,9 +21,11 @@ import org.slogga.habboscanner.logic.game.commands.CommandFactory;
 import org.slogga.habboscanner.logic.game.commands.common.follow.IFollower;
 import org.slogga.habboscanner.logic.game.commands.console.commands.FollowConsoleCommand;
 
-import org.slogga.habboscanner.models.*;
-import org.slogga.habboscanner.models.furnitype.FurnitypeEnum;
+import org.slogga.habboscanner.models.enums.CommandKeys;
+import org.slogga.habboscanner.models.enums.FurnitypeEnum;
 
+import org.slogga.habboscanner.models.furni.Furni;
+import org.slogga.habboscanner.models.furni.ItemTimeline;
 import org.slogga.habboscanner.utils.DateUtils;
 
 public class BaseFollowingAction implements IFollower {

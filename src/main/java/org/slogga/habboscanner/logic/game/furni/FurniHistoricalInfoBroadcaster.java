@@ -10,7 +10,7 @@ import org.slogga.habboscanner.HabboScanner;
 
 import org.slogga.habboscanner.dao.mysql.data.DataRetrievalDAO;
 import org.slogga.habboscanner.logic.game.HabboActions;
-import org.slogga.habboscanner.models.furnitype.FurnitypeEnum;
+import org.slogga.habboscanner.models.enums.FurnitypeEnum;
 
 
 public class FurniHistoricalInfoBroadcaster {

@@ -4,7 +4,7 @@ import org.slogga.habboscanner.HabboScanner;
 import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.commands.CommandExecutorProperties;
 import org.slogga.habboscanner.logic.game.commands.common.convert.ConvertCommand;
-import org.slogga.habboscanner.models.ConvertFile;
+import org.slogga.habboscanner.models.enums.ConvertFile;
 
 public class ConvertConsoleCommand extends ConvertCommand {
     @Override

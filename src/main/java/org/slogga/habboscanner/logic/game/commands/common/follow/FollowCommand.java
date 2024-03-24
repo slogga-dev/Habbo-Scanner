@@ -8,9 +8,11 @@ import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.commands.*;
 
 import org.slogga.habboscanner.logic.game.commands.common.start.StartCommand;
-import org.slogga.habboscanner.models.*;
 
 import org.slogga.habboscanner.HabboScanner;
+import org.slogga.habboscanner.models.enums.CommandKeys;
+import org.slogga.habboscanner.models.enums.FollowingAction;
+import org.slogga.habboscanner.models.enums.SourceType;
 
 @EqualsAndHashCode(callSuper = true)
 @Data

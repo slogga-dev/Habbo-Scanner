@@ -10,13 +10,13 @@ import org.slogga.habboscanner.HabboScanner;
 
 import org.slogga.habboscanner.handlers.room.RoomEntryHandler;
 
-import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.ItemProcessor;
 import org.slogga.habboscanner.logic.game.commands.CommandFactory;
 import org.slogga.habboscanner.logic.game.commands.common.follow.*;
 
-import org.slogga.habboscanner.models.*;
-import org.slogga.habboscanner.models.furnitype.*;
+import org.slogga.habboscanner.models.enums.CommandKeys;
+import org.slogga.habboscanner.models.enums.FollowingAction;
+import org.slogga.habboscanner.models.enums.FurnitypeEnum;
 
 public class ItemPlacementHandlers {
     public void onFloorItems(HMessage message) {

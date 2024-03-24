@@ -1,6 +1,7 @@
-package org.slogga.habboscanner.models;
+package org.slogga.habboscanner.models.furni;
 
 import lombok.Data;
+import org.slogga.habboscanner.models.enums.RoomAccessMode;
 
 @Data
 public class RoomDetails {

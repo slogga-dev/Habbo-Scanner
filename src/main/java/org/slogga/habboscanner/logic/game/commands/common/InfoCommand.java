@@ -7,7 +7,7 @@ import org.slogga.habboscanner.logic.game.commands.common.start.*;
 import org.slogga.habboscanner.logic.game.commands.common.start.modes.StartBotInActiveRooms;
 import org.slogga.habboscanner.logic.game.commands.console.commands.EnergySavingConsoleCommand;
 
-import org.slogga.habboscanner.models.CommandKeys;
+import org.slogga.habboscanner.models.enums.CommandKeys;
 
 import java.util.Map;
 
@@ -27,9 +27,10 @@ public abstract class InfoCommand extends Command {
         StartCommand startConsoleCommand = (StartCommand) commands.get(CommandKeys.START.getKey());
         boolean isBotRunning = startConsoleCommand.isBotRunning();
 
-        StartBotInActiveRooms startBotInActiveRoomsMode = (StartBotInActiveRooms) StartModeFactory
-                .getStartModeStrategy("bot.in.active.rooms");
-        boolean isProcessingActiveRooms = startBotInActiveRoomsMode.getIsProcessingActiveRooms();
+//        StartBotInActiveRooms startBotInActiveRoomsMode = (StartBotInActiveRooms) StartModeFactory
+//                .getStartModeStrategy("bot.in.active.rooms");
+        boolean isProcessingActiveRooms = Boolean.parseBoolean(HabboScanner.getInstance().getConfigurator()
+                .getProperties().get("bot").getProperty("bot.in.active.rooms"));
 
         printStatus(properties, "isRoomFurniActiveEnabled", isRoomFurniActiveEnabled);
         printStatus(properties, "energySavingMode", energySavingMode);

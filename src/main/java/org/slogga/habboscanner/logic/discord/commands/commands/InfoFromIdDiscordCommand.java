@@ -19,8 +19,8 @@ import org.slogga.habboscanner.dao.mysql.items.ItemsTimelineDAO;
 
 import org.slogga.habboscanner.logic.game.commands.*;
 
-import org.slogga.habboscanner.models.ItemTimeline;
-import org.slogga.habboscanner.models.furnitype.FurnitypeEnum;
+import org.slogga.habboscanner.models.furni.ItemTimeline;
+import org.slogga.habboscanner.models.enums.FurnitypeEnum;
 
 import org.slogga.habboscanner.utils.DateUtils;
 

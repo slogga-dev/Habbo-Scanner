@@ -4,7 +4,7 @@ import java.util.*;
 
 import org.slogga.habboscanner.logic.game.commands.common.convert.files.*;
 
-import org.slogga.habboscanner.models.ConvertFile;
+import org.slogga.habboscanner.models.enums.ConvertFile;
 
 import java.util.function.Supplier;
 

@@ -9,11 +9,6 @@ import lombok.*;
 import org.slogga.habboscanner.logic.discord.DiscordBot;
 
 import org.slogga.habboscanner.logic.configurators.*;
-import org.slogga.habboscanner.logic.game.commands.CommandExecutorType;
-import org.slogga.habboscanner.logic.game.commands.CommandFactory;
-import org.slogga.habboscanner.logic.game.commands.common.start.StartCommand;
-
-import org.slogga.habboscanner.models.CommandKeys;
 
 @Getter
 @Setter

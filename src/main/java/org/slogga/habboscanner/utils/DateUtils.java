@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 
 import org.apache.commons.lang3.tuple.Triple;
 
-import org.slogga.habboscanner.models.ItemTimeline;
+import org.slogga.habboscanner.models.furni.ItemTimeline;
 
 public class DateUtils {
     public static Date getLinearInterpolatedDate(Triple<Integer, ItemTimeline, ItemTimeline> closestEntries) {

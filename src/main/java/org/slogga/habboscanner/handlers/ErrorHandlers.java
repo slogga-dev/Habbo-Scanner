@@ -17,7 +17,8 @@ import org.slogga.habboscanner.dao.mysql.LogsDAO;
 import org.slogga.habboscanner.logic.discord.DiscordBot;
 
 import org.slogga.habboscanner.logic.game.commands.console.commands.FollowConsoleCommand;
-import org.slogga.habboscanner.models.*;
+import org.slogga.habboscanner.models.enums.CommandKeys;
+import org.slogga.habboscanner.models.enums.SourceType;
 
 public class ErrorHandlers {
     public void onCantConnect(HMessage message) {

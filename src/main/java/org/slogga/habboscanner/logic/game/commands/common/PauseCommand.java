@@ -3,7 +3,7 @@ package org.slogga.habboscanner.logic.game.commands.common;
 import org.slogga.habboscanner.HabboScanner;
 import org.slogga.habboscanner.logic.game.commands.*;
 import org.slogga.habboscanner.logic.game.commands.common.start.StartCommand;
-import org.slogga.habboscanner.models.CommandKeys;
+import org.slogga.habboscanner.models.enums.CommandKeys;
 
 public class PauseCommand extends Command {
     @Override

@@ -1,4 +1,4 @@
-package org.slogga.habboscanner.models;
+package org.slogga.habboscanner.models.furni;
 
 import lombok.Getter;
 

@@ -11,7 +11,7 @@ import org.slogga.habboscanner.logic.game.commands.*;
 import org.slogga.habboscanner.logic.game.commands.common.follow.*;
 import org.slogga.habboscanner.logic.game.commands.common.follow.actions.BaseFollowingAction;
 
-import org.slogga.habboscanner.models.CommandKeys;
+import org.slogga.habboscanner.models.enums.CommandKeys;
 
 import org.slogga.habboscanner.HabboScanner;
 

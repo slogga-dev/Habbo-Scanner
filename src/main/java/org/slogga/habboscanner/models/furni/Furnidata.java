@@ -1,9 +1,9 @@
-package org.slogga.habboscanner.models.furnidata;
+package org.slogga.habboscanner.models.furni;
 
 import com.google.gson.Gson;
 
-import org.slogga.habboscanner.models.furnitype.*;
-import org.slogga.habboscanner.models.furnidata.itemtypes.*;
+import org.slogga.habboscanner.models.enums.FurnitypeEnum;
+import org.slogga.habboscanner.models.furni.itemtypes.*;
 
 public class Furnidata {
     private static Furnidata instance = null;

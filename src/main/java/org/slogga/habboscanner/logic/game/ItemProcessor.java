@@ -7,10 +7,11 @@ import gearth.extensions.parsers.*;
 
 import lombok.Getter;
 
-import org.slogga.habboscanner.models.furnidata.Furnidata;
+import org.slogga.habboscanner.models.enums.FurnitypeEnum;
+import org.slogga.habboscanner.models.furni.Furnidata;
 
-import org.slogga.habboscanner.models.Furni;
-import org.slogga.habboscanner.models.furnitype.*;
+import org.slogga.habboscanner.models.furni.Furni;
+import org.slogga.habboscanner.models.furni.Furnitype;
 
 import org.slogga.habboscanner.HabboScanner;
 

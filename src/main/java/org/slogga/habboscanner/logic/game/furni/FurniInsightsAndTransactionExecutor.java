@@ -10,10 +10,10 @@ import org.slogga.habboscanner.logic.game.*;
 import org.slogga.habboscanner.logic.game.commands.CommandFactory;
 import org.slogga.habboscanner.logic.game.commands.console.commands.FollowConsoleCommand;
 
-import org.slogga.habboscanner.models.*;
-
 import org.slogga.habboscanner.HabboScanner;
 
+import org.slogga.habboscanner.models.enums.CommandKeys;
+import org.slogga.habboscanner.models.furni.Furni;
 import org.slogga.habboscanner.utils.DateUtils;
 
 public class FurniInsightsAndTransactionExecutor {

@@ -2,7 +2,7 @@ package org.slogga.habboscanner.logic.game.commands.common.convert;
 
 import org.slogga.habboscanner.HabboScanner;
 import org.slogga.habboscanner.logic.game.commands.*;
-import org.slogga.habboscanner.models.ConvertFile;
+import org.slogga.habboscanner.models.enums.ConvertFile;
 
 import java.io.*;
 import java.util.Properties;
