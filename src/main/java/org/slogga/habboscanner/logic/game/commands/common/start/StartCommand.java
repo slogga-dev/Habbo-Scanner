@@ -9,7 +9,7 @@ import lombok.*;
 import org.slogga.habboscanner.HabboScanner;
 import org.slogga.habboscanner.logic.game.commands.*;
 import org.slogga.habboscanner.logic.game.commands.common.EnergySavingCommand;
-import org.slogga.habboscanner.models.CommandKeys;
+import org.slogga.habboscanner.models.enums.CommandKeys;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -20,6 +20,7 @@ public class StartCommand extends Command {
 
     @Override
     public void execute(CommandExecutorProperties properties) {
+
         if (hasExecuted) return;
 
         hasExecuted = true;

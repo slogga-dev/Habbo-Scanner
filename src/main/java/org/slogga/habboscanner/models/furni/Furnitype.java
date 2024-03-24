@@ -1,7 +1,7 @@
-package org.slogga.habboscanner.models.furnitype;
+package org.slogga.habboscanner.models.furni;
 
 import lombok.Getter;
-import org.slogga.habboscanner.models.furnidata.furnitype.PartColors;
+import org.slogga.habboscanner.models.furni.PartColors;
 
 @Getter
 public class Furnitype {

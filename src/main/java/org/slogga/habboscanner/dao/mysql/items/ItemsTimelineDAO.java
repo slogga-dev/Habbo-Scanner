@@ -7,7 +7,7 @@ import java.sql.*;
 
 import org.slogga.habboscanner.dao.Database;
 
-import org.slogga.habboscanner.models.ItemTimeline;
+import org.slogga.habboscanner.models.furni.ItemTimeline;
 
 public class ItemsTimelineDAO {
     public static Triple<Integer, ItemTimeline, ItemTimeline> selectClosestEntries(String type, Integer searchableId)

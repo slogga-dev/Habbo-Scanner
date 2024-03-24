@@ -13,7 +13,7 @@ import lombok.*;
 import org.slogga.habboscanner.HabboScanner;
 
 import org.slogga.habboscanner.logic.game.ItemProcessor;
-import org.slogga.habboscanner.models.furnitype.FurnitypeEnum;
+import org.slogga.habboscanner.models.enums.FurnitypeEnum;
 import org.slogga.habboscanner.utils.UTF8Utils;
 
 @Getter

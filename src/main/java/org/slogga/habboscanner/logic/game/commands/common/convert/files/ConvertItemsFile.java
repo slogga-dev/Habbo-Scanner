@@ -5,7 +5,7 @@ import java.io.*;
 import org.slogga.habboscanner.logic.game.commands.CommandExecutorProperties;
 import org.slogga.habboscanner.logic.game.commands.common.convert.Converter;
 
-import org.slogga.habboscanner.models.ConvertFile;
+import org.slogga.habboscanner.models.enums.ConvertFile;
 
 public class ConvertItemsFile extends Converter {
     public void execute(CommandExecutorProperties properties) {

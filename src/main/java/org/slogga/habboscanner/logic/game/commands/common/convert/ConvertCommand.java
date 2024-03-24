@@ -5,7 +5,7 @@ import org.slogga.habboscanner.logic.game.commands.*;
 
 import org.slogga.habboscanner.HabboScanner;
 
-import org.slogga.habboscanner.models.ConvertFile;
+import org.slogga.habboscanner.models.enums.ConvertFile;
 
 public class ConvertCommand extends Command {
     protected ConvertFile convertFile;

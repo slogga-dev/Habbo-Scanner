@@ -1,6 +1,6 @@
-package org.slogga.habboscanner.models.furnidata.itemtypes;
+package org.slogga.habboscanner.models.furni.itemtypes;
 
-import org.slogga.habboscanner.models.furnitype.Furnitype;
+import org.slogga.habboscanner.models.furni.Furnitype;
 
 import java.util.ArrayList;
 

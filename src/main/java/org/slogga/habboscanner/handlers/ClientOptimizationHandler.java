@@ -8,7 +8,7 @@ import org.slogga.habboscanner.logic.game.commands.*;
 import org.slogga.habboscanner.logic.game.commands.common.EnergySavingCommand;
 import org.slogga.habboscanner.logic.game.commands.common.start.StartCommand;
 
-import org.slogga.habboscanner.models.CommandKeys;
+import org.slogga.habboscanner.models.enums.CommandKeys;
 
 public class ClientOptimizationHandler {
     public void onClientOptimization(HMessage message) {

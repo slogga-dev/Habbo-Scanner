@@ -9,11 +9,6 @@ import lombok.*;
 import org.slogga.habboscanner.logic.discord.DiscordBot;
 
 import org.slogga.habboscanner.logic.configurators.*;
-import org.slogga.habboscanner.logic.game.commands.CommandExecutorType;
-import org.slogga.habboscanner.logic.game.commands.CommandFactory;
-import org.slogga.habboscanner.logic.game.commands.common.start.StartCommand;
-
-import org.slogga.habboscanner.models.CommandKeys;
 
 @Getter
 @Setter
@@ -59,18 +54,18 @@ public class HabboScanner extends Extension {
         boolean isBotEnabled = Boolean.parseBoolean(configurator.getProperties()
                 .get("bot").getProperty("bot.enabled"));
 
-        CommandExecutorType currentType = CommandExecutorType.CONSOLE;
+//        CommandExecutorType currentType = CommandExecutorType.CONSOLE;
 
         if (isDiscordBotEnabled && isBotEnabled) {
             try {
                 discordBot = new DiscordBot();
-                currentType = CommandExecutorType.DISCORD;
+//                currentType = CommandExecutorType.DISCORD;
             } catch (Exception exception) {
                 throw new RuntimeException(exception);
             }
         }
 
-        scheduleAirCrashCheck(currentType);
+        scheduleAirCrashCheck();
     }
 
     @Override
@@ -89,7 +84,7 @@ public class HabboScanner extends Extension {
         scheduledExecutorService.schedule(() -> System.exit(0), 2, TimeUnit.SECONDS);
     }
 
-    private void scheduleAirCrashCheck(CommandExecutorType currentType) {
+    private void scheduleAirCrashCheck() {
         ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 
         /*
@@ -102,17 +97,17 @@ public class HabboScanner extends Extension {
 
         long lastRoomAccess = configurator.getRoomEntryHandler().getLastRoomAccess();
 
-        CommandFactory.getCommandExecutor(currentType);
+//        CommandFactory.getCommandExecutor(currentType);
 
-        StartCommand startCommand = (StartCommand) CommandFactory.commandExecutorInstance
-                .getCommands()
-                .get(CommandKeys.START.getKey());
+//        StartCommand startCommand = (StartCommand) CommandFactory.commandExecutorInstance
+//                .getCommands()
+//                .get(CommandKeys.START.getKey());
 
         scheduledExecutorService.scheduleAtFixedRate(() -> {
             boolean isAccessRecent = lastRoomAccess > 0;
             boolean isTimeExceeded = (System.currentTimeMillis() - lastRoomAccess) > accessTimeout;
 
-            if (criticalAirCrashWarning || !isAccessRecent || !startCommand.isHasExecuted() || !isTimeExceeded)
+            if (criticalAirCrashWarning || !isAccessRecent /*|| !startCommand.isHasExecuted()*/ || !isTimeExceeded)
                 return;
 
             if (discordBot != null)

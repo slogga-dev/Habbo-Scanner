@@ -1,8 +1,8 @@
-package org.slogga.habboscanner.models;
+package org.slogga.habboscanner.models.furni;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.slogga.habboscanner.models.furnitype.FurnitypeEnum;
+import org.slogga.habboscanner.models.enums.FurnitypeEnum;
 
 import java.sql.Timestamp;
 

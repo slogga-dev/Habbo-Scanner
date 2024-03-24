@@ -6,9 +6,9 @@ import org.slogga.habboscanner.logic.game.commands.CommandExecutorProperties;
 import org.slogga.habboscanner.logic.game.commands.CommandFactory;
 import org.slogga.habboscanner.logic.game.commands.common.follow.FollowCommand;
 import org.slogga.habboscanner.logic.game.commands.common.start.StartCommand;
-import org.slogga.habboscanner.models.CommandKeys;
-import org.slogga.habboscanner.models.FollowingAction;
-import org.slogga.habboscanner.models.SourceType;
+import org.slogga.habboscanner.models.enums.CommandKeys;
+import org.slogga.habboscanner.models.enums.FollowingAction;
+import org.slogga.habboscanner.models.enums.SourceType;
 
 import java.util.Arrays;
 import java.util.Optional;

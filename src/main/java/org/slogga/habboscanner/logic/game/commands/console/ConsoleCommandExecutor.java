@@ -5,7 +5,7 @@ import java.util.Arrays;
 import org.slogga.habboscanner.logic.game.commands.*;
 import org.slogga.habboscanner.logic.game.commands.console.commands.*;
 
-import org.slogga.habboscanner.models.CommandKeys;
+import org.slogga.habboscanner.models.enums.CommandKeys;
 
 public class ConsoleCommandExecutor extends CommandExecutor {
     public ConsoleCommandExecutor(CommandExecutorProperties properties) {

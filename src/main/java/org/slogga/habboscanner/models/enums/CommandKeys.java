@@ -1,4 +1,4 @@
-package org.slogga.habboscanner.models;
+package org.slogga.habboscanner.models.enums;
 
 import lombok.Getter;
 

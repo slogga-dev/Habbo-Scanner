@@ -11,7 +11,7 @@ import org.slogga.habboscanner.logic.game.commands.*;
 import org.slogga.habboscanner.logic.game.commands.common.follow.*;
 import org.slogga.habboscanner.logic.game.commands.common.follow.actions.BaseFollowingAction;
 
-import org.slogga.habboscanner.models.CommandKeys;
+import org.slogga.habboscanner.models.enums.CommandKeys;
 
 import org.slogga.habboscanner.HabboScanner;
 
@@ -52,6 +52,8 @@ public class ConsoleHandlers {
     private void handleFollowGoAway(String messageText){
         FollowCommand followCommand = (FollowCommand) CommandFactory.commandExecutorInstance
                 .getCommands().get(CommandKeys.FOLLOW.getKey());
+
+        if (followCommand == null) return;
 
         BaseFollowingAction follower = FollowingActionModeFactory
                 .getFollowingActionStrategy(followCommand.getFollowingAction());

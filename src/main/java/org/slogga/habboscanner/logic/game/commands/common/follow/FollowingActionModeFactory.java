@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.function.Supplier;
 
 import org.slogga.habboscanner.logic.game.commands.common.follow.actions.*;
-import org.slogga.habboscanner.models.FollowingAction;
+import org.slogga.habboscanner.models.enums.FollowingAction;
 
 public class FollowingActionModeFactory {
     private static final Map<FollowingAction, Supplier<BaseFollowingAction>> actionModeMap = new HashMap<>();

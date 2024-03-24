@@ -5,7 +5,7 @@ import java.sql.*;
 
 import org.slogga.habboscanner.dao.Database;
 
-import org.slogga.habboscanner.models.Furni;
+import org.slogga.habboscanner.models.furni.Furni;
 
 public class DataActiveDAO {
     public static void insertData(Furni furni) throws SQLException, IOException {

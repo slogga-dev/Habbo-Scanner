@@ -1,4 +1,4 @@
-package org.slogga.habboscanner.models.furnidata.furnitype;
+package org.slogga.habboscanner.models.furni;
 
 import lombok.Getter;
 

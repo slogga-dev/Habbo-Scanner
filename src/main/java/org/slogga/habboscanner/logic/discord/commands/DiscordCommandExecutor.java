@@ -11,7 +11,7 @@ import org.slogga.habboscanner.logic.discord.commands.commands.ConvertDiscordCom
 import org.slogga.habboscanner.logic.game.commands.*;
 import org.slogga.habboscanner.logic.discord.commands.commands.*;
 
-import org.slogga.habboscanner.models.CommandKeys;
+import org.slogga.habboscanner.models.enums.CommandKeys;
 
 public class DiscordCommandExecutor extends CommandExecutor {
     public DiscordCommandExecutor(CommandExecutorProperties properties) {
@@ -19,6 +19,7 @@ public class DiscordCommandExecutor extends CommandExecutor {
 
         setupCommands();
     }
+
     public DiscordCommandExecutor(){
         super();
     }

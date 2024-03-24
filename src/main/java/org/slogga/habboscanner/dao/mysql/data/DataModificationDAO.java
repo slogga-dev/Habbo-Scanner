@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.sql.*;
 
 import org.slogga.habboscanner.dao.Database;
-import org.slogga.habboscanner.models.Furni;
+import org.slogga.habboscanner.models.furni.Furni;
 
 public class DataModificationDAO {
     public static void insertData(Furni furni) throws SQLException, IOException {

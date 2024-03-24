@@ -17,39 +17,41 @@ import org.slogga.habboscanner.dao.mysql.*;
 
 import org.slogga.habboscanner.HabboScanner;
 
-import org.slogga.habboscanner.models.CommandKeys;
+import org.slogga.habboscanner.models.enums.CommandKeys;
 import org.slogga.habboscanner.utils.DateUtils;
 
 public class NavigatorHandlers {
-    private static final int ROOM_VISIT_INTERVAL_MILLISECONDS = 15 * 60 * 1000;
+    private static final int ROOM_VISIT_INTERVAL_IN_MILLISECONDS = 15 * 60 * 1000; // 15 minutes.
 
     private final Map<Integer, Long> roomTimestamps = new HashMap<>();
 
     public void onNavigatorSearchResultBlocks(HMessage message) {
         CompletableFuture.runAsync(() -> {
-            StartCommand startConsoleCommand = (StartCommand) CommandFactory.commandExecutorInstance.getCommands().get(CommandKeys.START.getKey());
-            boolean isBotRunning = startConsoleCommand.isBotRunning();
+            StartCommand startConsoleCommand = (StartCommand) CommandFactory.commandExecutorInstance
+                    .getCommands().get(CommandKeys.START.getKey());
 
-            if (!isBotRunning) return;
+            if (!startConsoleCommand.isBotRunning()) return;
+
+            // unknown usage
+            boolean botEngagedOnRoomList = false;
 
             HPacket packet = message.getPacket();
 
             String category = packet.readString();
             String searchQuery = packet.readString();
-
             int openState = packet.readInteger();
 
-            StartBotInActiveRooms startBotInActiveRoomsMode = (StartBotInActiveRooms)
-                    StartModeFactory.getStartModeStrategy("bot.in.active.rooms");
+            boolean isActiveRoomsModeEnabled = checkIfIsActiveRoomsModeEnabled();
 
             // Checks if the room is open.
             if (openState == 0) {
-                startBotInActiveRoomsMode.setProcessingActiveRooms(false);
+                botEngagedOnRoomList = false;
 
                 return;
             }
             
-            // The source of the names of the following 5 variables was taken from here: https://github.com/billsonnn/nitro-renderer/blob/main/src/nitro/communication/messages/parser/navigator/utils/NavigatorSearchResultList.ts
+            // The source of the names of the following 5 variables was taken from here:
+            // https://github.com/billsonnn/nitro-renderer/blob/main/src/nitro/communication/messages/parser/navigator/utils/NavigatorSearchResultList.ts
             String code = packet.readString();
             String data = packet.readString();
             int action = packet.readInteger();
@@ -76,7 +78,7 @@ public class NavigatorHandlers {
                 totalRoomUserAmount = totalRoomUserAmount + roomUserAmount;
 
                 if (roomId < 1)
-                    startBotInActiveRoomsMode.setProcessingActiveRooms(false);
+                    botEngagedOnRoomList = false;
 
                 if (roomUserAmount == 0) roomsFoundAmount--;
 
@@ -118,7 +120,7 @@ public class NavigatorHandlers {
                 long currentTime = System.currentTimeMillis();
                 long lastRoomTime = roomTimestamps.getOrDefault(roomId, 0L);
 
-                if (accessMode == 0 || currentTime - lastRoomTime > ROOM_VISIT_INTERVAL_MILLISECONDS) {
+                if (accessMode == 0 && (isActiveRoomsModeEnabled || currentTime - lastRoomTime > ROOM_VISIT_INTERVAL_IN_MILLISECONDS)) {
                     roomTimestamps.put(roomId, currentTime);
 
                     HabboActions.moveToRoom(roomId);
@@ -131,7 +133,7 @@ public class NavigatorHandlers {
                 rooms.add(room);
             }
 
-            startBotInActiveRoomsMode.setProcessingActiveRooms(false);
+            botEngagedOnRoomList = false;
 
             boolean isStatisticsInsertionActive = Boolean.parseBoolean(HabboScanner.getInstance()
                     .getConfigurator()
@@ -151,5 +153,20 @@ public class NavigatorHandlers {
                 throw new RuntimeException(exception);
             }
         });
+    }
+    private boolean checkIfIsActiveRoomsModeEnabled(){
+        boolean isActiveRoomsModeEnabled = Boolean.parseBoolean(HabboScanner.getInstance().getConfigurator()
+                .getProperties().get("bot").getProperty("bot.in.active.rooms"));
+
+        StartBotInActiveRooms startBotInActiveRoomsMode = (StartBotInActiveRooms)
+                StartModeFactory.getStartModeStrategy("bot.in.active.rooms");
+
+        if(!isActiveRoomsModeEnabled || startBotInActiveRoomsMode == null){
+            return false;
+        }
+
+        // Command type for start doesn't need properties, so I set them to NULL
+        startBotInActiveRoomsMode.execute(null);
+        return true;
     }
 }
