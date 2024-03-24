@@ -87,19 +87,24 @@ public class FurniHistoricalInfoBroadcaster {
                                             String formattedDate, int id, String classname, int userId) {
         String furniNameDateInfoMessage = HabboScanner.getInstance().getConfigurator().getProperties().get("message").
                 getProperty("furni.name.date.info.message");
-
         furniNameDateInfoMessage = furniNameDateInfoMessage.replace("%name%", name)
                 .replace("%formattedDate%", formattedDate);
 
-        String category = (itemDefinition != null) ? itemDefinition.get("category") : "";
+        boolean isBotEnabled = Boolean.parseBoolean(HabboScanner.getInstance().getConfigurator()
+                .getProperties().get("bot").getProperty("bot.enabled"));
 
+        if (!isBotEnabled) {
+            HabboActions.whisperMessage(furniNameDateInfoMessage);
+
+            return;
+        }
+
+        String category = (itemDefinition != null) ? itemDefinition.get("category") : "";
         String itemCategoryMessage = HabboScanner.getInstance().getConfigurator().getProperties().get("message")
                 .getProperty("item.category.message");
-
         itemCategoryMessage = itemCategoryMessage.replace("%category%", category);
 
         String message = furniNameDateInfoMessage + (category.isEmpty() ? "" : "." + itemCategoryMessage);
-
         HabboActions.sendPrivateMessage(userId, message);
 
         aggregatedMessage.append(message).append("\n");

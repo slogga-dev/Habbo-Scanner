@@ -19,6 +19,13 @@ public class HabboActions {
         HabboScanner.getInstance().sendToServer(packet);
     }
 
+    public static void whisperMessage(String text) {
+        HPacket packet = new HPacket("Whisper", HMessage.Direction.TOCLIENT,
+                -1, text, 0, 30, 0, -1);
+
+        HabboScanner.getInstance().sendToServer(packet);
+    }
+
     public static void sendNavigatorSearch(String searchType, String searchValue) {
         HPacket packet = new HPacket("NewNavigatorSearch",
                 HMessage.Direction.TOSERVER, searchType, searchValue);

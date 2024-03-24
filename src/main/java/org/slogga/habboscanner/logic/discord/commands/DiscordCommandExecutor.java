@@ -1,4 +1,4 @@
-package org.slogga.habboscanner.logic.game.commands.discord;
+package org.slogga.habboscanner.logic.discord.commands;
 
 import java.util.function.Supplier;
 
@@ -7,9 +7,9 @@ import net.dv8tion.jda.api.interactions.commands.build.*;
 
 import org.slogga.habboscanner.HabboScanner;
 
-import org.slogga.habboscanner.logic.game.commands.discord.commands.ConvertDiscordCommand;
+import org.slogga.habboscanner.logic.discord.commands.commands.ConvertDiscordCommand;
 import org.slogga.habboscanner.logic.game.commands.*;
-import org.slogga.habboscanner.logic.game.commands.discord.commands.*;
+import org.slogga.habboscanner.logic.discord.commands.commands.*;
 
 import org.slogga.habboscanner.models.CommandKeys;
 

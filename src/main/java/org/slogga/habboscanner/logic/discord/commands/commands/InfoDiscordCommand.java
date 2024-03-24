@@ -1,4 +1,4 @@
-package org.slogga.habboscanner.logic.game.commands.discord.commands;
+package org.slogga.habboscanner.logic.discord.commands.commands;
 
 import org.slogga.habboscanner.HabboScanner;
 

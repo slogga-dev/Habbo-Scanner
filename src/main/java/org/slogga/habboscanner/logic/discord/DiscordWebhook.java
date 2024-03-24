@@ -1,4 +1,4 @@
-package org.slogga.habboscanner.discord;
+package org.slogga.habboscanner.logic.discord;
 
 import java.io.IOException;
 

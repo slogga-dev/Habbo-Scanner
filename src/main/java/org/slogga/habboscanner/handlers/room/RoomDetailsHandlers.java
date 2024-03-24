@@ -9,7 +9,6 @@ import org.slogga.habboscanner.dao.mysql.RoomsDAO;
 
 import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.commands.CommandFactory;
-import org.slogga.habboscanner.logic.game.commands.common.follow.FollowCommand;
 import org.slogga.habboscanner.logic.game.commands.common.start.StartCommand;
 
 import org.slogga.habboscanner.logic.game.commands.console.commands.FollowConsoleCommand;
@@ -48,6 +47,8 @@ public class RoomDetailsHandlers {
         }
 
         roomAccessMode = RoomAccessMode.fromValue(message.getPacket().readInteger());
+
+        if (CommandFactory.commandExecutorInstance == null) return;
 
         FollowConsoleCommand followConsoleCommand = (FollowConsoleCommand) CommandFactory.commandExecutorInstance
                 .getCommands().get(CommandKeys.FOLLOW.getKey());

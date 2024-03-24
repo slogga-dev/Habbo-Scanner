@@ -2,7 +2,7 @@ package org.slogga.habboscanner.logic.game.commands;
 
 import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.commands.console.ConsoleCommandExecutor;
-import org.slogga.habboscanner.logic.game.commands.discord.DiscordCommandExecutor;
+import org.slogga.habboscanner.logic.discord.commands.DiscordCommandExecutor;
 
 public abstract class Command {
     public static void sendMessage(String message, CommandExecutorProperties properties) {

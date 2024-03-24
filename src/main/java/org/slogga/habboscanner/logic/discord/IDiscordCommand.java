@@ -1,4 +1,4 @@
-package org.slogga.habboscanner.discord;
+package org.slogga.habboscanner.logic.discord;
 
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 

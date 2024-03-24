@@ -8,7 +8,7 @@ import lombok.Data;
 
 import gearth.protocol.*;
 
-import org.slogga.habboscanner.discord.DiscordBot;
+import org.slogga.habboscanner.logic.discord.DiscordBot;
 
 import org.slogga.habboscanner.logic.game.commands.CommandFactory;
 
@@ -42,6 +42,8 @@ public class RoomEntryHandler {
         DiscordBot discordBot = HabboScanner.getInstance().getDiscordBot();
 
         boolean criticalAirCrashWarning = HabboScanner.getInstance().isCriticalAirCrashWarning();
+
+        if (CommandFactory.commandExecutorInstance == null) return;
 
         StartCommand startConsoleCommand = (StartCommand) CommandFactory.commandExecutorInstance.getCommands()
                 .get(CommandKeys.START.getKey());

@@ -1,4 +1,4 @@
-package org.slogga.habboscanner.logic.game.commands.discord.commands;
+package org.slogga.habboscanner.logic.discord.commands.commands;
 
 import java.io.IOException;
 
@@ -12,7 +12,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 
 import org.slogga.habboscanner.HabboScanner;
 
-import org.slogga.habboscanner.discord.DiscordBot;
+import org.slogga.habboscanner.logic.discord.DiscordBot;
 
 import org.slogga.habboscanner.handlers.item.ItemAdditionHandlers;
 

@@ -32,7 +32,18 @@ public class FurniInsightsAndTransactionExecutor {
         int consoleUserId = HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getUserId();
 
         String oldestFurniInRoomMessage = generateOldestFurniInsight(oldestFurni, estimatedDate);
+
+
         String rarestFurniInRoomMessage = generateRarestFurniInsight(itemProcessor);
+
+        boolean isBotEnabled = Boolean.parseBoolean(HabboScanner.getInstance().getConfigurator()
+                .getProperties().get("bot").getProperty("bot.enabled"));
+
+        if (!isBotEnabled) {
+            HabboActions.whisperMessage(oldestFurniInRoomMessage);
+
+            return;
+        }
 
         HabboActions.sendPrivateMessage(consoleUserId, oldestFurniInRoomMessage);
         HabboActions.sendPrivateMessage(consoleUserId, rarestFurniInRoomMessage);

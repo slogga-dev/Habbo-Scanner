@@ -1,6 +1,6 @@
 package org.slogga.habboscanner.models.entities;
 
-import org.slogga.habboscanner.discord.DiscordWebhook;
+import org.slogga.habboscanner.logic.discord.DiscordWebhook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

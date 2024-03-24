@@ -6,7 +6,7 @@ import java.util.function.Function;
 import lombok.Data;
 
 import org.slogga.habboscanner.logic.game.commands.console.ConsoleCommandExecutor;
-import org.slogga.habboscanner.logic.game.commands.discord.DiscordCommandExecutor;
+import org.slogga.habboscanner.logic.discord.commands.DiscordCommandExecutor;
 
 @Data
 public class CommandFactory {

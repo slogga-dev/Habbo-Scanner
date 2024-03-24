@@ -14,7 +14,7 @@ import org.slogga.habboscanner.logic.game.commands.CommandFactory;
 
 import org.slogga.habboscanner.dao.mysql.LogsDAO;
 
-import org.slogga.habboscanner.discord.DiscordBot;
+import org.slogga.habboscanner.logic.discord.DiscordBot;
 
 import org.slogga.habboscanner.logic.game.commands.console.commands.FollowConsoleCommand;
 import org.slogga.habboscanner.models.*;

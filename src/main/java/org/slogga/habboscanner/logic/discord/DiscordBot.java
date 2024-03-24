@@ -1,4 +1,4 @@
-package org.slogga.habboscanner.discord;
+package org.slogga.habboscanner.logic.discord;
 
 import java.util.*;
 import java.util.stream.Collectors;
