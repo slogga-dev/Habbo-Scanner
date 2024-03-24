@@ -48,12 +48,13 @@ public class NavigatorHandlers {
 
                 return;
             }
-
-            String unknownVariable2 = packet.readString();
-            String unknownVariable3 = packet.readString();
-            int unknownVariable4 = packet.readInteger();
-            int unknownVariable5 = packet.readInteger();
-            boolean unknownVariable6 = packet.readBoolean();
+            
+            // The source of the names of the following 5 variables was taken from here: https://github.com/billsonnn/nitro-renderer/blob/main/src/nitro/communication/messages/parser/navigator/utils/NavigatorSearchResultList.ts
+            String code = packet.readString();
+            String data = packet.readString();
+            int action = packet.readInteger();
+            int closed = packet.readInteger();
+            boolean mode = packet.readBoolean();
 
             int roomsFoundAmount = packet.readInteger();
 
