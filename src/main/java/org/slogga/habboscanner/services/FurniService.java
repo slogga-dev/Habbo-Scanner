@@ -20,10 +20,10 @@ public class FurniService {
     public static void insertFurni(IFurni furniMetadata, FurnitypeEnum type,
                                    int roomID, String extradata) {
         int id = furniMetadata.getId();
-        int typeID = furniMetadata.getTypeId();
+        int typeId = furniMetadata.getTypeId();
         String owner = furniMetadata.getOwnerName();
 
-        Furnitype furnitype = Furnidata.getInstance().getFurnitype(typeID, type);
+        Furnitype furnitype = Furnidata.getInstance().getFurnitype(typeId, type);
 
         String classname = furnitype.getClassname();
         String name = furnitype.getName() != null ? furnitype.getName() :
