@@ -1,13 +1,11 @@
-package org.slogga.habboscanner.logic.game.commands.console.commands;
+package org.slogga.habboscanner.logic.game.commands.discord.commands;
 
 import org.slogga.habboscanner.logic.game.commands.CommandExecutorProperties;
 import org.slogga.habboscanner.logic.game.commands.common.UpdateCommand;
 
-public class UpdateConsoleCommand extends UpdateCommand {
+public class UpdateDiscordCommand extends UpdateCommand {
     @Override
     public void execute(CommandExecutorProperties properties) {
-        properties.getMessage().setBlocked(true);
-
         super.execute(properties);
     }
 }

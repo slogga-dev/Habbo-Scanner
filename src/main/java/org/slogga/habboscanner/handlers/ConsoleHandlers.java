@@ -4,14 +4,15 @@ import java.util.*;
 
 import gearth.protocol.HMessage;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+
 import org.slogga.habboscanner.logic.game.commands.*;
 
+import org.slogga.habboscanner.logic.game.commands.common.follow.FollowingActionModeFactory;
 import org.slogga.habboscanner.logic.game.commands.common.follow.actions.FurniInfoFollowingAction;
 
 import org.slogga.habboscanner.HabboScanner;
-import org.slogga.habboscanner.models.CommandKeys;
+
 import org.slogga.habboscanner.models.FollowingAction;
 
 @Setter
@@ -29,12 +30,10 @@ public class ConsoleHandlers {
 
         setCommandExecutorProperties(message, messageText);
 
-        Command followConsoleCommand = (Command) CommandFactory.commandExecutorInstance
-                .getCommands().get(CommandKeys.FOLLOW.getKey());
-        FurniInfoFollowingAction furniInfoFollowingActionMode = (FurniInfoFollowingAction)
-                followConsoleCommand.getActionModes().get(FollowingAction.FURNI_INFO);
+        FurniInfoFollowingAction furniInfoFollowingAction = (FurniInfoFollowingAction) FollowingActionModeFactory
+                .getFollowingActionStrategy(FollowingAction.FURNI_INFO);
 
-        if (messageText.equals("go away")) furniInfoFollowingActionMode.goAway();
+        if (messageText.equals("go away")) furniInfoFollowingAction.goAway();
 
         for (Map.Entry<String, Command> entry : CommandFactory.commandExecutorInstance.getCommands().entrySet()) {
             if (!messageText.startsWith(entry.getKey())) continue;
@@ -42,6 +41,7 @@ public class ConsoleHandlers {
             entry.getValue().execute(CommandFactory.commandExecutorInstance.getProperties());
         }
     }
+
     private void setCommandExecutorProperties(HMessage message, String messageText){
         CommandExecutorProperties commandExecutorProperties = new CommandExecutorProperties();
 

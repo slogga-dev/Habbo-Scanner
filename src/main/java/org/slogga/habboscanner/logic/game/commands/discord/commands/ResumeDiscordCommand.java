@@ -1,14 +1,12 @@
-package org.slogga.habboscanner.logic.game.commands.console.commands;
+package org.slogga.habboscanner.logic.game.commands.discord.commands;
 
 import org.slogga.habboscanner.logic.game.commands.CommandExecutorProperties;
 
 import org.slogga.habboscanner.logic.game.commands.common.ResumeCommand;
 
-public class ResumeConsoleCommand extends ResumeCommand {
+public class ResumeDiscordCommand extends ResumeCommand {
     @Override
     public void execute(CommandExecutorProperties properties) {
-        properties.getMessage().setBlocked(true);
-
         super.execute(properties);
     }
 }

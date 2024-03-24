@@ -1,66 +1,37 @@
 package org.slogga.habboscanner.logic.game.commands.console.commands;
 
-import java.util.Map;
 import java.util.concurrent.*;
+
+import org.slogga.habboscanner.HabboScanner;
 
 import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.commands.CommandExecutorProperties;
-import org.slogga.habboscanner.logic.game.commands.CommandFactory;
-import org.slogga.habboscanner.logic.game.commands.common.start.modes.StartBotInActiveRooms;
+import org.slogga.habboscanner.logic.game.commands.common.InfoCommand;
 
-import org.slogga.habboscanner.HabboScanner;
-import org.slogga.habboscanner.logic.game.commands.IExecuteCommand;
-import org.slogga.habboscanner.models.CommandKeys;
-
-public class InfoConsoleCommand implements IExecuteCommand {
-    private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-
+public class InfoConsoleCommand extends InfoCommand {
     @Override
     public void execute(CommandExecutorProperties properties) {
         properties.getMessage().setBlocked(true);
 
-        boolean isRoomFurniActiveEnabled = Boolean.parseBoolean(
-                    HabboScanner
-                        .getInstance()
-                        .getConfigurator()
-                        .getProperties()
-                        .get("bot").getProperty("room_furni_active.enabled"));
+        super.execute(properties);
 
-        Map<String, IExecuteCommand> commands = CommandFactory.commandExecutorInstance.getCommands();
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
 
-        EnergySavingConsoleCommand energySavingConsoleCommand = (EnergySavingConsoleCommand) commands.get(CommandKeys.ENERGY_SAVING.getKey());
-        boolean energySavingMode = energySavingConsoleCommand.getEnergySavingMode();
-
-        StartConsoleCommand startConsoleCommand = (StartConsoleCommand) commands.get(CommandKeys.START.getKey());
-        boolean isBotRunning = startConsoleCommand.isBotRunning();
-
-        StartBotInActiveRooms startBotInActiveRoomsMode = (StartBotInActiveRooms)
-                startConsoleCommand.getStartModes().get("bot.in.active.rooms");
-        boolean isProcessingActiveRooms = startBotInActiveRoomsMode.getIsProcessingActiveRooms();
-
-        printStatus(properties.getUserId(), "isRoomFurniActiveEnabled", isRoomFurniActiveEnabled, 0);
-        printStatus(properties.getUserId(), "energySavingMode", energySavingMode, 500);
-        printStatus(properties.getUserId(), "isBotRunning", isBotRunning, 1000);
-        printStatus(properties.getUserId(), "isProcessingActiveRooms", isProcessingActiveRooms, 1500);
-
-        scheduler.schedule(() -> HabboActions.sendPrivateMessage(properties.getUserId(), "----------------------"),
-                2500, TimeUnit.MILLISECONDS);
+        executorService.execute(() -> HabboActions.
+                sendPrivateMessage(properties.getUserId(), "-----------------------"));
     }
 
     @Override
-    public String getDescription() {
-        return HabboScanner.getInstance().getConfigurator().getProperties().get("command_description")
-                .getProperty("console.info.command.description");
-    }
-
-    private void printStatus(int userId, String variableName, boolean isActive, long delay) {
+    protected void printStatus(CommandExecutorProperties properties, String variableName, boolean isActive) {
         String statusKey = isActive ? "variable.status.enabled.message" : "variable.status.disabled.message";
         String status = HabboScanner.getInstance().getConfigurator().getProperties().get("message").getProperty(statusKey);
 
-        scheduler.schedule(() -> {
+        ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+
+        scheduler.scheduleAtFixedRate(() -> {
             String message = variableName + " " + status;
 
-            HabboActions.sendPrivateMessage(userId, message);
-        }, delay, TimeUnit.MILLISECONDS);
+            HabboActions.sendPrivateMessage(properties.getUserId(), message);
+        }, 0, 500, TimeUnit.MILLISECONDS);
     }
 }

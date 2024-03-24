@@ -12,6 +12,7 @@ import org.slogga.habboscanner.discord.DiscordBot;
 
 import org.slogga.habboscanner.logic.game.commands.CommandFactory;
 
+import org.slogga.habboscanner.logic.game.commands.common.start.StartCommand;
 import org.slogga.habboscanner.models.CommandKeys;
 
 import org.slogga.habboscanner.dao.mysql.data.*;
@@ -42,7 +43,7 @@ public class RoomEntryHandler {
 
         boolean criticalAirCrashWarning = HabboScanner.getInstance().isCriticalAirCrashWarning();
 
-        StartConsoleCommand startConsoleCommand = (StartConsoleCommand) CommandFactory.commandExecutorInstance.getCommands()
+        StartCommand startConsoleCommand = (StartCommand) CommandFactory.commandExecutorInstance.getCommands()
                 .get(CommandKeys.START.getKey());
         boolean isBotRunning = startConsoleCommand.isBotRunning();
 

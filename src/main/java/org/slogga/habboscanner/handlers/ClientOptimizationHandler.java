@@ -1,21 +1,24 @@
 package org.slogga.habboscanner.handlers;
 
-import gearth.protocol.HMessage;
-import org.slogga.habboscanner.logic.game.commands.CommandFactory;
-import org.slogga.habboscanner.logic.game.commands.console.commands.EnergySavingConsoleCommand;
-import org.slogga.habboscanner.logic.game.commands.IExecuteCommand;
-import org.slogga.habboscanner.models.CommandKeys;
-
 import java.util.Map;
+
+import gearth.protocol.HMessage;
+
+import org.slogga.habboscanner.logic.game.commands.*;
+import org.slogga.habboscanner.logic.game.commands.common.start.StartCommand;
+import org.slogga.habboscanner.logic.game.commands.console.commands.EnergySavingConsoleCommand;
+
+import org.slogga.habboscanner.models.CommandKeys;
 
 public class ClientOptimizationHandler {
     public void onClientOptimization(HMessage message) {
-        Map<String, IExecuteCommand> commands = CommandFactory.commandExecutorInstance.getCommands();
+        Map<String, Command> commands = CommandFactory.commandExecutorInstance.getCommands();
 
-        EnergySavingConsoleCommand energySavingConsoleCommand = (EnergySavingConsoleCommand) commands.get(CommandKeys.ENERGY_SAVING.getKey());
-        boolean energySavingMode = energySavingConsoleCommand.getEnergySavingMode();
+        EnergySavingConsoleCommand energySavingConsoleCommand = (EnergySavingConsoleCommand) commands.
+                get(CommandKeys.ENERGY_SAVING.getKey());
+        boolean energySavingMode = energySavingConsoleCommand.isEnergySavingMode();
 
-        StartConsoleCommand startConsoleCommand = (StartConsoleCommand) commands.get(CommandKeys.START.getKey());
+        StartCommand startConsoleCommand = (StartCommand) commands.get(CommandKeys.START.getKey());
         boolean isBotRunning = startConsoleCommand.isBotRunning();
 
         if (!energySavingMode || !isBotRunning) return;

@@ -13,7 +13,7 @@ import org.slogga.habboscanner.models.SourceType;
 import java.util.Arrays;
 import java.util.Optional;
 
-public abstract class FollowConsoleCommand extends FollowCommand {
+public class FollowConsoleCommand extends FollowCommand {
     @Override
     public void execute(CommandExecutorProperties properties) {
         properties.getMessage().setBlocked(true);

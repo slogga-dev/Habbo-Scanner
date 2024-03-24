@@ -5,6 +5,7 @@ import java.sql.*;
 import java.util.*;
 import java.util.concurrent.*;
 
+import lombok.Getter;
 import org.slogga.habboscanner.HabboScanner;
 
 import org.slogga.habboscanner.dao.mysql.data.DataDAO;
@@ -16,6 +17,9 @@ import org.slogga.habboscanner.models.furnitype.FurnitypeEnum;
 public class FurniHistoricalInfoBroadcaster {
     private final FurniOwnershipTracker furniOwnershipTracker;
 
+    @Getter
+    private StringBuilder aggregatedMessage;
+
     private final ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 
     public FurniHistoricalInfoBroadcaster() {
@@ -24,6 +28,8 @@ public class FurniHistoricalInfoBroadcaster {
 
     public void broadcastFurniHistoryDetails(int id, FurnitypeEnum type, String formattedDate, int userId) {
         HashMap<String, Object> furni;
+
+        aggregatedMessage = new StringBuilder();
 
         try {
             furni = DataDAO.retrieveData(id, type.getType());
@@ -50,9 +56,9 @@ public class FurniHistoricalInfoBroadcaster {
 
         dateNotification = dateNotification.replace("%formattedDate%", formattedDate);
 
-        HabboActions.sendPrivateMessage(userId, dateNotification);
+        aggregatedMessage.append(dateNotification).append("\n");
 
-        ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+        HabboActions.sendPrivateMessage(userId, dateNotification);
 
         String furniJustPlacedMessage = HabboScanner
                 .getInstance()
@@ -63,7 +69,7 @@ public class FurniHistoricalInfoBroadcaster {
 
         HabboActions.sendPrivateMessage(userId, furniJustPlacedMessage);
 
-        scheduledExecutorService.shutdown();
+        aggregatedMessage.append(furniJustPlacedMessage).append("\n");
     }
 
     private void processFurniInRoom(HashMap<String, Object> furni,
@@ -95,6 +101,8 @@ public class FurniHistoricalInfoBroadcaster {
         String message = furniNameDateInfoMessage + (category.isEmpty() ? "" : "." + itemCategoryMessage);
 
         HabboActions.sendPrivateMessage(userId, message);
+
+        aggregatedMessage.append(message).append("\n");
 
         assert itemDefinition != null;
 

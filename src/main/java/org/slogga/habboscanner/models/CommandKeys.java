@@ -11,7 +11,6 @@ public enum CommandKeys {
     INFO("info"),
     CONVERT("convert"),
     UPDATE("update"),
-    MAKESAY("makesay"),
     SHUTDOWN("shutdown"),
     ENERGY_SAVING("energy_saving"),
     COMMANDS("commands"),

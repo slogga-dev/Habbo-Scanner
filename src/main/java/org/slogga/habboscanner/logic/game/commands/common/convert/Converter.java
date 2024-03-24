@@ -1,14 +1,12 @@
 package org.slogga.habboscanner.logic.game.commands.common.convert;
 
 import org.slogga.habboscanner.HabboScanner;
-import org.slogga.habboscanner.logic.game.commands.Command;
-import org.slogga.habboscanner.logic.game.commands.CommandExecutorProperties;
+import org.slogga.habboscanner.logic.game.commands.*;
 import org.slogga.habboscanner.models.ConvertFile;
 
 import java.io.*;
 import java.util.Properties;
 
-// It's a strategy
 public abstract class Converter {
     protected void execute(CommandExecutorProperties properties, ConvertFile convertFile) {
         Properties messageProperties = HabboScanner.getInstance()
@@ -21,9 +19,9 @@ public abstract class Converter {
 
             Command.sendMessage(actionCompletedMessage, properties);
         } catch (FileNotFoundException exception) {
-            String timelineFileNotFoundMessage = messageProperties.getProperty(convertFile.getFile() + ".file.not.found.message");
+            String fileNotFoundMessage = messageProperties.getProperty(convertFile.getFile() + ".file.not.found.message");
 
-            Command.sendMessage(timelineFileNotFoundMessage, properties);
+            Command.sendMessage(fileNotFoundMessage, properties);
 
             throw new RuntimeException(exception);
         } catch (IOException exception) {

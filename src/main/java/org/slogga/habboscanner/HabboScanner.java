@@ -98,6 +98,8 @@ public class HabboScanner extends Extension {
 
         long lastRoomAccess = configurator.getRoomEntryHandler().getLastRoomAccess();
 
+        if (CommandFactory.commandExecutorInstance == null) return;
+
         StartConsoleCommand startConsoleCommand = (StartConsoleCommand) CommandFactory.commandExecutorInstance.getCommands()
                 .get(CommandKeys.START.getKey());
 

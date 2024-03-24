@@ -8,7 +8,9 @@ import org.slogga.habboscanner.logic.game.commands.*;
 public class ShutdownCommand extends Command {
     @Override
     public void execute(CommandExecutorProperties properties) {
-        String message = HabboScanner.getInstance().getConfigurator().getProperties().get("message")
+        String message = HabboScanner.getInstance()
+                .getConfigurator()
+                .getProperties().get("message")
                 .getProperty("bot.shutdown.message");
 
         sendMessage(message, properties);

@@ -8,6 +8,8 @@ import lombok.*;
 
 import org.slogga.habboscanner.HabboScanner;
 import org.slogga.habboscanner.logic.game.commands.*;
+import org.slogga.habboscanner.logic.game.commands.common.EnergySavingCommand;
+import org.slogga.habboscanner.models.CommandKeys;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -18,8 +20,6 @@ public class StartCommand extends Command {
 
     @Override
     public void execute(CommandExecutorProperties properties) {
-        properties.getMessage().setBlocked(true);
-
         if (hasExecuted) return;
 
         hasExecuted = true;
@@ -27,13 +27,13 @@ public class StartCommand extends Command {
 
         HabboScanner.getInstance().getConfigurator().getRoomEntryHandler().refreshLastRoomAccess();
 
-        /*boolean isEnergySavingModeEnabled = Boolean.parseBoolean(HabboScanner.getInstance()
+        boolean isEnergySavingModeEnabled = Boolean.parseBoolean(HabboScanner.getInstance()
                 .getConfigurator().getProperties().get("bot").getProperty("bot.energy.saving.mode.enabled"));
 
-        EnergySavingConsoleCommand energySavingConsoleCommand = (EnergySavingConsoleCommand)
+        EnergySavingCommand energySavingCommand = (EnergySavingCommand)
                 CommandFactory.commandExecutorInstance.getCommands().get(CommandKeys.ENERGY_SAVING.getKey());
 
-        if (isEnergySavingModeEnabled) energySavingConsoleCommand.setEnergySavingMode(true);*/
+        if (isEnergySavingModeEnabled) energySavingCommand.setEnergySavingMode(true);
 
         String enabledModeKey = getEnableModeKey(properties);
 
@@ -47,7 +47,7 @@ public class StartCommand extends Command {
     @Override
     public String getDescription() {
         return HabboScanner.getInstance().getConfigurator().getProperties().get("command_description")
-                .getProperty("console.start.command.description");
+                .getProperty("start.command.description");
     }
 
     private String getEnableModeKey(CommandExecutorProperties properties) {

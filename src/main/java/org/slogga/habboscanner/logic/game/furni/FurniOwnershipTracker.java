@@ -62,10 +62,18 @@ public class FurniOwnershipTracker {
                 noFurniOwnersMessage : topFurniOwnersMessage);
 
         HabboActions.sendPrivateMessage(consoleUserId, message);
+
+        StringBuilder aggregatedMessage = HabboScanner.getInstance().getConfigurator()
+                .getFurniMovementHandlers().getFurniHistoricalInfoBroadcaster().getAggregatedMessage();
+
+        aggregatedMessage.append(message).append("\n");
     }
 
     public void manageFurniOwnershipHistory(int id, int userId) {
         ArrayList<HashMap<String, Object>> furniHistory;
+
+        StringBuilder aggregatedMessage = HabboScanner.getInstance().getConfigurator()
+                .getFurniMovementHandlers().getFurniHistoricalInfoBroadcaster().getAggregatedMessage();
 
         try {
             furniHistory = DataDAO.retrieveDataHistory(id, FurnitypeEnum.FLOOR.getType());
@@ -86,6 +94,8 @@ public class FurniOwnershipTracker {
 
             HabboActions.sendPrivateMessage(userId, finalMessage.toString());
 
+            aggregatedMessage.append(finalMessage);
+
             return;
         }
 
@@ -95,10 +105,11 @@ public class FurniOwnershipTracker {
         finalMessage.append(furniHistoryMessage);
 
         StringJoiner joiner = generateFurniHistoryReport(furniHistory);
-
         finalMessage.append(joiner);
 
         HabboActions.sendPrivateMessage(userId, finalMessage.toString());
+
+        aggregatedMessage.append(finalMessage);
     }
 
     private StringJoiner generateFurniHistoryReport(ArrayList<HashMap<String, Object>> furniHistory) {

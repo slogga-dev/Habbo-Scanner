@@ -10,20 +10,15 @@ import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.interactions.commands.*;
+
 import net.dv8tion.jda.api.requests.GatewayIntent;
 
-import org.slogga.habboscanner.discord.commands.*;
-
 import org.slogga.habboscanner.HabboScanner;
-import org.slogga.habboscanner.logic.game.commands.CommandExecutorType;
-import org.slogga.habboscanner.logic.game.commands.CommandFactory;
+import org.slogga.habboscanner.logic.game.commands.*;
 
 public class DiscordBot extends ListenerAdapter {
     @Getter
     private JDA discordAPI;
-
-    private final Map<String, IDiscordCommand> commands = new HashMap<>();
 
     private Set<String> authorizedUserIds = new HashSet<>();
 
@@ -35,7 +30,10 @@ public class DiscordBot extends ListenerAdapter {
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
         String commandName = event.getName();
-        IDiscordCommand command = commands.get(commandName);
+
+        setCommandExecutorProperties(event);
+
+        Command command = CommandFactory.commandExecutorInstance.getCommands().get(commandName);
 
         Properties messageProperties = HabboScanner.getInstance()
                 .getConfigurator()
@@ -58,7 +56,15 @@ public class DiscordBot extends ListenerAdapter {
             return;
         }
 
-        command.execute(event);
+        command.execute(CommandFactory.commandExecutorInstance.getProperties());
+    }
+
+    private void setCommandExecutorProperties(SlashCommandInteractionEvent event){
+        CommandExecutorProperties commandExecutorProperties = new CommandExecutorProperties();
+
+        commandExecutorProperties.setEvent(event);
+
+        CommandFactory.getCommandExecutor(CommandExecutorType.DISCORD, commandExecutorProperties);
     }
 
     @Override

@@ -1,22 +1,22 @@
-package org.slogga.habboscanner.discord.commands;
+package org.slogga.habboscanner.logic.game.commands.discord.commands;
 
 import java.io.IOException;
 
 import java.sql.*;
 
-import java.util.Date;
 import java.util.Properties;
 
-import org.slogga.habboscanner.discord.DiscordBot;
 import org.apache.commons.lang3.tuple.Triple;
 
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
-import org.slogga.habboscanner.discord.IDiscordCommand;
+import org.slogga.habboscanner.HabboScanner;
+
+import org.slogga.habboscanner.discord.DiscordBot;
 
 import org.slogga.habboscanner.handlers.item.ItemAdditionHandlers;
 
-import org.slogga.habboscanner.HabboScanner;
+import org.slogga.habboscanner.logic.game.commands.*;
 
 import org.slogga.habboscanner.models.ItemTimeline;
 import org.slogga.habboscanner.models.furnitype.FurnitypeEnum;
@@ -25,14 +25,18 @@ import org.slogga.habboscanner.utils.DateUtils;
 
 import org.slogga.habboscanner.dao.mysql.items.ItemsTimelineDAO;
 
-public class AuctionDiscordCommand implements IDiscordCommand {
+public class AuctionDiscordCommand extends Command {
     @Override
-    public void execute(SlashCommandInteractionEvent event) {
-        ItemAdditionHandlers itemAdditionHandlers = HabboScanner.getInstance().getConfigurator().getItemAdditionHandlers();
+    public void execute(CommandExecutorProperties properties) {
+        SlashCommandInteractionEvent event = properties.getEvent();
+
+        ItemAdditionHandlers itemAdditionHandlers = HabboScanner.getInstance()
+                .getConfigurator().getItemAdditionHandlers();
 
         int id = itemAdditionHandlers.getLastFurniPlacedId();
 
-        Properties messageProperties = HabboScanner.getInstance().getConfigurator().getProperties().get("message");
+        Properties messageProperties = HabboScanner.getInstance()
+                .getConfigurator().getProperties().get("message");
 
         if (id <= 0) {
             String noFurniPlacedMessage = messageProperties.getProperty("no.furni.placed.message");
@@ -75,8 +79,15 @@ public class AuctionDiscordCommand implements IDiscordCommand {
         HabboScanner.getInstance().getConfigurator().getFurniMovementHandlers().getFurniHistoricalInfoBroadcaster()
                 .broadcastFurniHistoryDetails(id, type, formattedDate, habboUserId);
 
-        String newFurniMessageSent = messageProperties.getProperty("new.furni.message.sent");
+        StringBuilder aggregatedMessage = HabboScanner.getInstance().getConfigurator()
+                .getFurniMovementHandlers().getFurniHistoricalInfoBroadcaster().getAggregatedMessage();
 
-        event.reply(newFurniMessageSent).queue();
+        event.reply(aggregatedMessage.toString()).queue();
+    }
+
+    @Override
+    public String getDescription() {
+        return HabboScanner.getInstance().getConfigurator().getProperties().get("command_description")
+                .getProperty("auction.command.description");
     }
 }

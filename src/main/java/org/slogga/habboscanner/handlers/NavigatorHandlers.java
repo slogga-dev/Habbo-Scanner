@@ -7,6 +7,8 @@ import java.util.concurrent.*;
 
 import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.commands.CommandFactory;
+import org.slogga.habboscanner.logic.game.commands.common.start.StartCommand;
+import org.slogga.habboscanner.logic.game.commands.common.start.StartModeFactory;
 import org.slogga.habboscanner.logic.game.commands.common.start.modes.StartBotInActiveRooms;
 
 import gearth.protocol.*;
@@ -25,7 +27,7 @@ public class NavigatorHandlers {
 
     public void onNavigatorSearchResultBlocks(HMessage message) {
         CompletableFuture.runAsync(() -> {
-            StartConsoleCommand startConsoleCommand = (StartConsoleCommand) CommandFactory.commandExecutorInstance.getCommands().get(CommandKeys.START.getKey());
+            StartCommand startConsoleCommand = (StartCommand) CommandFactory.commandExecutorInstance.getCommands().get(CommandKeys.START.getKey());
             boolean isBotRunning = startConsoleCommand.isBotRunning();
 
             if (!isBotRunning) return;
@@ -37,10 +39,8 @@ public class NavigatorHandlers {
 
             int openState = packet.readInteger();
 
-            StartConsoleCommand startCommand = (StartConsoleCommand) CommandFactory.commandExecutorInstance.getCommands().get(CommandKeys.START.getKey());
-
             StartBotInActiveRooms startBotInActiveRoomsMode = (StartBotInActiveRooms)
-                    startCommand.getStartModes().get("bot.in.active.rooms");
+                    StartModeFactory.getStartModeStrategy("bot.in.active.rooms");
 
             // Checks if the room is open.
             if (openState == 0) {

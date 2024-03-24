@@ -4,24 +4,24 @@ import java.util.*;
 import java.util.concurrent.*;
 
 import org.slogga.habboscanner.logic.game.HabboActions;
+import org.slogga.habboscanner.logic.game.commands.Command;
 import org.slogga.habboscanner.logic.game.commands.CommandExecutorProperties;
 import org.slogga.habboscanner.logic.game.commands.CommandFactory;
 
 import org.slogga.habboscanner.HabboScanner;
-import org.slogga.habboscanner.logic.game.commands.IExecuteCommand;
 
-public class CommandsConsoleCommand implements IExecuteCommand {
+public class CommandsConsoleCommand extends Command {
     @Override
     public void execute(CommandExecutorProperties properties) {
-        Map<String, IExecuteCommand> commands = CommandFactory.commandExecutorInstance.getCommands();
+        Map<String, Command> commands = CommandFactory.commandExecutorInstance.getCommands();
 
         ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 
         int delay = 0;
 
-        for (Map.Entry<String, IExecuteCommand> entry : commands.entrySet()) {
+        for (Map.Entry<String, Command> entry : commands.entrySet()) {
             String name = entry.getKey();
-            IExecuteCommand command = entry.getValue();
+            Command command = entry.getValue();
             String description = command.getDescription();
 
             String commandMessageText = name + " - " + description;
@@ -37,6 +37,6 @@ public class CommandsConsoleCommand implements IExecuteCommand {
     @Override
     public String getDescription() {
         return HabboScanner.getInstance().getConfigurator().getProperties().get("command_description")
-                .getProperty("console.commands.command.description");
+                .getProperty("commands.commands.command.description");
     }
 }

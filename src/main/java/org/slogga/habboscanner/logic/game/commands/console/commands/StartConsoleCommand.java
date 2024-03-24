@@ -6,6 +6,8 @@ import org.slogga.habboscanner.logic.game.commands.common.start.StartCommand;
 public class StartConsoleCommand extends StartCommand {
     @Override
     public void execute(CommandExecutorProperties properties) {
+        properties.getMessage().setBlocked(true);
+
         super.execute(properties);
     }
 }

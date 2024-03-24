@@ -3,7 +3,6 @@ package org.slogga.habboscanner.logic.game.commands;
 import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.commands.console.ConsoleCommandExecutor;
 import org.slogga.habboscanner.logic.game.commands.discord.DiscordCommandExecutor;
-import org.slogga.habboscanner.models.ConvertFile;
 
 public abstract class Command {
     public static void sendMessage(String message, CommandExecutorProperties properties) {
@@ -20,7 +19,7 @@ public abstract class Command {
         properties.getEvent().reply(message).queue();
     }
 
-    protected abstract void execute(CommandExecutorProperties properties);
+    public abstract void execute(CommandExecutorProperties properties);
 
-    protected abstract String getDescription();
+    public abstract String getDescription();
 }
