@@ -13,7 +13,7 @@ import org.slogga.habboscanner.dao.mysql.items.ItemsTimelineDAO;
 
 import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.commands.CommandFactory;
-import org.slogga.habboscanner.logic.game.commands.console.commands.FollowConsoleCommand;
+import org.slogga.habboscanner.logic.game.commands.common.follow.FollowCommand;
 import org.slogga.habboscanner.logic.game.furni.FurniHistoricalInfoBroadcaster;
 
 import org.slogga.habboscanner.models.*;
@@ -29,7 +29,7 @@ public class FurniMovementHandlers {
 
     private long lastMovedTime = 0;
 
-    private static final int MOVE_DELAY_IN_MILLISECONDS = 1000;
+    private static final int MOVE_DELAY_IN_MILLISECONDS = 500;
 
     public void onMoveWallItem(HMessage message) {
         handleMoveItem(message, FurnitypeEnum.WALL);
@@ -40,10 +40,10 @@ public class FurniMovementHandlers {
     }
 
     private void handleMoveItem(HMessage message, FurnitypeEnum type) {
-        FollowConsoleCommand followConsoleCommand = (FollowConsoleCommand) CommandFactory.commandExecutorInstance
+        FollowCommand followCommand = (FollowCommand) CommandFactory.commandExecutorInstance
                 .getCommands().get(CommandKeys.FOLLOW.getKey());
 
-        if (followConsoleCommand.getFollowingAction() != FollowingAction.FURNI_INFO) return;
+        if (followCommand != null && followCommand.getFollowingAction() != FollowingAction.FURNI_INFO) return;
 
         int id = message.getPacket().readInteger();
 

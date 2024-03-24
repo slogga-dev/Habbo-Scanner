@@ -12,7 +12,6 @@ import org.slogga.habboscanner.logic.configurators.*;
 import org.slogga.habboscanner.logic.game.commands.CommandExecutorType;
 import org.slogga.habboscanner.logic.game.commands.CommandFactory;
 import org.slogga.habboscanner.logic.game.commands.common.start.StartCommand;
-import org.slogga.habboscanner.logic.game.commands.console.commands.StartConsoleCommand;
 
 import org.slogga.habboscanner.models.CommandKeys;
 
@@ -82,7 +81,7 @@ public class HabboScanner extends Extension {
                     .get("message")
                     .getProperty("bot.crash.message");
 
-            discordBot.sendMessageToFeedChannel(botCrashMessage);
+            discordBot.getMessageHandler().sendMessageToFeedChannel(botCrashMessage);
         }
 
         ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
@@ -103,18 +102,21 @@ public class HabboScanner extends Extension {
 
         long lastRoomAccess = configurator.getRoomEntryHandler().getLastRoomAccess();
 
-//        StartCommand startCommand = (StartCommand) CommandFactory.getCommandExecutor(currentType).getCommands()
-//                .get(CommandKeys.START.getKey());
+        CommandFactory.getCommandExecutor(currentType);
+
+        StartCommand startCommand = (StartCommand) CommandFactory.commandExecutorInstance
+                .getCommands()
+                .get(CommandKeys.START.getKey());
 
         scheduledExecutorService.scheduleAtFixedRate(() -> {
             boolean isAccessRecent = lastRoomAccess > 0;
             boolean isTimeExceeded = (System.currentTimeMillis() - lastRoomAccess) > accessTimeout;
 
-            if (criticalAirCrashWarning || !isAccessRecent /*|| !startCommand.isHasExecuted()*/ || !isTimeExceeded)
+            if (criticalAirCrashWarning || !isAccessRecent || !startCommand.isHasExecuted() || !isTimeExceeded)
                 return;
 
             if (discordBot != null)
-                discordBot.sendMessageToFeedChannel(crashMessage);
+                discordBot.getMessageHandler().sendMessageToFeedChannel(crashMessage);
 
             criticalAirCrashWarning = true;
         }, 0, 2, TimeUnit.MINUTES);

@@ -8,19 +8,14 @@ import lombok.*;
 
 import org.slogga.habboscanner.logic.game.commands.*;
 
-import org.slogga.habboscanner.logic.game.commands.common.follow.FollowCommand;
-import org.slogga.habboscanner.logic.game.commands.common.follow.FollowingActionModeFactory;
-import org.slogga.habboscanner.logic.game.commands.common.follow.IFollower;
+import org.slogga.habboscanner.logic.game.commands.common.follow.*;
 import org.slogga.habboscanner.logic.game.commands.common.follow.actions.BaseFollowingAction;
-import org.slogga.habboscanner.logic.game.commands.common.follow.actions.FurniInfoFollowingAction;
+
+import org.slogga.habboscanner.models.CommandKeys;
 
 import org.slogga.habboscanner.HabboScanner;
 
-import org.slogga.habboscanner.models.CommandKeys;
-import org.slogga.habboscanner.models.FollowingAction;
-
-@Setter
-@Getter
+@Data
 public class ConsoleHandlers {
     private int userId;
 

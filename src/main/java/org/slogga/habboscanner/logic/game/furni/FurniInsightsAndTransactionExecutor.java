@@ -29,19 +29,20 @@ public class FurniInsightsAndTransactionExecutor {
                 .getConfigurator().getRoomEntryHandler().getItemProcessor();
         Furni oldestFurni = itemProcessor.getOldestFurni();
 
-        int consoleUserId = HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getUserId();
-
-        String oldestFurniInRoomMessage = generateOldestFurniInsight(oldestFurni, estimatedDate);
-        String rarestFurniInRoomMessage = generateRarestFurniInsight(itemProcessor);
-
         boolean isBotEnabled = Boolean.parseBoolean(HabboScanner.getInstance().getConfigurator()
                 .getProperties().get("bot").getProperty("bot.enabled"));
 
+        String oldestFurniInRoomMessage = generateOldestFurniInsight(oldestFurni, estimatedDate);
+
         if (!isBotEnabled) {
-            HabboActions.whisperMessage(oldestFurniInRoomMessage);
+            scheduledExecutorService.schedule(() -> HabboActions.whisperMessage(oldestFurniInRoomMessage),
+                    1, TimeUnit.SECONDS);
 
             return;
         }
+
+        int consoleUserId = HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getUserId();
+        String rarestFurniInRoomMessage = generateRarestFurniInsight(itemProcessor);
 
         HabboActions.sendPrivateMessage(consoleUserId, oldestFurniInRoomMessage);
         HabboActions.sendPrivateMessage(consoleUserId, rarestFurniInRoomMessage);
@@ -91,7 +92,9 @@ public class FurniInsightsAndTransactionExecutor {
     }
 
     private void performFurniTransactions() {
-        String currentOwnerName = HabboScanner.getInstance().getConfigurator().getRoomDetailsHandlers().getCurrentOwnerName();
+        String currentOwnerName = HabboScanner.getInstance()
+                .getConfigurator().getRoomDetailsHandlers()
+                .getRoomDetails().getCurrentOwnerName();
         int roomId = HabboScanner.getInstance().getConfigurator().getRoomEntryHandler().getRoomId();
 
         transactions = DataDAO.retrieveDataTransactions(currentOwnerName, roomId);

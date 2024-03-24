@@ -105,6 +105,7 @@ public class FurniHistoricalInfoBroadcaster {
         itemCategoryMessage = itemCategoryMessage.replace("%category%", category);
 
         String message = furniNameDateInfoMessage + (category.isEmpty() ? "" : "." + itemCategoryMessage);
+
         HabboActions.sendPrivateMessage(userId, message);
 
         aggregatedMessage.append(message).append("\n");

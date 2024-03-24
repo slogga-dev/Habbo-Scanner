@@ -14,8 +14,8 @@ import org.slogga.habboscanner.models.ItemTimeline;
 
 public class DateUtils {
     public static Date getLinearInterpolatedDate(Triple<Integer, ItemTimeline, ItemTimeline> closestEntries) {
-        if(closestEntries == null)
-            return null;
+        if (closestEntries == null) return null;
+
         int id = closestEntries.getLeft();
 
         int lowestID = closestEntries.getMiddle().getId();
@@ -27,8 +27,7 @@ public class DateUtils {
         long rise = highestDate.getTime() - lowestDate.getTime();
         int run = highestID - lowestID;
 
-        if (run == 0)
-            return null;
+        if (run == 0) return null;
 
         long milliseconds = lowestDate.getTime() + (rise / run) * (id - lowestID);
 

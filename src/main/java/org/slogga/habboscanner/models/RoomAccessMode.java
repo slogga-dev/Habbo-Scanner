@@ -22,5 +22,4 @@ public enum RoomAccessMode {
     RoomAccessMode(int accessMode) {
         this.accessMode = accessMode;
     }
-
 }

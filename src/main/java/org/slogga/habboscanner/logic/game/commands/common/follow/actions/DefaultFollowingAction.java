@@ -1,9 +1,12 @@
 package org.slogga.habboscanner.logic.game.commands.common.follow.actions;
 
-import gearth.extensions.parsers.HFloorItem;
 import gearth.protocol.HMessage;
-import lombok.Data;
+
+import lombok.*;
+
 import org.slogga.habboscanner.logic.game.furni.FurniInsightsAndTransactionExecutor;
+
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class DefaultFollowingAction extends BaseFollowingAction {
     private final FurniInsightsAndTransactionExecutor furniInsightsAndTransactionExecutor = new FurniInsightsAndTransactionExecutor();

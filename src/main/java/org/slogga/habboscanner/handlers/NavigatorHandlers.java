@@ -58,8 +58,6 @@ public class NavigatorHandlers {
 
             int roomsFoundAmount = packet.readInteger();
 
-            ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-
             int totalRoomUserAmount = 0;
 
             ArrayList<String> rooms = new ArrayList<>();

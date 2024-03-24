@@ -10,7 +10,6 @@ import org.slogga.habboscanner.models.Furni;
 
 import org.slogga.habboscanner.dao.Database;
 
-
 public class DataDAO {
     private static final Logger logger = LoggerFactory.getLogger(DataDAO.class);
 

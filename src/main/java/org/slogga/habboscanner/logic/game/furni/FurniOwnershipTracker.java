@@ -48,12 +48,12 @@ public class FurniOwnershipTracker {
                 .getProperties()
                 .get("message")
                 .getProperty("no.furni.owners.message");
+
         String topFurniOwnersMessage = HabboScanner.getInstance()
                 .getConfigurator()
                 .getProperties()
                 .get("message")
                 .getProperty("top.furni.owners.message");
-
         topFurniOwnersMessage = topFurniOwnersMessage
                 .replace("%topFurniOwners%", topFurniOwnersReport.toString());
 

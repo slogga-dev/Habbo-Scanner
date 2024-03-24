@@ -3,8 +3,6 @@ package org.slogga.habboscanner.logic.game;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import java.nio.charset.StandardCharsets;
-
 import gearth.extensions.parsers.*;
 
 import lombok.Getter;
@@ -17,6 +15,8 @@ import org.slogga.habboscanner.models.furnitype.*;
 import org.slogga.habboscanner.HabboScanner;
 
 import org.slogga.habboscanner.services.FurniService;
+
+import org.slogga.habboscanner.utils.UTF8Utils;
 
 @Getter
 public class ItemProcessor {
@@ -63,16 +63,13 @@ public class ItemProcessor {
                 .map(Object::toString)
                 .collect(Collectors.joining(", "));
 
-        byte[] bytes = extradata.getBytes(StandardCharsets.ISO_8859_1);
-        extradata = new String(bytes, StandardCharsets.UTF_8);
+        extradata = UTF8Utils.convertToUTF8(extradata);
 
         FurniService.insertFurni(item, type, roomId, extradata);
     }
 
     public void processWallItem(HWallItem item, FurnitypeEnum type, int roomId) {
-        String extradata = item.getState();
-        byte[] bytes = extradata.getBytes(StandardCharsets.ISO_8859_1);
-        extradata = new String(bytes, StandardCharsets.UTF_8);
+        String extradata = UTF8Utils.convertToUTF8(item.getState());
 
         FurniService.insertFurni(item, type, roomId, extradata);
     }

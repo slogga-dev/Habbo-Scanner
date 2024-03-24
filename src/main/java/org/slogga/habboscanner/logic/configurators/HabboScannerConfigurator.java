@@ -44,6 +44,7 @@ public class HabboScannerConfigurator implements IConfigurator {
             try (InputStreamReader streamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8)) {
                 Properties value = new Properties();
                 value.load(streamReader);
+
                 properties.put(name, value);
             }
         } catch (IOException exception) {

@@ -26,7 +26,7 @@ import org.slogga.habboscanner.models.furnitype.FurnitypeEnum;
 
 import org.slogga.habboscanner.utils.DateUtils;
 
-public abstract class BaseFollowingAction implements IFollower {
+public class BaseFollowingAction implements IFollower {
     protected Date estimatedDate;
 
     @Override

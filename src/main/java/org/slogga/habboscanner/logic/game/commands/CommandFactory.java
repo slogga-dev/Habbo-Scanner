@@ -35,7 +35,7 @@ public class CommandFactory {
     }
 
     public static void getCommandExecutor(CommandExecutorType commandExecutorType) {
-        if(commandExecutorType == CommandExecutorType.DISCORD) {
+        if (commandExecutorType == CommandExecutorType.DISCORD) {
             commandExecutorInstance = new DiscordCommandExecutor();
 
             return;

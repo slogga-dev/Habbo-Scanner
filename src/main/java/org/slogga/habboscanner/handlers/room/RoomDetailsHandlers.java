@@ -1,5 +1,8 @@
 package org.slogga.habboscanner.handlers.room;
 
+import java.io.IOException;
+import java.sql.SQLException;
+
 import gearth.protocol.HMessage;
 
 import lombok.Getter;
@@ -13,32 +16,45 @@ import org.slogga.habboscanner.logic.game.commands.common.start.StartCommand;
 
 import org.slogga.habboscanner.logic.game.commands.console.commands.FollowConsoleCommand;
 import org.slogga.habboscanner.models.*;
-
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.sql.SQLException;
+import org.slogga.habboscanner.utils.UTF8Utils;
 
 @Getter
 public class RoomDetailsHandlers {
-    private String currentOwnerName;
+    private RoomDetails roomDetails;
 
-    private RoomAccessMode roomAccessMode = RoomAccessMode.UNKNOWN;
+    private final RoomAccessMode roomAccessMode = RoomAccessMode.UNKNOWN;
 
     public void onGetGuestRoomResult(HMessage message) {
+        roomDetails = extractRoomDetails(message);
+
+        handleRoomAccess(roomDetails);
+    }
+
+    public void onRoomVisualizationSettings(HMessage message) {
+        StartCommand startCommand = (StartCommand) CommandFactory.commandExecutorInstance
+                .getCommands().get(CommandKeys.START.getKey());
+
+        if (startCommand == null) return;
+
+        boolean isBotRunning = startCommand.isBotRunning();
+
+        boolean isBotInActiveRooms = Boolean.parseBoolean(HabboScanner.getInstance()
+                .getConfigurator()
+                .getProperties()
+                .get("bot")
+                .getProperty("bot.in.active.rooms"));
+
+        if (!isBotRunning & !isBotInActiveRooms) return;
+
+        HabboActions.goToHotelView();
+    }
+
+    private RoomDetails extractRoomDetails(HMessage message) {
         boolean unknownVariable = message.getPacket().readBoolean();
-
         int guestRoomId = message.getPacket().readInteger();
-        String roomName = message.getPacket().readString();
-
-        byte[] bytes = roomName.getBytes(StandardCharsets.ISO_8859_1);
-        roomName = new String(bytes, StandardCharsets.UTF_8);
-
+        String roomName = UTF8Utils.convertToUTF8(message.getPacket().readString());
         int ownerId = message.getPacket().readInteger();
-        currentOwnerName = message.getPacket().readString();
-
-        bytes = currentOwnerName.getBytes(StandardCharsets.ISO_8859_1);
-
-        currentOwnerName = new String(bytes, StandardCharsets.UTF_8);
+        String currentOwnerName = UTF8Utils.convertToUTF8(message.getPacket().readString());
 
         try {
             RoomsDAO.insertRoom(guestRoomId, roomName, ownerId, currentOwnerName);
@@ -46,18 +62,20 @@ public class RoomDetailsHandlers {
             throw new RuntimeException(exception);
         }
 
-        roomAccessMode = RoomAccessMode.fromValue(message.getPacket().readInteger());
+        RoomAccessMode roomAccessMode = RoomAccessMode.fromValue(message.getPacket().readInteger());
 
-        if (CommandFactory.commandExecutorInstance == null) return;
+        return new RoomDetails(guestRoomId, roomName, ownerId, currentOwnerName, roomAccessMode);
+    }
 
+    private void handleRoomAccess(RoomDetails roomDetails) {
         FollowConsoleCommand followConsoleCommand = (FollowConsoleCommand) CommandFactory.commandExecutorInstance
                 .getCommands().get(CommandKeys.FOLLOW.getKey());
 
-        if (!followConsoleCommand.isFollowing()) return;
+        if (followConsoleCommand == null || !followConsoleCommand.isFollowing()) return;
 
         int consoleUserId = HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getUserId();
 
-        switch (roomAccessMode) {
+        switch (roomDetails.getRoomAccessMode()) {
             case LOCKED: {
                 String closedRoomAccessMessage = HabboScanner.getInstance()
                         .getConfigurator().getProperties().get("message").getProperty("closed.room.access.message");
@@ -80,22 +98,5 @@ public class RoomDetailsHandlers {
                 break;
             }
         }
-    }
-
-    public void onRoomVisualizationSettings(HMessage message) {
-        StartCommand startConsoleCommand = (StartCommand) CommandFactory.commandExecutorInstance
-                .getCommands().get(CommandKeys.START.getKey());
-
-        boolean isBotRunning = startConsoleCommand.isBotRunning();
-
-        boolean isBotInActiveRooms = Boolean.parseBoolean(HabboScanner.getInstance()
-                .getConfigurator()
-                .getProperties()
-                .get("bot")
-                .getProperty("bot.in.active.rooms"));
-
-        if (!isBotRunning & !isBotInActiveRooms) return;
-
-        HabboActions.goToHotelView();
     }
 }

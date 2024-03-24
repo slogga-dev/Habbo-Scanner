@@ -11,8 +11,8 @@ import gearth.protocol.*;
 import org.slogga.habboscanner.logic.discord.DiscordBot;
 
 import org.slogga.habboscanner.logic.game.commands.CommandFactory;
-
 import org.slogga.habboscanner.logic.game.commands.common.start.StartCommand;
+
 import org.slogga.habboscanner.models.CommandKeys;
 
 import org.slogga.habboscanner.dao.mysql.data.*;
@@ -20,6 +20,7 @@ import org.slogga.habboscanner.dao.mysql.data.*;
 import org.slogga.habboscanner.logic.game.ItemProcessor;
 
 import org.slogga.habboscanner.HabboScanner;
+
 @Data
 public class RoomEntryHandler {
     private static final Logger logger = LoggerFactory.getLogger(RoomEntryHandler.class);
@@ -43,16 +44,31 @@ public class RoomEntryHandler {
 
         boolean criticalAirCrashWarning = HabboScanner.getInstance().isCriticalAirCrashWarning();
 
-        if (CommandFactory.commandExecutorInstance == null) return;
-
-        StartCommand startConsoleCommand = (StartCommand) CommandFactory.commandExecutorInstance.getCommands()
+        StartCommand startCommand = (StartCommand) CommandFactory.commandExecutorInstance.getCommands()
                 .get(CommandKeys.START.getKey());
-        boolean isBotRunning = startConsoleCommand.isBotRunning();
+
+        if (startCommand == null) return;
+
+        boolean isBotRunning = startCommand.isBotRunning();
 
         if (discordBot != null && criticalAirCrashWarning && isBotRunning) {
-            discordBot.sendMessageToFeedChannel("ma... che è successo @everyone? boo forse ero ubriaca perché ora il mio client funziona non so perché agaga ho ripreso a lavorare!");
+            String criticalWarningMessage = HabboScanner.getInstance().getConfigurator()
+                    .getProperties().get("message").getProperty("discord.bot.critical.warning.message");
+            discordBot.getMessageHandler().sendMessageToFeedChannel(criticalWarningMessage);
 
             HabboScanner.getInstance().setCriticalAirCrashWarning(false);
+        }
+
+        if (discordBot != null) {
+            String archivingRoomIdMessage = HabboScanner.getInstance()
+                    .getConfigurator()
+                    .getProperties()
+                    .get("message")
+                    .getProperty("discord.bot.archiving.room.id.message");
+            archivingRoomIdMessage = archivingRoomIdMessage
+                    .replace("%roomId%", String.valueOf(roomId));
+
+            discordBot.updateActivity(archivingRoomIdMessage);
         }
 
         boolean isRoomFurniActiveEnabled = Boolean.parseBoolean(HabboScanner.getInstance()
@@ -60,9 +76,6 @@ public class RoomEntryHandler {
                 .getProperties()
                 .get("bot")
                 .getProperty("room_furni_active.enabled"));
-
-        if (discordBot != null)
-            discordBot.updateActivity("Sto archiviando la stanza ID: " + roomId);
 
         try {
             if (!isRoomFurniActiveEnabled) return;

@@ -10,7 +10,8 @@ public class Database {
     private static Database instance;
 
     public static synchronized Database getInstance() throws SQLException, IOException {
-        if (instance == null) instance = new Database();
+        if (instance == null)
+            instance = new Database();
 
         return instance;
     }

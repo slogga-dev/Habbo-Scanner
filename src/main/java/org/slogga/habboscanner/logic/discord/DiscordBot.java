@@ -4,11 +4,12 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import lombok.Getter;
+
 import net.dv8tion.jda.api.*;
 import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import net.dv8tion.jda.api.requests.GatewayIntent;
@@ -16,15 +17,18 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.slogga.habboscanner.HabboScanner;
 import org.slogga.habboscanner.logic.game.commands.*;
 
+@Getter
 public class DiscordBot extends ListenerAdapter {
-    @Getter
     private JDA discordAPI;
+    private final DiscordMessageHandler messageHandler;
 
     private Set<String> authorizedUserIds = new HashSet<>();
 
     public DiscordBot()  {
         refreshAuthorizedUserList();
         initializeDiscordAPI();
+
+        messageHandler = new DiscordMessageHandler(discordAPI);
     }
 
     @Override
@@ -59,14 +63,6 @@ public class DiscordBot extends ListenerAdapter {
         command.execute(CommandFactory.commandExecutorInstance.getProperties());
     }
 
-    private void setCommandExecutorProperties(SlashCommandInteractionEvent event){
-        CommandExecutorProperties commandExecutorProperties = new CommandExecutorProperties();
-
-        commandExecutorProperties.setEvent(event);
-
-        CommandFactory.getCommandExecutor(CommandExecutorType.DISCORD, commandExecutorProperties);
-    }
-
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
         boolean discordBotAllowRandomPhrases = Boolean.parseBoolean(HabboScanner.getInstance()
@@ -76,7 +72,7 @@ public class DiscordBot extends ListenerAdapter {
                 !authorizedUserIds.contains(event.getAuthor().getId()) ||
                 !discordBotAllowRandomPhrases) return;
 
-        sendRandomPhrase(event);
+        messageHandler.sendRandomPhrase(event);
     }
 
     public int getHabboIdFromDiscordId(String discordId){
@@ -89,17 +85,6 @@ public class DiscordBot extends ListenerAdapter {
                 .map(entry -> entry.split(":"))
                 .collect(Collectors.toMap(entries -> entries[0], idPair -> Integer.parseInt(idPair[1])))
                 .get(discordId);
-    }
-
-    public void sendMessageToFeedChannel(String message) {
-        String feedChannelId = HabboScanner.getInstance().getConfigurator().getProperties().get("discord")
-                .getProperty("discord.bot.feed.channel.id");
-
-        TextChannel channel = discordAPI.getTextChannelById(feedChannelId);
-
-        if (channel == null) return;
-
-        channel.sendMessage(message).queue();
     }
 
     public void updateActivity(String activity) {
@@ -137,28 +122,11 @@ public class DiscordBot extends ListenerAdapter {
                 .build();
     }
 
-    private void sendRandomPhrase(MessageReceivedEvent event) {
-        Random random = new Random();
+    private void setCommandExecutorProperties(SlashCommandInteractionEvent event){
+        CommandExecutorProperties commandExecutorProperties = new CommandExecutorProperties();
 
-        int responseInterval = Integer.parseInt(HabboScanner.getInstance()
-                .getConfigurator()
-                .getProperties()
-                .get("discord").getProperty("discord.bot.random.phrases.response.interval"));
+        commandExecutorProperties.setEvent(event);
 
-        int randomMessageSendThreshold = random.nextInt(responseInterval) + 1;
-
-        String phrasesList =HabboScanner.getInstance()
-                .getConfigurator()
-                .getProperties()
-                .get("discord").getProperty("discord.bot.random.phrases.list");
-        String[] phrases = phrasesList.split("---");
-
-        int phraseIndex = random.nextInt(phrases.length);
-
-        String message = phrases[phraseIndex];
-
-        if (randomMessageSendThreshold < 290) return;
-
-        event.getChannel().sendMessage(message).queue();
+        CommandFactory.getCommandExecutor(CommandExecutorType.DISCORD, commandExecutorProperties);
     }
 }

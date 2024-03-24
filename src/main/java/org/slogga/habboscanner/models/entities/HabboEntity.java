@@ -1,13 +1,7 @@
 package org.slogga.habboscanner.models.entities;
-
-import org.slogga.habboscanner.logic.discord.DiscordWebhook;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.slf4j.*;
 
 import java.io.IOException;
-
-import java.nio.charset.StandardCharsets;
-
 import java.sql.SQLException;
 import java.util.*;
 
@@ -21,7 +15,11 @@ import org.slogga.habboscanner.dao.mysql.*;
 
 import org.slogga.habboscanner.HabboScanner;
 
+import org.slogga.habboscanner.logic.discord.DiscordWebhook;
+
 import org.slogga.habboscanner.services.UserService;
+
+import org.slogga.habboscanner.utils.UTF8Utils;
 
 public class HabboEntity extends BaseEntity {
     private static final Logger logger = LoggerFactory.getLogger(HabboEntity.class);
@@ -56,8 +54,7 @@ public class HabboEntity extends BaseEntity {
         String look = Optional.ofNullable((String) userRow.get("look")).orElse("");
         int seenTimes = (int) userRow.get("seen_times");
 
-        String mottoInUTF8Format = new String(entity.getMotto()
-                .getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
+        String mottoInUTF8Format = UTF8Utils.convertToUTF8(entity.getMotto());
 
         boolean hasNameChanged = !name.equals(entity.getName());
         boolean hasDetailsChanged = !Objects.equals(name, entity.getName()) ||

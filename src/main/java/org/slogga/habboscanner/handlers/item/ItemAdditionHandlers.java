@@ -1,7 +1,5 @@
 package org.slogga.habboscanner.handlers.item;
 
-import java.nio.charset.StandardCharsets;
-
 import java.util.Arrays;
 
 import gearth.extensions.parsers.*;
@@ -14,7 +12,9 @@ import lombok.*;
 
 import org.slogga.habboscanner.HabboScanner;
 
+import org.slogga.habboscanner.logic.game.ItemProcessor;
 import org.slogga.habboscanner.models.furnitype.FurnitypeEnum;
+import org.slogga.habboscanner.utils.UTF8Utils;
 
 @Getter
 @Data
@@ -53,12 +53,14 @@ public class ItemAdditionHandlers {
         String ownerName = packet.readString();
 
         extradata = extradata.substring(1, extradata.length() - 1);
+        extradata = UTF8Utils.convertToUTF8(extradata);
 
-        byte[] bytes = extradata.getBytes(StandardCharsets.ISO_8859_1);
-        extradata = new String(bytes, StandardCharsets.UTF_8);
+        ItemProcessor itemProcessor = HabboScanner.getInstance().getConfigurator()
+                .getRoomEntryHandler().getItemProcessor();
 
-        HabboScanner.getInstance().getConfigurator().getRoomEntryHandler().getItemProcessor()
-                .processFurniAddition(id, typeId, ownerId, ownerName, extradata);
+        if (itemProcessor == null) return;
+
+        itemProcessor.processFurniAddition(id, typeId, ownerId, ownerName, extradata);
     }
 
     public void onItemAdd(HMessage message) {
@@ -84,10 +86,13 @@ public class ItemAdditionHandlers {
         int ownerId = packet.readInteger();
         String ownerName = packet.readString();
 
-        byte[] bytes = extradata.getBytes(StandardCharsets.ISO_8859_1);
-        extradata = new String(bytes, StandardCharsets.UTF_8);
+        extradata = UTF8Utils.convertToUTF8(extradata);
 
-        HabboScanner.getInstance().getConfigurator().getRoomEntryHandler()
-                .getItemProcessor().processFurniAddition(id, typeId, ownerId, ownerName, extradata);
+        ItemProcessor itemProcessor = HabboScanner.getInstance().getConfigurator()
+                .getRoomEntryHandler().getItemProcessor();
+
+        if (itemProcessor == null) return;
+
+        itemProcessor.processFurniAddition(id, typeId, ownerId, ownerName, extradata);
     }
 }

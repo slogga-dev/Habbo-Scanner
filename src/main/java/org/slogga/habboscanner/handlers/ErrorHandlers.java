@@ -55,7 +55,7 @@ public class ErrorHandlers {
             case DISCORD:
                 if (discordBot == null) return;
 
-                discordBot.sendMessageToFeedChannel(errorMessage);
+                discordBot.getMessageHandler().sendMessageToFeedChannel(errorMessage);
                 break;
         }
     }
