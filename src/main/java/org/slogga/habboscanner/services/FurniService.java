@@ -40,7 +40,7 @@ public class FurniService {
                 .get("bot").getProperty("room_furni_active.enabled"));
 
         try {
-            DataDAO.insertData(furni);
+            DataModificationDAO.insertData(furni);
 
             if (!isRoomFurniActiveEnabled) return;
 

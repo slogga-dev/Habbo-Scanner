@@ -7,9 +7,9 @@ import java.util.*;
 
 import gearth.extensions.parsers.HEntity;
 
+import org.slogga.habboscanner.dao.mysql.data.DataModificationDAO;
 import org.slogga.habboscanner.dao.mysql.entities.habbousers.HabboUsersDAO;
 import org.slogga.habboscanner.dao.mysql.entities.habbousers.HabboUsersHistoryDAO;
-import org.slogga.habboscanner.dao.mysql.data.DataDAO;
 import org.slogga.habboscanner.dao.mysql.RoomHistoryDAO;
 import org.slogga.habboscanner.dao.mysql.*;
 
@@ -91,7 +91,7 @@ public class HabboEntity extends BaseEntity {
 
                 logger.info(name + " ha cambiato nome, ora si chiama " + entity.getName());
 
-                DataDAO.updateOwner(name, entity.getName());
+                DataModificationDAO.updateOwner(name, entity.getName());
             } catch (SQLException | IOException exception) {
                 throw new RuntimeException(exception);
             }

@@ -17,7 +17,7 @@ public class FurniOwnershipTracker {
         ArrayList<HashMap<String, Object>> topOwnersByFurniType;
 
         try {
-            topOwnersByFurniType = DataDAO.getTopOwnersByFurniType(classname);
+            topOwnersByFurniType = AggregateDataDAO.getTopOwnersByFurniType(classname);
         } catch (SQLException | IOException exception) {
             throw new RuntimeException(exception);
         }
@@ -76,7 +76,7 @@ public class FurniOwnershipTracker {
                 .getFurniMovementHandlers().getFurniHistoricalInfoBroadcaster().getAggregatedMessage();
 
         try {
-            furniHistory = DataDAO.retrieveDataHistory(id, FurnitypeEnum.FLOOR.getType());
+            furniHistory = DataRetrievalDAO.retrieveDataHistory(id, FurnitypeEnum.FLOOR.getType());
         } catch (SQLException exception) {
             throw new RuntimeException(exception);
         }

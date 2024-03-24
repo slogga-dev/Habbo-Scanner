@@ -8,8 +8,7 @@ import java.util.concurrent.*;
 import lombok.Getter;
 import org.slogga.habboscanner.HabboScanner;
 
-import org.slogga.habboscanner.dao.mysql.data.DataDAO;
-
+import org.slogga.habboscanner.dao.mysql.data.DataRetrievalDAO;
 import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.models.furnitype.FurnitypeEnum;
 
@@ -32,7 +31,7 @@ public class FurniHistoricalInfoBroadcaster {
         aggregatedMessage = new StringBuilder();
 
         try {
-            furni = DataDAO.retrieveData(id, type.getType());
+            furni = DataRetrievalDAO.retrieveData(id, type.getType());
         } catch (SQLException exception) {
             throw new RuntimeException(exception);
         }

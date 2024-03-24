@@ -5,8 +5,7 @@ import java.sql.*;
 import java.util.List;
 import java.util.concurrent.*;
 
-import org.slogga.habboscanner.dao.mysql.data.DataDAO;
-
+import org.slogga.habboscanner.dao.mysql.data.AggregateDataDAO;
 import org.slogga.habboscanner.logic.game.*;
 import org.slogga.habboscanner.logic.game.commands.CommandFactory;
 import org.slogga.habboscanner.logic.game.commands.console.commands.FollowConsoleCommand;
@@ -97,7 +96,7 @@ public class FurniInsightsAndTransactionExecutor {
                 .getRoomDetails().getCurrentOwnerName();
         int roomId = HabboScanner.getInstance().getConfigurator().getRoomEntryHandler().getRoomId();
 
-        transactions = DataDAO.retrieveDataTransactions(currentOwnerName, roomId);
+        transactions = AggregateDataDAO.retrieveDataTransactions(currentOwnerName, roomId);
 
         int consoleUserId = HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getUserId();
 
