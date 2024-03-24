@@ -19,6 +19,9 @@ public class DiscordCommandExecutor extends CommandExecutor {
 
         setupCommands();
     }
+    public DiscordCommandExecutor(){
+        super();
+    }
 
     @Override
     public void setupCommands() {

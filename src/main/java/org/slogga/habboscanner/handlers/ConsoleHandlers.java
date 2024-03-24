@@ -8,11 +8,15 @@ import lombok.*;
 
 import org.slogga.habboscanner.logic.game.commands.*;
 
+import org.slogga.habboscanner.logic.game.commands.common.follow.FollowCommand;
 import org.slogga.habboscanner.logic.game.commands.common.follow.FollowingActionModeFactory;
+import org.slogga.habboscanner.logic.game.commands.common.follow.IFollower;
+import org.slogga.habboscanner.logic.game.commands.common.follow.actions.BaseFollowingAction;
 import org.slogga.habboscanner.logic.game.commands.common.follow.actions.FurniInfoFollowingAction;
 
 import org.slogga.habboscanner.HabboScanner;
 
+import org.slogga.habboscanner.models.CommandKeys;
 import org.slogga.habboscanner.models.FollowingAction;
 
 @Setter
@@ -21,7 +25,8 @@ public class ConsoleHandlers {
     private int userId;
 
     public void onNewConsole(HMessage message) {
-        boolean isBotEnabled = Boolean.parseBoolean(HabboScanner.getInstance().getConfigurator().getProperties().get("bot").getProperty("bot.enabled"));
+        boolean isBotEnabled = Boolean.parseBoolean(HabboScanner.getInstance().getConfigurator()
+                .getProperties().get("bot").getProperty("bot.enabled"));
 
         if (!isBotEnabled) return;
 
@@ -30,10 +35,7 @@ public class ConsoleHandlers {
 
         setCommandExecutorProperties(message, messageText);
 
-        FurniInfoFollowingAction furniInfoFollowingAction = (FurniInfoFollowingAction) FollowingActionModeFactory
-                .getFollowingActionStrategy(FollowingAction.FURNI_INFO);
-
-        if (messageText.equals("go away")) furniInfoFollowingAction.goAway();
+        handleFollowGoAway(messageText);
 
         for (Map.Entry<String, Command> entry : CommandFactory.commandExecutorInstance.getCommands().entrySet()) {
             if (!messageText.startsWith(entry.getKey())) continue;
@@ -50,5 +52,16 @@ public class ConsoleHandlers {
         commandExecutorProperties.setUserId(userId);
 
         CommandFactory.getCommandExecutor(CommandExecutorType.CONSOLE, commandExecutorProperties);
+    }
+
+    private void handleFollowGoAway(String messageText){
+        FollowCommand followCommand = (FollowCommand) CommandFactory.commandExecutorInstance
+                .getCommands().get(CommandKeys.FOLLOW.getKey());
+
+        BaseFollowingAction follower = FollowingActionModeFactory
+                .getFollowingActionStrategy(followCommand.getFollowingAction());
+
+        // Execute a specific type of follow by type of action.
+        if (follower != null && messageText.equals("go away")) follower.goAway();
     }
 }

@@ -32,8 +32,6 @@ public class FurniInsightsAndTransactionExecutor {
         int consoleUserId = HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getUserId();
 
         String oldestFurniInRoomMessage = generateOldestFurniInsight(oldestFurni, estimatedDate);
-
-
         String rarestFurniInRoomMessage = generateRarestFurniInsight(itemProcessor);
 
         boolean isBotEnabled = Boolean.parseBoolean(HabboScanner.getInstance().getConfigurator()

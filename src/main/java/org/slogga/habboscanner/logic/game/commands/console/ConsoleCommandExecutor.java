@@ -13,11 +13,14 @@ public class ConsoleCommandExecutor extends CommandExecutor {
 
         setupCommands();
     }
+    public ConsoleCommandExecutor() {
+        super();
+    }
 
     @Override
     public void setupCommands() {
         Arrays.stream(CommandKeys.values()).forEach(key ->
-                commands.put(":" + key.getKey(), createCommand(key))
+                commands.put(key.getKey(), createCommand(key))
         );
     }
 
@@ -33,8 +36,7 @@ public class ConsoleCommandExecutor extends CommandExecutor {
             case SHUTDOWN: return new ShutdownConsoleCommand();
             case ENERGY_SAVING: return new EnergySavingConsoleCommand();
             case COMMANDS: return new CommandsConsoleCommand();
-            default:
-                return null;
+            default: return null;
         }
     }
 }

@@ -1,6 +1,6 @@
 # Configuration files
-src/main/resources/mysql.properties
-src/main/resources/discord.properties
+*.mysql.properties
+*.discord.properties
 
 # Compiled class file
 *.class

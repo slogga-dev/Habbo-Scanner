@@ -27,7 +27,7 @@ public class FurniMovementHandlers {
     @Getter
     private final FurniHistoricalInfoBroadcaster furniHistoricalInfoBroadcaster = new FurniHistoricalInfoBroadcaster();
 
-    private Long lastMovedTime = null;
+    private long lastMovedTime = 0;
 
     private static final int MOVE_DELAY_IN_MILLISECONDS = 1000;
 

@@ -6,14 +6,17 @@ import java.time.temporal.ChronoUnit;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicReference;
 
+import gearth.protocol.HMessage;
 import org.slogga.habboscanner.logic.game.HabboActions;
 import org.slogga.habboscanner.logic.game.commands.common.follow.IFollower;
 
 import org.slogga.habboscanner.HabboScanner;
 
-public class AuctionFollowingAction implements IFollower {
+public class AuctionFollowingAction extends BaseFollowingAction {
     @Override
-    public void execute() {
+    public void execute(HMessage message) {
+        super.execute(message);
+
         int consoleUserId = HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getUserId();
 
         String followingAuctionMessage = HabboScanner.getInstance().getConfigurator()

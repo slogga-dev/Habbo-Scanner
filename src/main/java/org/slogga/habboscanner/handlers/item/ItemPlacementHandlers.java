@@ -19,58 +19,24 @@ import org.slogga.habboscanner.handlers.room.RoomEntryHandler;
 import org.slogga.habboscanner.logic.game.ItemProcessor;
 import org.slogga.habboscanner.logic.game.commands.CommandFactory;
 import org.slogga.habboscanner.logic.game.commands.common.follow.*;
-import org.slogga.habboscanner.logic.game.commands.console.commands.FollowConsoleCommand;
-import org.slogga.habboscanner.logic.game.furni.FurniInsightsAndTransactionExecutor;
 
 import org.slogga.habboscanner.models.*;
 import org.slogga.habboscanner.models.furnitype.*;
 
-import org.slogga.habboscanner.utils.DateUtils;
-
 public class ItemPlacementHandlers {
-    private final FurniInsightsAndTransactionExecutor furniInsightsAndTransactionExecutor = new FurniInsightsAndTransactionExecutor();
-
     public void onFloorItems(HMessage message) {
-        HFloorItem[] items = HFloorItem.parse(message.getPacket());
-
-        FurnitypeEnum type = FurnitypeEnum.FLOOR;
-        RoomEntryHandler roomEntryHandler = HabboScanner.getInstance().getConfigurator().getRoomEntryHandler();
-
-        ItemProcessor itemProcessor = roomEntryHandler.getItemProcessor();
-        int roomId = roomEntryHandler.getRoomId();
-        Arrays.stream(items).forEach(item -> itemProcessor.processFloorItem(item, type, roomId));
-
-        Triple<Integer, ItemTimeline, ItemTimeline> closestEntries;
-
-        Furni oldestFurni = itemProcessor.getOldestFurni();
-
-        FollowConsoleCommand followConsoleCommand = (FollowConsoleCommand) CommandFactory.commandExecutorInstance
+        FollowCommand followCommand = (FollowCommand) CommandFactory.commandExecutorInstance
                 .getCommands().get(CommandKeys.FOLLOW.getKey());
 
-        if (!followConsoleCommand.isFollowing()) return;
+        // Check if the bot is called by a follow.
+        if (!followCommand.isFollowing()) return;
 
-        if (oldestFurni.getId() == null) {
-            followConsoleCommand.handleEmptyRoom();
+        IFollower follower = FollowingActionModeFactory
+                .getFollowingActionStrategy(followCommand.getFollowingAction());
 
-            return;
-        }
-
-        IFollower follower = FollowingActionModeFactory.getFollowingActionStrategy(followConsoleCommand.getFollowingAction());
-
+        // Execute a specific type of follow by type of action.
         if (follower != null)
-            follower.execute();
-
-        try {
-            closestEntries = ItemsTimelineDAO.selectClosestEntries(type.getType(), oldestFurni.getId());
-        } catch (SQLException | IOException exception) {
-            throw new RuntimeException(exception);
-        }
-
-        Date estimatedDate = DateUtils.getLinearInterpolatedDate(closestEntries);
-
-        if (followConsoleCommand.getFollowingAction() != FollowingAction.DEFAULT) return;
-
-        furniInsightsAndTransactionExecutor.executeTransactionsAndProvideFurniInsights(estimatedDate);
+            follower.execute(message);
     }
 
     public void onWallItems(HMessage message) {

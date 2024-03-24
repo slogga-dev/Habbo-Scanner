@@ -33,4 +33,14 @@ public class CommandFactory {
 
         commandExecutorInstance = executor.apply(properties);
     }
+
+    public static void getCommandExecutor(CommandExecutorType commandExecutorType) {
+        if(commandExecutorType == CommandExecutorType.DISCORD) {
+            commandExecutorInstance = new DiscordCommandExecutor();
+
+            return;
+        }
+
+        commandExecutorInstance = new ConsoleCommandExecutor();
+    }
 }
