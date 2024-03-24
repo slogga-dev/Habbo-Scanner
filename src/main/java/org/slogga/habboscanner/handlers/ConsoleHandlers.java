@@ -53,6 +53,8 @@ public class ConsoleHandlers {
         FollowCommand followCommand = (FollowCommand) CommandFactory.commandExecutorInstance
                 .getCommands().get(CommandKeys.FOLLOW.getKey());
 
+        if (followCommand == null) return;
+
         BaseFollowingAction follower = FollowingActionModeFactory
                 .getFollowingActionStrategy(followCommand.getFollowingAction());
 

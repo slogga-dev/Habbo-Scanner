@@ -20,6 +20,7 @@ public class StartCommand extends Command {
 
     @Override
     public void execute(CommandExecutorProperties properties) {
+
         if (hasExecuted) return;
 
         hasExecuted = true;

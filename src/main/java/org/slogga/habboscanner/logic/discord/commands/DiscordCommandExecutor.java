@@ -19,6 +19,7 @@ public class DiscordCommandExecutor extends CommandExecutor {
 
         setupCommands();
     }
+
     public DiscordCommandExecutor(){
         super();
     }
