@@ -61,8 +61,8 @@ public class ErrorHandlers {
     }
 
     public void onErrorReport(HMessage message) {
-        int unknownVariable = message.getPacket().readInteger();
-        int errorId = message.getPacket().readInteger();
+        int messageId = message.getPacket().readInteger();
+        int errorCode = message.getPacket().readInteger();
 
         RoomEntryHandler roomEntryHandler = HabboScanner.getInstance().getConfigurator().getRoomEntryHandler();
 
@@ -77,7 +77,7 @@ public class ErrorHandlers {
 
         serverErrorMessage = serverErrorMessage
                 .replace("%roomId%", String.valueOf(roomId))
-                .replace("%errorId%", String.valueOf(errorId));
+                .replace("%errorId%", String.valueOf(errorCode));
 
         try {
             LogsDAO.insertLog(serverErrorMessage);
