@@ -20,7 +20,7 @@ All configuration files are located in the `src/main/resources` directory. Here 
 - `discord.properties`: Configures the Discord integration.
 - `log4j.properties`: Configures the logging behavior.
 - `message.properties`: Defines the messages that the bot can send.
-- `mysql.properties`: Configures the MySQL dao connection.
+- `mysql.properties`: Configures the MySQL db connection.
 
 ## Setting Up ⚙️
 
