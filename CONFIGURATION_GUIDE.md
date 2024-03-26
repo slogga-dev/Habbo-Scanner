@@ -24,8 +24,8 @@ All configuration files are located in the `src/main/resources` directory. Here 
 
 ## Setting Up ⚙️
 
-1. Navigate in the `database_structure` folder and import every sql file to your dao.
-2. Populate the `items_timeline` and `items.sql` tables in your MySQL dao. 
+1. Navigate in the `database_structure` folder and import every sql file to your database.
+2. Populate the `items_timeline` and `items.sql` tables in your MySQL database. 
 
    - The `items_timeline` table is mandatory for dating furni with the timeline. It has the following structure:
      - `date`: The date associated with the furni.
@@ -46,4 +46,4 @@ All configuration files are located in the `src/main/resources` directory. Here 
 4. Compile the Habbo Scanner extension as a .jar file and install it within your G-Earth.
 5. Configure the `bot.properties` file according to your needs. Follow the comments in the file for guidance.
 
-Now, you’re all set! You have successfully configured the Habbo Scanner bot. Enjoy exploring the comprehensive dao of Habbo data! 🎉
+Now, you’re all set! You have successfully configured the Habbo Scanner bot. Enjoy exploring the comprehensive set of Habbo data! 🎉
