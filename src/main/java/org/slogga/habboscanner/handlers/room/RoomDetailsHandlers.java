@@ -2,6 +2,7 @@ package org.slogga.habboscanner.handlers.room;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Map;
 
 import gearth.protocol.HMessage;
 
@@ -10,11 +11,13 @@ import lombok.Getter;
 import org.slogga.habboscanner.HabboScanner;
 import org.slogga.habboscanner.dao.mysql.RoomsDAO;
 
+import org.slogga.habboscanner.logic.commands.Command;
+import org.slogga.habboscanner.logic.commands.common.follow.FollowCommand;
 import org.slogga.habboscanner.logic.game.HabboActions;
-import org.slogga.habboscanner.logic.game.commands.CommandFactory;
-import org.slogga.habboscanner.logic.game.commands.common.start.StartCommand;
+import org.slogga.habboscanner.logic.commands.CommandFactory;
+import org.slogga.habboscanner.logic.commands.common.start.StartCommand;
 
-import org.slogga.habboscanner.logic.game.commands.console.commands.FollowConsoleCommand;
+import org.slogga.habboscanner.logic.game.console.commands.FollowConsoleCommand;
 import org.slogga.habboscanner.models.enums.CommandKeys;
 import org.slogga.habboscanner.models.enums.RoomAccessMode;
 import org.slogga.habboscanner.models.furni.RoomDetails;
@@ -33,12 +36,10 @@ public class RoomDetailsHandlers {
     }
 
     public void onRoomVisualizationSettings(HMessage message) {
-        StartCommand startCommand = (StartCommand) CommandFactory.commandExecutorInstance
-                .getCommands().get(CommandKeys.START.getKey());
+        Map<String, Command> commands = CommandFactory.commandExecutorInstance.getCommands();
 
-        if (startCommand == null) return;
-
-        boolean isBotRunning = startCommand.isBotRunning();
+        FollowCommand followCommand = (FollowCommand) commands.get(CommandKeys.FOLLOW.getKey());
+        StartCommand startCommand = (StartCommand) commands.get(CommandKeys.START.getKey());
 
         boolean isBotInActiveRooms = Boolean.parseBoolean(HabboScanner.getInstance()
                 .getConfigurator()
@@ -46,7 +47,7 @@ public class RoomDetailsHandlers {
                 .get("bot")
                 .getProperty("bot.in.active.rooms"));
 
-        if (!isBotRunning & !isBotInActiveRooms) return;
+        if (!startCommand.isBotRunning() || !isBotInActiveRooms || followCommand.isFollowing()) return;
 
         HabboActions.goToHotelView();
     }
@@ -82,7 +83,7 @@ public class RoomDetailsHandlers {
                 String closedRoomAccessMessage = HabboScanner.getInstance()
                         .getConfigurator().getProperties().get("message").getProperty("closed.room.access.message");
 
-                HabboActions.sendPrivateMessage(consoleUserId, closedRoomAccessMessage);
+                HabboActions.sendMessage(consoleUserId, closedRoomAccessMessage);
 
                 followConsoleCommand.initiateBotAndRefreshRoomAccess();
 
@@ -93,7 +94,7 @@ public class RoomDetailsHandlers {
                 String noRoomAccessMessage = HabboScanner.getInstance()
                         .getConfigurator().getProperties().get("message").getProperty("no.room.access.message");
 
-                HabboActions.sendPrivateMessage(consoleUserId, noRoomAccessMessage);
+                HabboActions.sendMessage(consoleUserId, noRoomAccessMessage);
 
                 followConsoleCommand.initiateBotAndRefreshRoomAccess();
 

@@ -2,8 +2,8 @@ package org.slogga.habboscanner.logic.discord.commands.commands;
 
 import org.slogga.habboscanner.HabboScanner;
 
-import org.slogga.habboscanner.logic.game.commands.CommandExecutorProperties;
-import org.slogga.habboscanner.logic.game.commands.common.InfoCommand;
+import org.slogga.habboscanner.logic.commands.CommandExecutorProperties;
+import org.slogga.habboscanner.logic.commands.common.InfoCommand;
 
 public class InfoDiscordCommand extends InfoCommand {
     @Override

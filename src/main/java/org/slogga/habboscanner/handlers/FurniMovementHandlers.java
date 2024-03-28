@@ -12,8 +12,8 @@ import gearth.protocol.HMessage;
 import org.slogga.habboscanner.dao.mysql.items.ItemsTimelineDAO;
 
 import org.slogga.habboscanner.logic.game.HabboActions;
-import org.slogga.habboscanner.logic.game.commands.CommandFactory;
-import org.slogga.habboscanner.logic.game.commands.common.follow.FollowCommand;
+import org.slogga.habboscanner.logic.commands.CommandFactory;
+import org.slogga.habboscanner.logic.commands.common.follow.FollowCommand;
 import org.slogga.habboscanner.logic.game.furni.FurniHistoricalInfoBroadcaster;
 
 import org.slogga.habboscanner.models.enums.CommandKeys;
@@ -31,7 +31,7 @@ public class FurniMovementHandlers {
 
     private long lastMovedTime = 0;
 
-    private static final int MOVE_DELAY_IN_MILLISECONDS = 500;
+    private static final int MOVE_DELAY_IN_MILLISECONDS = 2000;
 
     public void onMoveWallItem(HMessage message) {
         handleMoveItem(message, FurnitypeEnum.WALL);
@@ -45,7 +45,7 @@ public class FurniMovementHandlers {
         FollowCommand followCommand = (FollowCommand) CommandFactory.commandExecutorInstance
                 .getCommands().get(CommandKeys.FOLLOW.getKey());
 
-        if (followCommand != null && followCommand.getFollowingAction() != FollowingAction.FURNI_INFO) return;
+        if (followCommand != null && followCommand.getFollowingAction() == FollowingAction.DEFAULT) return;
 
         int id = message.getPacket().readInteger();
 
@@ -76,7 +76,7 @@ public class FurniMovementHandlers {
                     .get("message")
                     .getProperty("furni.date.calculation.error.message");
 
-            HabboActions.sendPrivateMessage(consoleUserId, furniDateCalculationErrorMessage);
+            HabboActions.sendMessage(consoleUserId, furniDateCalculationErrorMessage);
 
             return;
         }

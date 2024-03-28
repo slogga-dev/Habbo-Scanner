@@ -6,8 +6,8 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 
 import org.slogga.habboscanner.logic.discord.DiscordBot;
 
-import org.slogga.habboscanner.logic.game.commands.CommandExecutorProperties;
-import org.slogga.habboscanner.logic.game.commands.common.convert.ConvertCommand;
+import org.slogga.habboscanner.logic.commands.CommandExecutorProperties;
+import org.slogga.habboscanner.logic.commands.common.convert.ConvertCommand;
 
 import org.slogga.habboscanner.HabboScanner;
 import org.slogga.habboscanner.models.enums.ConvertFile;

@@ -8,9 +8,9 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 
 import org.slogga.habboscanner.logic.discord.DiscordBot;
 
-import org.slogga.habboscanner.logic.game.commands.*;
-import org.slogga.habboscanner.logic.game.commands.common.follow.FollowCommand;
-import org.slogga.habboscanner.logic.game.commands.common.start.StartCommand;
+import org.slogga.habboscanner.logic.commands.*;
+import org.slogga.habboscanner.logic.commands.common.follow.FollowCommand;
+import org.slogga.habboscanner.logic.commands.common.start.StartCommand;
 
 import org.slogga.habboscanner.HabboScanner;
 import org.slogga.habboscanner.models.enums.CommandKeys;

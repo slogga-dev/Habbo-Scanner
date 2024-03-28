@@ -7,8 +7,8 @@ import java.util.concurrent.*;
 
 import org.slogga.habboscanner.dao.mysql.data.AggregateDataDAO;
 import org.slogga.habboscanner.logic.game.*;
-import org.slogga.habboscanner.logic.game.commands.CommandFactory;
-import org.slogga.habboscanner.logic.game.commands.console.commands.FollowConsoleCommand;
+import org.slogga.habboscanner.logic.commands.CommandFactory;
+import org.slogga.habboscanner.logic.game.console.commands.FollowConsoleCommand;
 
 import org.slogga.habboscanner.HabboScanner;
 
@@ -43,10 +43,9 @@ public class FurniInsightsAndTransactionExecutor {
         int consoleUserId = HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getUserId();
         String rarestFurniInRoomMessage = generateRarestFurniInsight(itemProcessor);
 
-        HabboActions.sendPrivateMessage(consoleUserId, oldestFurniInRoomMessage);
-        HabboActions.sendPrivateMessage(consoleUserId, rarestFurniInRoomMessage);
-
-        this.executeTransactionsAndTerminateSession();
+        HabboActions.sendMessage(consoleUserId, oldestFurniInRoomMessage);
+        scheduledExecutorService.schedule(() -> HabboActions.sendMessage(consoleUserId, rarestFurniInRoomMessage), 1, TimeUnit.SECONDS);
+        scheduledExecutorService.schedule(this::executeTransactionsAndTerminateSession, 2, TimeUnit.SECONDS);
     }
 
     private String generateOldestFurniInsight(Furni oldestFurni, Date estimatedDate) {
@@ -104,7 +103,7 @@ public class FurniInsightsAndTransactionExecutor {
             String noTradesDetectedMessage = HabboScanner.getInstance().getConfigurator()
                     .getProperties().get("message").getProperty("no.trades.detected.message");
 
-            HabboActions.sendPrivateMessage(consoleUserId, noTradesDetectedMessage);
+            HabboActions.sendMessage(consoleUserId, noTradesDetectedMessage);
 
             return;
         }
@@ -112,10 +111,10 @@ public class FurniInsightsAndTransactionExecutor {
         String latestFurniPassedMessage = HabboScanner.getInstance().getConfigurator().getProperties().get("message")
                 .getProperty("latest.furni.passed.message");
 
-        HabboActions.sendPrivateMessage(consoleUserId, latestFurniPassedMessage);
+        HabboActions.sendMessage(consoleUserId, latestFurniPassedMessage);
 
         transactions.forEach((transaction) -> scheduledExecutorService.schedule(() -> HabboActions.
-                sendPrivateMessage(consoleUserId, transaction), 2, TimeUnit.SECONDS));
+                sendMessage(consoleUserId, transaction), 2, TimeUnit.SECONDS));
     }
 
     private void dispatchGoodbyeMessageAndUpdateAccess() {
@@ -129,7 +128,7 @@ public class FurniInsightsAndTransactionExecutor {
         int userId = HabboScanner.getInstance().getConfigurator().getConsoleHandlers().getUserId();
         String finalMessage = botGoodbyeMessage;
 
-        HabboActions.sendPrivateMessage(userId, finalMessage);
+        HabboActions.sendMessage(userId, finalMessage);
 
         FollowConsoleCommand followConsoleCommand = (FollowConsoleCommand) CommandFactory.commandExecutorInstance
                 .getCommands().get(CommandKeys.FOLLOW.getKey());

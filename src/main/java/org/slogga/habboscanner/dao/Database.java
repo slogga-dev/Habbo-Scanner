@@ -21,7 +21,7 @@ public class Database {
     private Database() throws IOException {
         Properties properties = loadPropertiesFromFile();
 
-        String database = properties.getProperty("dao");
+        String database = properties.getProperty("database");
         String user = properties.getProperty("user");
         String password = properties.getProperty("password");
 

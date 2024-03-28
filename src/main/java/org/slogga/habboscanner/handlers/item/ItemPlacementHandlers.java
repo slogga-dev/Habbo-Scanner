@@ -11,8 +11,8 @@ import org.slogga.habboscanner.HabboScanner;
 import org.slogga.habboscanner.handlers.room.RoomEntryHandler;
 
 import org.slogga.habboscanner.logic.game.ItemProcessor;
-import org.slogga.habboscanner.logic.game.commands.CommandFactory;
-import org.slogga.habboscanner.logic.game.commands.common.follow.*;
+import org.slogga.habboscanner.logic.commands.CommandFactory;
+import org.slogga.habboscanner.logic.commands.common.follow.*;
 
 import org.slogga.habboscanner.models.enums.CommandKeys;
 import org.slogga.habboscanner.models.enums.FollowingAction;

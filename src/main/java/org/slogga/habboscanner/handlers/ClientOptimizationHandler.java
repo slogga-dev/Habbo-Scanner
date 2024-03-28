@@ -4,9 +4,9 @@ import java.util.Map;
 
 import gearth.protocol.HMessage;
 
-import org.slogga.habboscanner.logic.game.commands.*;
-import org.slogga.habboscanner.logic.game.commands.common.EnergySavingCommand;
-import org.slogga.habboscanner.logic.game.commands.common.start.StartCommand;
+import org.slogga.habboscanner.logic.commands.*;
+import org.slogga.habboscanner.logic.commands.common.EnergySavingCommand;
+import org.slogga.habboscanner.logic.commands.common.start.StartCommand;
 
 import org.slogga.habboscanner.models.enums.CommandKeys;
 

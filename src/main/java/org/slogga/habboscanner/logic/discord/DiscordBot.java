@@ -16,7 +16,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 
 import org.slogga.habboscanner.HabboScanner;
-import org.slogga.habboscanner.logic.game.commands.*;
+import org.slogga.habboscanner.logic.commands.*;
 
 @Getter
 public class DiscordBot extends ListenerAdapter {

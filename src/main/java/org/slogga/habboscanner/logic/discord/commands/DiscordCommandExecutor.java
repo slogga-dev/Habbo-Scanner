@@ -8,7 +8,7 @@ import net.dv8tion.jda.api.interactions.commands.build.*;
 import org.slogga.habboscanner.HabboScanner;
 
 import org.slogga.habboscanner.logic.discord.commands.commands.ConvertDiscordCommand;
-import org.slogga.habboscanner.logic.game.commands.*;
+import org.slogga.habboscanner.logic.commands.*;
 import org.slogga.habboscanner.logic.discord.commands.commands.*;
 
 import org.slogga.habboscanner.models.enums.CommandKeys;
@@ -18,10 +18,6 @@ public class DiscordCommandExecutor extends CommandExecutor {
         super(properties);
 
         setupCommands();
-    }
-
-    public DiscordCommandExecutor(){
-        super();
     }
 
     @Override

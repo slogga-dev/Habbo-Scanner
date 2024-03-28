@@ -61,7 +61,7 @@ public class FurniOwnershipTracker {
         String message = piecesObservedMessage + (topFurniOwnersReport.length() == 0 ?
                 noFurniOwnersMessage : topFurniOwnersMessage);
 
-        HabboActions.sendPrivateMessage(consoleUserId, message);
+        HabboActions.sendMessage(consoleUserId, message);
 
         StringBuilder aggregatedMessage = HabboScanner.getInstance().getConfigurator()
                 .getFurniMovementHandlers().getFurniHistoricalInfoBroadcaster().getAggregatedMessage();
@@ -92,7 +92,7 @@ public class FurniOwnershipTracker {
 
             finalMessage.append(noTradeInfoMessage);
 
-            HabboActions.sendPrivateMessage(userId, finalMessage.toString());
+            HabboActions.sendMessage(userId, finalMessage.toString());
 
             aggregatedMessage.append(finalMessage);
 
@@ -107,7 +107,7 @@ public class FurniOwnershipTracker {
         StringJoiner joiner = generateFurniHistoryReport(furniHistory);
         finalMessage.append(joiner);
 
-        HabboActions.sendPrivateMessage(userId, finalMessage.toString());
+        HabboActions.sendMessage(userId, finalMessage.toString());
 
         aggregatedMessage.append(finalMessage);
     }

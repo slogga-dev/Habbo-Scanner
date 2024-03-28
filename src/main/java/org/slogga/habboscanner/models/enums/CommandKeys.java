@@ -15,7 +15,8 @@ public enum CommandKeys {
     ENERGY_SAVING("energy_saving"),
     COMMANDS("commands"),
     AUCTION("auction"),
-    INFO_FROM_ID("info_from_id");
+    INFO_FROM_ID("info_from_id"),
+    CHANNEL("channel");
 
     private final String key;
 

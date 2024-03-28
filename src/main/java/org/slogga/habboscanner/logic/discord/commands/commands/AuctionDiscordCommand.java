@@ -16,7 +16,7 @@ import org.slogga.habboscanner.logic.discord.DiscordBot;
 
 import org.slogga.habboscanner.handlers.item.ItemAdditionHandlers;
 
-import org.slogga.habboscanner.logic.game.commands.*;
+import org.slogga.habboscanner.logic.commands.*;
 
 import org.slogga.habboscanner.models.furni.ItemTimeline;
 import org.slogga.habboscanner.models.enums.FurnitypeEnum;

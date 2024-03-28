@@ -16,7 +16,7 @@ public class ActionMapGenerator {
         String message = value.substring(2, value.length() - 1);
 
         actions.put('s', () -> HabboActions.sendAvatarExpression(1));
-        actions.put('m', () -> HabboActions.sendPrivateMessage(consoleUserId, message));
+        actions.put('m', () -> HabboActions.sendMessage(consoleUserId, message));
         actions.put('b', () -> HabboActions.dance(1));
 
         try {

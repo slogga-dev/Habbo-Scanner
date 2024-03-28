@@ -6,10 +6,10 @@ import gearth.protocol.HMessage;
 
 import lombok.*;
 
-import org.slogga.habboscanner.logic.game.commands.*;
+import org.slogga.habboscanner.logic.commands.*;
 
-import org.slogga.habboscanner.logic.game.commands.common.follow.*;
-import org.slogga.habboscanner.logic.game.commands.common.follow.actions.BaseFollowingAction;
+import org.slogga.habboscanner.logic.commands.common.follow.*;
+import org.slogga.habboscanner.logic.commands.common.follow.actions.BaseFollowingAction;
 
 import org.slogga.habboscanner.models.enums.CommandKeys;
 

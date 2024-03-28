@@ -54,12 +54,9 @@ public class HabboScanner extends Extension {
         boolean isBotEnabled = Boolean.parseBoolean(configurator.getProperties()
                 .get("bot").getProperty("bot.enabled"));
 
-//        CommandExecutorType currentType = CommandExecutorType.CONSOLE;
-
         if (isDiscordBotEnabled && isBotEnabled) {
             try {
                 discordBot = new DiscordBot();
-//                currentType = CommandExecutorType.DISCORD;
             } catch (Exception exception) {
                 throw new RuntimeException(exception);
             }
@@ -77,6 +74,8 @@ public class HabboScanner extends Extension {
                     .getProperty("bot.crash.message");
 
             discordBot.getMessageHandler().sendMessageToFeedChannel(botCrashMessage);
+
+
         }
 
         ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
@@ -97,17 +96,11 @@ public class HabboScanner extends Extension {
 
         long lastRoomAccess = configurator.getRoomEntryHandler().getLastRoomAccess();
 
-//        CommandFactory.getCommandExecutor(currentType);
-
-//        StartCommand startCommand = (StartCommand) CommandFactory.commandExecutorInstance
-//                .getCommands()
-//                .get(CommandKeys.START.getKey());
-
         scheduledExecutorService.scheduleAtFixedRate(() -> {
             boolean isAccessRecent = lastRoomAccess > 0;
             boolean isTimeExceeded = (System.currentTimeMillis() - lastRoomAccess) > accessTimeout;
 
-            if (criticalAirCrashWarning || !isAccessRecent /*|| !startCommand.isHasExecuted()*/ || !isTimeExceeded)
+            if (criticalAirCrashWarning || !isAccessRecent || !isTimeExceeded)
                 return;
 
             if (discordBot != null)

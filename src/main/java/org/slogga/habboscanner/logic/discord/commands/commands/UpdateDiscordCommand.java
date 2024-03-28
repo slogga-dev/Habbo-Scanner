@@ -1,7 +1,7 @@
 package org.slogga.habboscanner.logic.discord.commands.commands;
 
-import org.slogga.habboscanner.logic.game.commands.CommandExecutorProperties;
-import org.slogga.habboscanner.logic.game.commands.common.UpdateCommand;
+import org.slogga.habboscanner.logic.commands.CommandExecutorProperties;
+import org.slogga.habboscanner.logic.commands.common.UpdateCommand;
 
 public class UpdateDiscordCommand extends UpdateCommand {
     @Override

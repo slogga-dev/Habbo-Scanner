@@ -10,13 +10,13 @@ import org.slogga.habboscanner.HabboScanner;
 import org.slogga.habboscanner.handlers.room.RoomEntryHandler;
 
 import org.slogga.habboscanner.logic.game.HabboActions;
-import org.slogga.habboscanner.logic.game.commands.CommandFactory;
+import org.slogga.habboscanner.logic.commands.CommandFactory;
 
 import org.slogga.habboscanner.dao.mysql.LogsDAO;
 
 import org.slogga.habboscanner.logic.discord.DiscordBot;
 
-import org.slogga.habboscanner.logic.game.commands.console.commands.FollowConsoleCommand;
+import org.slogga.habboscanner.logic.game.console.commands.FollowConsoleCommand;
 import org.slogga.habboscanner.models.enums.CommandKeys;
 import org.slogga.habboscanner.models.enums.SourceType;
 
@@ -50,7 +50,7 @@ public class ErrorHandlers {
 
         switch (sourceType) {
             case HABBO:
-                HabboActions.sendPrivateMessage(consoleUserId, errorMessage);
+                HabboActions.sendMessage(consoleUserId, errorMessage);
                 break;
 
             case DISCORD:

@@ -57,7 +57,7 @@ public class FurniHistoricalInfoBroadcaster {
 
         aggregatedMessage.append(dateNotification).append("\n");
 
-        HabboActions.sendPrivateMessage(userId, dateNotification);
+        HabboActions.sendMessage(userId, dateNotification);
 
         String furniJustPlacedMessage = HabboScanner
                 .getInstance()
@@ -66,7 +66,7 @@ public class FurniHistoricalInfoBroadcaster {
                 .get("message")
                 .getProperty("furni.just.placed.message");
 
-        HabboActions.sendPrivateMessage(userId, furniJustPlacedMessage);
+        HabboActions.sendMessage(userId, furniJustPlacedMessage);
 
         aggregatedMessage.append(furniJustPlacedMessage).append("\n");
     }
@@ -105,7 +105,7 @@ public class FurniHistoricalInfoBroadcaster {
 
         String message = furniNameDateInfoMessage + (category.isEmpty() ? "" : "." + itemCategoryMessage);
 
-        HabboActions.sendPrivateMessage(userId, message);
+        HabboActions.sendMessage(userId, message);
 
         aggregatedMessage.append(message).append("\n");
 
